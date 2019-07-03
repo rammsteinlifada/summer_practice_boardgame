@@ -1,0 +1,28 @@
+body {
+    background-image: url(background.jpg); 
+}
+
+.dropdown:hover > .dropdown-menu { 
+    display: block; 
+    visibility: visible;
+} 
+
+.div-canvas {
+    width: 100%;
+}
+
+canvas { 
+    background-image: url(background1.jpg);
+    background-size: auto 50%; 
+    width: 90%;
+    height: 350px;
+    
+}
+
+.dropdown-open {
+    position: relative;
+    
+}
+.dropdown-menu {
+    visibility: hidden;
+}
