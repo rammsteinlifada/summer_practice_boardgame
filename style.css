@@ -8,15 +8,14 @@ body {
 } 
 
 .div-canvas {
-    width: 100%;
+    width: 80%;
+	height: 20%;
 }
 
 canvas { 
-    background-image: url(background1.jpg);
-    background-size: auto 50%; 
-    width: 90%;
-    height: 350px;
-    
+    background-color: white;
+    width: 700px;
+    height: 700px;
 }
 
 .dropdown-open {

@@ -3,13 +3,12 @@ window.addEventListener("DOMContentLoaded", function()
 	var cvs = document.getElementById("canvas");
 	var ctx = cvs.getContext("2d");
 	
-	
-	var img = new Image();   // Создаём новый объект Image
+	var img = new Image();
+	// Загружаем файл изображения
+	img.src = "output/file.png";
 	
 	img.onload = function() {
-		ctx.drawImage(img, 140, 60, 30, 40);
+		ctx.drawImage(img, 325, 325);
 	};
 
-// Загружаем файл изображения
-img.src = "output/y_70368999ca_1.jpg";
 });
