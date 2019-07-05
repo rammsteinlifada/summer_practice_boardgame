@@ -12,9 +12,7 @@ window.addEventListener("DOMContentLoaded", function()
 		ctx.drawImage(img, 325, 325);
 	};
 
-
+	create();
 });
 
 
-test = new card;
-test.ident('ffffbn');

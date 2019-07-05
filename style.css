@@ -15,8 +15,6 @@ body {
 canvas { 
     background-color: white;
     background-size: auto 50%; 
-    width: 90%;
-    height: 350px;    
 }
 
 .dropdown-open {

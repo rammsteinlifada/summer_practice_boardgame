@@ -22,3 +22,4 @@ var cardTypes = ['ffffbn',
 'ssffsy',
 'sssrsn',
 'sssrsy']
+module.exports = cardTypes;
