@@ -1,4 +1,5 @@
-var cardTypes = ['ffffbn', 
+export var cardTypes = [
+'ffffbn',
 'fffrbn', 
 'sssssn', 
 'sssfsn', 
@@ -21,5 +22,7 @@ var cardTypes = ['ffffbn',
 'ssrrsy',
 'ssffsy',
 'sssrsn',
-'sssrsy']
-module.exports = cardTypes;
+'sssrsy',
+'rrfsfn',
+'frrffn'];
+//module.exports = cardTypes;

@@ -1,23 +1,51 @@
-var cardtypes = require('./cardTypes');
-class deck {
-	this.deck = new Array();
-	function shuffle(o) {
+"use strict";
+//import "cardtypes";
+
+var cardTypes = [
+'ffffbn',
+'fffrbn',
+'sssssn',
+'sssfsn',
+'ssffsn',
+'ssrrsn',
+'sfsfsn',
+'ssfffn',
+'fsfsfn',
+'fsfffn',
+'rsfrrn',
+'fsrrrn',
+'rsrrfn',
+'rsrfrn',
+'frfrrn',
+'rffrrn',
+'rfrrfn',
+'rrrrfn',
+'sssfsy',
+'sfsfsy',
+'ssrrsy',
+'ssffsy',
+'sssrsn',
+'sssrsy',
+'rrfsfn',
+'frrffn'
+];
+
+class Deck {
+	shuffle(o) {
 		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 		return o;
-	};
-	var nums = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+	}
 
-	create() {
-		for (var i = 0; i < 5; i++) {
-			var random = shuffle(nums);
-			for (var j = 0; i < 24; i++) {
-				this.deck.push(new card ( cardTypes[random[j]] ) )
-		}
+	constructor() {
+		this.deck = [];
+		for (let i = 0; i < 4; i++)
+			this.deck = this.deck.concat(cardTypes);
+		this.deck = this.shuffle(this.deck);
 	}	
 }
 
 //0 - field; 1 - stadium; 2 - road, 3 - building
-class card {
+class Card {
 	contains = new Array();
 	
 	ident(name) {
@@ -48,7 +76,7 @@ class meeple{
 	drag_and_drop(){
 		
 	}
-	
+	/*
 	enum position{
 		onBuilding,
 		onRoad,
@@ -56,13 +84,28 @@ class meeple{
 		onField
 	}
 	enum stage{
-		uncompleted,
+		uncompleted
 		completed
+	}*/
+}
+
+class Field {
+
+	constructor() {
+		this.field = [];
+		const n = 100;
+		for (let i = 0; i < n; ++i) {
+			this.field.push([]);
+			for (let j = 0; j < n; ++j)
+				this.field[i].push('');
+		}
+		let i = Math.floor(n / 2);
+		this.field[i][i + 1] = 'rsrfrn';
+		this.field[i][i + 2] = 'rrfsfn';
+		this.field[i][i + 3] = 'frrffn';
 	}
 }
 
-class field{
-	hint(){
-		
-	}
-}
+var d = new Deck();
+//assert(d.deck.length == 120);
+//console.log(d.deck);	
