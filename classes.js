@@ -1,25 +1,26 @@
 "use strict";
 //import "cardtypes";
 
+//s-stadium, f-field, r-road, b-buiding, e-entry
 var cardTypes = [
-'ffffbn',
-'fffrbn',
-'sssssn',
-'sssfsn',
-'ssffsn',
-'ssrrsn',
-'sfsfsn',
-'ssfffn',
-'fsfsfn',
-'fsfffn',
-'rsfrrn',
-'fsrrrn',
-'rsrrfn',
-'rsrfrn',
-'frfrrn',
-'rffrrn',
-'rfrrfn',
-'rrrrfn',
+'ffffbn', //!
+'fffrbn',//?
+'sssssn',//+
+'sssfsn',//+
+'ssffsn',//+
+'ssrrsn',//+
+'sfsfsn',//+
+'ssfffn',//+
+'fsfsfn',//+
+'fsfffn',//+
+'rsfren',//+
+'fsrrrn',//+
+'rsrren',//+
+'rsrfrn',//+
+'frfrrn',//+
+'rffrrn',//+
+'rfrren',//+
+'rrrren',//+
 'sssfsy',
 'sfsfsy',
 'ssrrsy',
@@ -29,7 +30,7 @@ var cardTypes = [
 'rrfsfn',
 'frrffn'
 ];
-
+var turn_number = 0
 class Deck {
 	shuffle(o) {
 		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -41,7 +42,13 @@ class Deck {
 		for (let i = 0; i < 4; i++)
 			this.deck = this.deck.concat(cardTypes);
 		this.deck = this.shuffle(this.deck);
-	}	
+	}
+	
+	show_card() {
+			console.log(this.deck[this.deck.length]);
+			document.getElementById("sharp").src ="pics/" + this.deck[this.deck.length -  1] + ".jpg"
+			this.deck.pop()
+	}
 }
 
 //0 - field; 1 - stadium; 2 - road, 3 - building

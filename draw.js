@@ -14,7 +14,7 @@ class Renderer {
 		for(let i = 0; i < cardTypes.length; ++i) {
 			var img = new Image();
 			this.cardImages[cardTypes[i]] = img;
-			img.src = "output/" + cardTypes[i] + ".jpg";
+			img.src = "pics/" + cardTypes[i] + ".jpg";
 			img.onload = img.onerror = function() {
 				++cnt;
 				if (cnt == cardTypes.length)
