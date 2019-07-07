@@ -27,7 +27,8 @@ var cardTypes = [
 'sssrsn',
 'sssrsy',
 ];
-var turn_number = 0
+var turn_number = 0;
+var coord = 50;
 class Deck {
 	shuffle(o) {
 		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -43,15 +44,21 @@ class Deck {
 	
 	show_card() {
 		if (this.deck.length > 0) {
-			document.getElementById("sharp").src ="pics/" + this.deck[this.deck.length -  1] + ".jpg"
-			this.deck.pop()
+			document.getElementById("sharp").src ="pics/" + this.deck[this.deck.length -  1] + ".jpg";
+			var img = new Image();
+			img.src = "pics/" + this.deck[this.deck.length -  1] + ".jpg";
+			r.drawCard(img);
+			var f = r.f;
+			++coord;
+			f.field[51][coord]=this.deck[this.deck.length -  1];
+			this.deck.pop();
 		}	
 	}
 }
 
 //0 - field; 1 - stadium; 2 - road, 3 - building
 class Card {
-	contains = new Array();
+	contains = new Array();	
 	
 	ident(name) {
 		for (var i = 0; i < 5; i++) {

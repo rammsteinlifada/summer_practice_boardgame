@@ -82,6 +82,10 @@ class Renderer {
 				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy);
 			}
 	}
+	
+		drawCard(img){
+			this.ctx.drawImage(img, 100, 100);
+		}	
 }
 
 var r;
