@@ -42,9 +42,10 @@ class Deck {
 	}
 	
 	show_card() {
-			console.log(this.deck[this.deck.length]);
+		if (this.deck.length > 0) {
 			document.getElementById("sharp").src ="pics/" + this.deck[this.deck.length -  1] + ".jpg"
 			this.deck.pop()
+		}	
 	}
 }
 
