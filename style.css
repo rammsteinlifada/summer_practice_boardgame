@@ -1,5 +1,5 @@
 body {
-    background-image: url(background.jpg); 
+    background-color: #ffc375; 
 }
 
 .dropdown:hover > .dropdown-menu { 
