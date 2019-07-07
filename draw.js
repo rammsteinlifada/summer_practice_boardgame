@@ -33,19 +33,19 @@ class Renderer {
 			self.startY = e.clientY;
 			self.originX = this.dx;
 			self.originY = this.dy;
-			console.log(self.startX);
+			
 		};
 		cvs.onmouseup = (e) => {
 			e.preventDefault();
 			self.isDragging = false;
-			console.log('up');
+			
 		};
 		cvs.onmousemove = (e) => {
 			if (!self.isDragging) return;
 			e.preventDefault();
 			self.dx = self.originX + e.clientX - self.startX;
 			self.dy = self.originY + e.clientY - self.startY;
-			console.log(self.dy);
+			
 			setTimeout(() => self.redraw(), 0);
 		};
 	}
@@ -56,8 +56,8 @@ class Renderer {
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
-		var bw = 700;
-    	var bh = 800;
+		var bw = 5000;
+    	var bh = 5000;
     	var p = 0;
     	var cw = bw + (p*2) + 1;
     	var ch = bh + (p*2) + 1;
@@ -76,8 +76,7 @@ class Renderer {
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;
-				console.log(f.field[i][j]);
-				console.log(this.cardImages[f.field[i][j]]);
+				
 				if (this.cardImages[f.field[i][j]])
 				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy);
 			}
