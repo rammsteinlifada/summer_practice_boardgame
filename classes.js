@@ -1,6 +1,7 @@
 "use strict";
 
 //s-stadium, f-field, r-road, b-buiding, e-entry
+
 var cardTypes = [
 'ffffbn',
 'fffrbn',
@@ -42,17 +43,55 @@ class Deck {
 		this.deck = this.shuffle(this.deck);
 	}
 	
-	show_card() {
-		if (this.deck.length > 0) {
-			document.getElementById("sharp").src ="pics/" + this.deck[this.deck.length -  1] + ".jpg";
-			var img = new Image();
-			img.src = "pics/" + this.deck[this.deck.length -  1] + ".jpg";
-			r.drawCard(img);
-			var f = r.f;
-			++coord;
-			f.field[51][coord]=this.deck[this.deck.length -  1];
-			this.deck.pop();
-		}	
+	show_card() {				
+		var block = document.getElementById("sharpp");
+		var a = this.deck[this.deck.length -  1]
+		var image = document.createElement("img");
+		image.id = "cards";
+		image.src = "pics/" + a + ".jpg";
+		block.appendChild(image);
+		var ball = document.getElementById("cards");
+
+		this.deck.pop();
+ball.onmousedown = function(e) {
+
+  var coords = getCoords(ball);
+  var shiftX = e.pageX - coords.left;
+  var shiftY = e.pageY - coords.top;
+
+  ball.style.position = 'absolute';
+  document.body.appendChild(ball);
+  moveAt(e);
+
+  ball.style.zIndex = 1000; // над другими элементами
+
+  function moveAt(e) {
+    ball.style.left = e.pageX - shiftX + 'px';
+    ball.style.top = e.pageY - shiftY + 'px';
+  }
+
+  document.onmousemove = function(e) {
+    moveAt(e);
+  };
+
+  ball.onmouseup = function() {
+    document.onmousemove = null;
+    ball.onmouseup = null;
+  };
+
+}
+
+ball.ondragstart = function() {
+  return false;
+};
+
+function getCoords(elem) {   // кроме IE8-
+  var box = elem.getBoundingClientRect();
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+	}
 	}
 }
 

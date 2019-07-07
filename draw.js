@@ -34,6 +34,7 @@ class Renderer {
 			self.originX = this.dx;
 			self.originY = this.dy;
 			
+			
 		};
 		cvs.onmouseup = (e) => {
 			e.preventDefault();
@@ -56,8 +57,8 @@ class Renderer {
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
-		var bw = 5000;
-    	var bh = 5000;
+		var bw = 1000;
+    	var bh = 1000;
     	var p = 0;
     	var cw = bw + (p*2) + 1;
     	var ch = bh + (p*2) + 1;
