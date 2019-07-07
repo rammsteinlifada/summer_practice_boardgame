@@ -3,8 +3,8 @@ class Renderer {
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
 
-		this.dx = - 50 * 60;
-		this.dy = - 50 * 60;
+		this.dx = - 50 * 100;
+		this.dy = - 50 * 100;
 		this.initDrag(this.cvs);
 
 		this.f = new Field();
@@ -52,7 +52,7 @@ class Renderer {
 
 	redraw() {
 		let f = this.f;
-		const sz = 60;
+		const sz = 100;
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 		for (let i = 0; i < f.field.length; ++i)
@@ -61,7 +61,7 @@ class Renderer {
 				console.log(f.field[i][j]);
 				console.log(this.cardImages[f.field[i][j]]);
 				if (this.cardImages[f.field[i][j]])
-				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy, sz, sz);
+				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy);
 			}
 	}
 }
