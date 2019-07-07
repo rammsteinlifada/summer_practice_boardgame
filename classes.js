@@ -77,7 +77,7 @@ class Card {
 
 }
 
-class meeple{
+class Meeple{
 	drag_and_drop(){
 		
 	}
