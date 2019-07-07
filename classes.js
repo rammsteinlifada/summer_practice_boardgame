@@ -1,34 +1,31 @@
 "use strict";
-//import "cardtypes";
 
 //s-stadium, f-field, r-road, b-buiding, e-entry
 var cardTypes = [
-'ffffbn', //!
-'fffrbn',//?
-'sssssn',//+
-'sssfsn',//+
-'ssffsn',//+
-'ssrrsn',//+
-'sfsfsn',//+
-'ssfffn',//+
-'fsfsfn',//+
-'fsfffn',//+
-'rsfren',//+
-'fsrrrn',//+
-'rsrren',//+
-'rsrfrn',//+
-'frfrrn',//+
-'rffrrn',//+
-'rfrren',//+
-'rrrren',//+
+'ffffbn',
+'fffrbn',
+'sssssn',
+'sssfsn',
+'ssffsn',
+'ssrrsn',
+'sfsfsn',
+'ssfffn',
+'fsfsfn',
+'fsfffn',
+'rsfrrn',
+'fsrrrn',
+'rsrren',
+'rsrfrn',
+'frfrrn',
+'rffrrn',
+'rfrren',
+'rrrren',
 'sssfsy',
 'sfsfsy',
 'ssrrsy',
 'ssffsy',
 'sssrsn',
 'sssrsy',
-'rrfsfn',
-'frrffn'
 ];
 var turn_number = 0
 class Deck {
