@@ -62,11 +62,11 @@ class Renderer {
     	var cw = bw + (p*2) + 1;
     	var ch = bh + (p*2) + 1;
 		
-    	for (var x = 0; x <= bw; x += 100) {
+    	for (var x = 0; x <= bw; x += 99) {
         	this.ctx.moveTo(0.5 + x + p, p);
         	this.ctx.lineTo(0.5 + x + p, bh + p);
     	}
-    	for (var x = 0; x <= bh; x += 100) {
+    	for (var x = 0; x <= bh; x += 99) {
         	this.ctx.moveTo(p, 0.5 + x + p);
         	this.ctx.lineTo(bw + p, 0.5 + x + p);
     	}
