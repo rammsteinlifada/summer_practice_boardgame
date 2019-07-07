@@ -53,7 +53,7 @@ class Renderer {
 	redraw() {
 		let f = this.f;
 		const sz = 60;
-		//this.ctx.fillStyle = 'white';
+		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {

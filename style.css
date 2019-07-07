@@ -12,11 +12,6 @@ body {
 	height: 20%;
 }
 
-canvas { 
-    background-color: black;
-    background-size: auto 50%; 
-}
-
 .dropdown-open {
     position: relative;
     
