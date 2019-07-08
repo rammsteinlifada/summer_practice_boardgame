@@ -22,36 +22,37 @@
 </head>
 <body>
 	<div class="row" style="height: 200px">
+		<div>
+			<div class="dropdown open">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">Меню</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<li><a class="dropdown-item" href="#">Главное меню</a></li>
+					<li><a class="dropdown-item" href="#">Настройки</a></li>
+					<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
+				</ul>
+			</div>
 
-		<div class="dropdown open">
-			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">Меню</button>
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<li><a class="dropdown-item" href="#">Главное меню</a></li>
-				<li><a class="dropdown-item" href="#">Настройки</a></li>
-				<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
-			</ul>
+			<div class="col-xs-4">
+				<canvas id="first-player" width="150" height="100"
+						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
+			</div>
+			<div class="col-xs-4">
+				<canvas id="second-player" align="left" width="150" height="100"
+						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
+			</div>
 		</div>
 
-		<div class="col-xs-4">
-			<p id="screen-log"></p>
-			<canvas id="first-player" width="150" height="100"
-					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
-			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-		</div>
-		<div class="col-xs-4">
-			<canvas id="second-player" align="left" width="150" height="100"
-					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
-			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-		</div>
 	</div>
 
-	<div class="row">
+	<div class="row" allign="center">
 		<div class="col-xs-8" align="left" style="max-height: 1000px;width: 1000px">
 			<canvas id="canvas" width="1000" height="1000"></canvas>
 		</div>
 
 		<div id = "sharpp" class="col-xs-4" onClick = "d.show_card();" align="left" style="max-height: 110px; max-width: 110px;">
-			<img id="sharp"  src="pics/fefu.jpg">
+			<img id="sharp" src="pics/fefu.jpg">
 		</div>
 	</div>
 	

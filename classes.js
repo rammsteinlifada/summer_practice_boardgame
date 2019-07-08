@@ -252,10 +252,7 @@ class Deck {
 				var newY = e.pageY - e.pageY % 100 - 200;
 				var i = newX / 100;
 				var j = newY / 100;
-	  			// var newX = ((e.clientX + 150) / 100).toFixed() * 100 - 200;
-				// var newY = ((e.clientY + 150) / 100).toFixed() * 100 - 350;
-				// var i = ((e.clientX + 150) / 100).toFixed() - 2;
-				// var j =(((e.clientY + 150) / 100).toFixed() - 3.5).toFixed();
+
 				console.log(r.f.field[i][j][0]);
 				console.log(r.f.field[i-1][j][2]);
 				if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
