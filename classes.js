@@ -297,17 +297,20 @@ class Card {
 }
 
 class Meeple{
+	// enum position{
+	// 	onBuilding,
+	// 	onRoad,
+	// 	onStadium,
+	// 	onField
+	// }
+
+
+
 	drag_and_drop(){
 		
 	}
 
 	/*
-	enum position{
-		onBuilding,
-		onRoad,
-		onStadium,
-		onField
-	}
 	enum stage{
 		uncompleted
 		completed
@@ -315,14 +318,25 @@ class Meeple{
 }
 
 class Player {
-	constructo() {
-		var score;
-		meeples = [];
+	constructor() {
+		var score = 0;
+		this.meeples = [];
+		this.pl = [];
 		for (let i = 0; i < 6; ++i) {
-			meeples[i] = new Meeple();
+			this.meeples[i] = new Meeple();
 		}
+		this.drawPlayers("first-player");
+	}
+	drawPlayers(cnvs) {
+		var canvas = document.getElementByI(cnvs),
+			context = canvas.getContext("2d");
+		// context.font = "22px Verdana";
+		context.strokeText("score: 0", 10, 10);
 	}
 }
+
+
+
 
 class Field {
 	constructor() {
