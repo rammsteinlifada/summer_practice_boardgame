@@ -215,64 +215,66 @@ class Deck {
 	}
 	
 	show_card() {
-		var zind = 10;
 
 		var block = document.getElementById("sharpp");
-		var a = this.deck[this.deck.length - 1];
-		var image = document.createElement("img");
-		image.id = "cards";
-		image.src = "pics/" + a + ".jpg";
-		block.appendChild(image);
-		var im = document.getElementById("cards");
+		if (block.childElementCount < 2) {
+			var a = this.deck[this.deck.length - 1];
+			var image = document.createElement("img");
+			image.id = "cards";
+			image.src = "pics/" + a + ".jpg";
+			block.appendChild(image);
+			var im = document.getElementById("cards");
 
+			this.deck.pop();
+			im.onmousedown = function(e) {
+				var coords = getCoords(im);
+				var shiftX = e.pageX - coords.left;
+				var shiftY = e.pageY - coords.top;
 
-		this.deck.pop();
-		im.onmousedown = function(e) {
-	  		var coords = getCoords(im);
-	  		var shiftX = e.pageX - coords.left;
-	  		var shiftY = e.pageY - coords.top;
+				im.style.position = 'absolute';
+				document.body.appendChild(im, 50,50);
+				moveAt(e);
 
-	  		im.style.position = 'absolute';
-	  		document.body.appendChild(im, 50,50);
-	  		moveAt(e);
+				im.style.zIndex = 1000; // над другими элементами
 
-	  		im.style.zIndex = 1000; // над другими элементами
+				function moveAt(e) {
+					im.style.left = e.pageX - shiftX + 'px';
+					im.style.top = e.pageY - shiftY + 'px';
+				}
 
-	  		function moveAt(e) {
-	    		im.style.left = e.pageX - shiftX + 'px';
-	    		im.style.top = e.pageY - shiftY + 'px';
-	  		}
-
-	  		document.onmousemove = function(e) {
-	    		moveAt(e);
-	  		};
-
-	  		im.onmouseup = function(e) {
-				var newX = (e.pageX - e.pageX % 100);
-				var newY = e.pageY - e.pageY % 100 - 200;
-				var i = newX / 100;
-				var j = newY / 100;
-
-				if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
-					if (!r.f.field[i][j]) {
-						if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
-							((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
-
-							r.ctx.drawImage(image, newX, newY);
-							r.f.field[i][j] = a;
-							document.onmousemove = null;
-							im.onmouseup = null;
-							im.remove();
-						}
-
-						else {
-							document.onmousemove = null;
-							im.onmouseup = null;
-						};
-					};
+				document.onmousemove = function(e) {
+					moveAt(e);
 				};
 
-	  		};
+				im.onmouseup = function(e) {
+					var newX = (e.pageX - e.pageX % 100);
+					var newY = e.pageY - e.pageY % 100 - 200;
+					var i = newX / 100;
+					var j = newY / 100;
+
+					if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
+						if (!r.f.field[i][j]) {
+							if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
+								((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
+
+								r.ctx.drawImage(image, newX, newY);
+								r.f.field[i][j] = a;
+								document.onmousemove = null;
+								im.onmouseup = null;
+								im.remove();
+								flag = true;
+							}
+
+							else {
+								document.onmousemove = null;
+								im.onmouseup = null;
+							};
+						};
+					};
+
+				};
+		}
+
 		};
 
 		im.ondragstart = function() {
@@ -346,16 +348,13 @@ class Player {
 		for (let i = 0; i < 6; ++i) {
 			this.meeples[i] = new Meeple();
 		}
-		var canvas = document.getElementByI("first-player"),
+		var canvas = document.getElementById("first-player"),
 			context = canvas.getContext("2d");
 		this.context.font = "22px Verdana";
 		this.context.strokeText("score: 0", 10, 100);
 
 	}
 }
-
-
-
 
 class Field {
 	constructor() {
