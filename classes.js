@@ -212,10 +212,18 @@ class Deck {
 		for (let i = 0; i < 4; i++)
 			this.deck = this.deck.concat(cardTypes);
 		this.deck = this.shuffle(this.deck);
+		this.last_image;
 	}
-	
-	show_card() {
 
+	rotation(){
+		var a = this.last_image;
+		a = a[3] + a.substring(0, 3) + a.substring(4, 6);
+		console.log(a);
+		this.last_image = a;
+	}
+
+
+	show_card() {
 		var block = document.getElementById("sharpp");
 		if (block.childElementCount < 2) {
 			var a = this.deck[this.deck.length - 1];
@@ -224,7 +232,7 @@ class Deck {
 			image.src = "pics/" + a + ".jpg";
 			block.appendChild(image);
 			var im = document.getElementById("cards");
-
+			this.last_image = a;
 			this.deck.pop();
 			im.onmousedown = function(e) {
 				var coords = getCoords(im);
@@ -234,6 +242,8 @@ class Deck {
 				im.style.position = 'absolute';
 				document.body.appendChild(im, 50,50);
 				moveAt(e);
+
+
 
 				im.style.zIndex = 1000; // над другими элементами
 
@@ -257,13 +267,15 @@ class Deck {
 							if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
 								((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
 
+
 								r.ctx.drawImage(image, newX, newY);
 								r.f.field[i][j] = a;
 								document.onmousemove = null;
 								im.onmouseup = null;
 								im.remove();
-								flag = true;
+
 							}
+
 
 							else {
 								document.onmousemove = null;
@@ -273,13 +285,15 @@ class Deck {
 					};
 
 				};
-		}
 
+			};
+			im.ondragstart = function() {
+				return false;
+			};
+			
 		};
 
-		im.ondragstart = function() {
-  			return false;
-		};
+
 
 		function getCoords(elem) {   // кроме IE8-
   			var box = elem.getBoundingClientRect();
