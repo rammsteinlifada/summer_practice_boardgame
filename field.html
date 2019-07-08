@@ -15,34 +15,37 @@
 
 		
 	<link rel="stylesheet" type="text/css" href="style.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="application/javascript" src="classes.js"></script>
 	<script type="text/javascript" src="draw.js"></script>
 
 </head>
 <body>
-	<div class="row">
+	<div class="row" style="height: 200px">
+
+		<div class="dropdown open">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">Меню</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<li><a class="dropdown-item" href="#">Главное меню</a></li>
+				<li><a class="dropdown-item" href="#">Настройки</a></li>
+				<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
+			</ul>
+		</div>
+
 		<div class="col-xs-4">
-			<div class="dropdown open">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">Меню</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<li><a class="dropdown-item" href="#">Главное меню</a></li>
-					<li><a class="dropdown-item" href="#">Настройки</a></li>
-					<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
-				</ul>
-			</div>
+			<p id="screen-log"></p>
+			<canvas id="first-player" width="150" height="100"
+					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
-			<canvas id="first-player"></canvas>
-			<img src="userf.png" style="height: 100px">
-		</div>
-		<div class="col-xs-4">
-			<canvas id="second-player"></canvas>
-			<img src="userf.png" style="height: 100px">
+			<canvas id="second-player" align="left" width="150" height="100"
+					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 	</div>
 
-	<div class="row" align="center">
+	<div class="row">
 		<div class="col-xs-8" align="left" style="max-height: 1000px;width: 1000px">
 			<canvas id="canvas" width="1000" height="1000"></canvas>
 		</div>
@@ -54,16 +57,19 @@
 	
 	<div class="row">
 		<div class="col-xs-4">
-			<canvas id="third-player"></canvas>
-			<img src="userf.png" style="height: 100px">
+			<canvas id="third-player" align="left" width="150" height="100"
+					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
-			<canvas id="fourth-player"></canvas>
-			<img src="userf.png" style="height: 100px">
+			<canvas id="fourth-player" align="left" width="150" height="100"
+					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
+			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
 			<div style="font-size: 50px">CHAT</div>
 		</div>
 	</div>
+
 </body>
 </html>
