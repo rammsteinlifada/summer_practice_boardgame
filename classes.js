@@ -77,6 +77,7 @@ class Deck {
 		block.appendChild(image);
 		var im = document.getElementById("cards");
 
+
 		this.deck.pop();
 		im.onmousedown = function(e) {
 	  		var coords = getCoords(im);
