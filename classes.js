@@ -2,10 +2,35 @@
 
 //s-stadium, f-field, r-road, b-buiding, e-entry
 
+var cardTypes1 = {
+	'1': {
+		left = "field";
+		up = "field";
+		right = "field";
+		down = "field";
+		center = "building";
+	};
+	'2': {
+		left = "field";
+		up = "field";
+		right = "field";
+		down = "road";
+		center = "building";
+	};
+	'3': {
+		left = "field";
+		up = "field";
+		right = "field";
+		down = "field";
+		center = "building";
+	}
+
+}
+
 var cardTypes = [
-'ffffbn',
-'fffrbn',
-'sssssn',
+'ffffbn',//
+'fffrbn',//
+'sssssn',//
 'sssfsn',
 'ssffsn',
 'ssrrsn',
@@ -150,8 +175,6 @@ class Field {
 			for (let j = 0; j < n; ++j)
 				this.field[i].push('');
 		}
-
-		
 	}
 }
 

@@ -2,7 +2,7 @@ class Renderer {
 	constructor() {
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
-		
+		console.log();
 		this.dx = - 50 * 100;
 		this.dy = - 50 * 100;
 		this.initDrag(this.cvs);
