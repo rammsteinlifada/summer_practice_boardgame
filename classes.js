@@ -265,9 +265,9 @@ class Deck {
 					var i = newX / 100;
 					var j = newY / 100;
 					var b = d.last_image;
-					
 
-					if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
+
+					if ((e.pageX) < 1000 && (e.pageY) > 200 && (e.pageY) < 1200) {
 
 						if (!(!r.f.field[i-1][j] && !r.f.field[i+1][j] && !r.f.field[i][j-1] && !r.f.field[i][j+1])) {
 							if (!r.f.field[i][j]) {
