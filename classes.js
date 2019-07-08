@@ -247,10 +247,19 @@ class Deck {
 	    		moveAt(e);
 	  		};
 
-	  		im.onmouseup = function() {
-	    		document.onmousemove = null;
-	    		im.onmouseup = null;
-				im.remove();
+	  		im.onmouseup = function(e) {
+
+	  			var newX = ((e.clientX + 150) / 100).toFixed() * 100 - 200;
+				var newY = ((e.clientY + 150) / 100).toFixed() * 100 - 350;
+				var i = ((e.clientX + 150) / 100).toFixed() - 2;
+				var j =(((e.clientY + 150) / 100).toFixed() - 3.5).toFixed();
+				if (!r.f.field[i][j]) {
+					r.ctx.drawImage(image, newX, newY);
+					r.f.field[i][j] = a;
+					document.onmousemove = null;
+					im.onmouseup = null;
+					im.remove();
+				}
 	  		};
 		};
 
