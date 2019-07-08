@@ -269,7 +269,7 @@ class Deck {
 					if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
 						if (!r.f.field[i][j]) {
 
-							if (i > 0 && i < 19 && j > 0 && j < 19) {
+							if (i > 0 && i < 9 && j > 0 && j < 9) {
 								if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 									((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
@@ -301,7 +301,7 @@ class Deck {
 										im.onmouseup = null;
 									};
 								}
-								else if (i == 19) {
+								else if (i == 9) {
 									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
 										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
@@ -331,7 +331,7 @@ class Deck {
 										im.onmouseup = null;
 									};
 								}
-								else if (j == 19) {
+								else if (j == 9) {
 									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
 
@@ -443,12 +443,13 @@ class Player {
 class Field {
 	constructor() {
 		this.field = [];
-		const n = 20;
+		const n = 10;
 		for (let i = 0; i < n; ++i) {
 			this.field.push([]);
 			for (let j = 0; j < n; ++j)
 				this.field[i].push('');
 		}
+		this.field[4][4] = 'rsrfrn'
 	}
 }
 
