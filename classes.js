@@ -248,20 +248,30 @@ class Deck {
 	  		};
 
 	  		im.onmouseup = function(e) {
-	  			var newX = (e.pageX - e.pageX % 100);
+				var newX = (e.pageX - e.pageX % 100);
 				var newY = e.pageY - e.pageY % 100 - 200;
 				var i = newX / 100;
 				var j = newY / 100;
-				if (!r.f.field[i][j]) {
-					r.ctx.drawImage(image, newX, newY);
-					r.f.field[i][j] = a;
-					document.onmousemove = null;
-					im.onmouseup = null;
-				
-					if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
-						im.remove();
+	  			// var newX = ((e.clientX + 150) / 100).toFixed() * 100 - 200;
+				// var newY = ((e.clientY + 150) / 100).toFixed() * 100 - 350;
+				// var i = ((e.clientX + 150) / 100).toFixed() - 2;
+				// var j =(((e.clientY + 150) / 100).toFixed() - 3.5).toFixed();
+				console.log(r.f.field[i][j][0]);
+				console.log(r.f.field[i-1][j][2]);
+				if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
+					if (!r.f.field[i][j]) {
+						if ((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0]) && (!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2]) &&
+							(!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1]) && (!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3])) {
+							r.ctx.drawImage(image, newX, newY);
+							r.f.field[i][j] = a;
+
+							document.onmousemove = null;
+							im.onmouseup = null;
+							im.remove();
+						};
 					};
 				};
+
 	  		};
 		};
 
