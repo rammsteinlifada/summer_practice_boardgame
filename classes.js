@@ -252,24 +252,23 @@ class Deck {
 				var newY = e.pageY - e.pageY % 100 - 200;
 				var i = newX / 100;
 				var j = newY / 100;
-				console.log(a);
-				console.log(r.f.field[i][j + 1]);
-				console.log(i,j);
+
 				if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
 					if (!r.f.field[i][j]) {
 						if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
 							((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
+
 							r.ctx.drawImage(image, newX, newY);
 							r.f.field[i][j] = a;
 							document.onmousemove = null;
 							im.onmouseup = null;
 							im.remove();
 						}
-						else{
+
+						else {
 							document.onmousemove = null;
 							im.onmouseup = null;
-						}
-
+						};
 					};
 				};
 
