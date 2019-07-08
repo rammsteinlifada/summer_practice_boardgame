@@ -21,7 +21,7 @@ class Renderer {
 					setTimeout(() => self.redraw(), 0);
 			};
 		}
-		
+
 	}
 
 	initDrag(cvs) {
@@ -40,6 +40,7 @@ class Renderer {
 			e.preventDefault();
 			self.isDragging = false;
 			
+			
 		};
 		cvs.onmousemove = (e) => {
 			if (!self.isDragging) return;
@@ -53,7 +54,7 @@ class Renderer {
 
 	redraw() {
 		let f = this.f;
-		const sz = 100;
+		const sz = 50;
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
@@ -63,29 +64,30 @@ class Renderer {
     	var cw = bw + (p*2) + 1;
     	var ch = bh + (p*2) + 1;
 		
-    	for (var x = 0; x <= bw; x += 99) {
+    	for (var x = 0; x <= bw; x += 50) {
         	this.ctx.moveTo(0.5 + x + p, p);
         	this.ctx.lineTo(0.5 + x + p, bh + p);
     	}
-    	for (var x = 0; x <= bh; x += 99) {
+    	for (var x = 0; x <= bh; x += 50) {
         	this.ctx.moveTo(p, 0.5 + x + p);
         	this.ctx.lineTo(bw + p, 0.5 + x + p);
     	}
     	this.ctx.strokeStyle = "black";
     	this.ctx.stroke();
 
-		for (let i = 0; i < f.field.length; ++i)
+		for (let i = 0; i < f.field.length; ++i){
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;
 				
 				if (this.cardImages[f.field[i][j]])
 				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy);
 			}
+		}
 	}
 	
-		drawCard(img){
-			this.ctx.drawImage(img, 100, 100);
-		}	
+	drawCard(img){
+		this.ctx.drawImage(img, 100, 100);
+	}	
 }
 
 var r;

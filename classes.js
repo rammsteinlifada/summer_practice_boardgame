@@ -45,59 +45,58 @@ class Deck {
 	
 	show_card() {				
 		var block = document.getElementById("sharpp");
-		var a = this.deck[this.deck.length -  1]
+		var a = this.deck[this.deck.length -  1];
 		var image = document.createElement("img");
 		image.id = "cards";
 		image.src = "pics/" + a + ".jpg";
 		block.appendChild(image);
-		var ball = document.getElementById("cards");
+		var im = document.getElementById("cards");
 
 		this.deck.pop();
-ball.onmousedown = function(e) {
+		im.onmousedown = function(e) {
+	  		var coords = getCoords(im);
+	  		var shiftX = e.pageX - coords.left;
+	  		var shiftY = e.pageY - coords.top;
 
-  var coords = getCoords(ball);
-  var shiftX = e.pageX - coords.left;
-  var shiftY = e.pageY - coords.top;
+	  		im.style.position = 'absolute';
+	  		document.body.appendChild(im);
+	  		moveAt(e);
 
-  ball.style.position = 'absolute';
-  document.body.appendChild(ball);
-  moveAt(e);
+	  		im.style.zIndex = 1000; // над другими элементами
 
-  ball.style.zIndex = 1000; // над другими элементами
+	  		function moveAt(e) {
+	    		im.style.left = e.pageX - shiftX + 'px';
+	    		im.style.top = e.pageY - shiftY + 'px';
+	  		}
 
-  function moveAt(e) {
-    ball.style.left = e.pageX - shiftX + 'px';
-    ball.style.top = e.pageY - shiftY + 'px';
-  }
+	  		document.onmousemove = function(e) {
+	    		moveAt(e);
+	  		};
 
-  document.onmousemove = function(e) {
-    moveAt(e);
-  };
+	  		im.onmouseup = function() {
+	    		document.onmousemove = null;
+	    		im.onmouseup = null;
 
-  ball.onmouseup = function() {
-    document.onmousemove = null;
-    ball.onmouseup = null;
-  };
+	  		};
+		};
 
-}
+		im.ondragstart = function() {
+  			return false;
+		};
 
-ball.ondragstart = function() {
-  return false;
-};
-
-function getCoords(elem) {   // кроме IE8-
-  var box = elem.getBoundingClientRect();
-  return {
-    top: box.top + pageYOffset,
-    left: box.left + pageXOffset
-  };
-	}
+		function getCoords(elem) {   // кроме IE8-
+  			var box = elem.getBoundingClientRect();
+  			return {
+    			top: box.top + pageYOffset,
+    			left: box.left + pageXOffset
+  			};
+		}
 	}
 }
 
 //0 - field; 1 - stadium; 2 - road, 3 - building
 class Card {
-	contains = new Array();	
+	contains = [];
 	
 	ident(name) {
 		for (var i = 0; i < 5; i++) {
@@ -140,20 +139,19 @@ class Meeple{
 	}*/
 }
 
-class Field {
 
+
+class Field {
 	constructor() {
 		this.field = [];
-		const n = 100;
+		const n = 20;
 		for (let i = 0; i < n; ++i) {
 			this.field.push([]);
 			for (let j = 0; j < n; ++j)
 				this.field[i].push('');
 		}
-		let i = Math.floor(n / 2);
-		this.field[i][i + 1] = 'rsrfrn';
-		this.field[i][i + 2] = 'rrfsfn';
-		this.field[i][i + 3] = 'frrffn';
+
+		
 	}
 }
 
