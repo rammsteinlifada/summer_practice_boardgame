@@ -18,40 +18,186 @@ var cardTypes1 = {
 		center = "building";
 	};
 	'3': {
-		left = "field";
-		up = "field";
+		left = "stadium";
+		up = "stadium";
+		right = "stadium";
+		down = "stadium";
+		center = "stadium";
+	};
+'4':{
+		left = "stadium";
+		up = "stadium";
+		right = "stadium";
+		down = "field";
+		center = "stadium";
+	};
+'5': {
+		left = "stadium";
+		up = "stadium";
 		right = "field";
 		down = "field";
-		center = "building";
-	}
-
+		center = "stadium";
+	};
+'6': {
+		left = "stadium";
+		up = "stadium";
+		right = "road";
+		down = "road";
+		center = "stadium";
+	};
+'7': {
+		left = "stadium";
+		up = "field";
+		right = "stadium";
+		down = "field";
+		center = "stadium";
+	};
+'8': {
+		left = "stadium";
+		up = "stadium";
+		right = "field";
+		down = "field";
+		center = "field";
+	};
+'9': {
+		left = "field";
+		up = "stadium";
+		right = "field";
+		down = "stadium";
+		center = "field";
+	};
+'10': {
+		left = "field";
+		up = "stadium";
+		right = "field";
+		down = "field";
+		center = "field";
+	};
+'11': {
+		left = "road";
+		up = "stadium";
+		right = "field";
+		down = "road";
+		center = "road";
+	};
+'12': {
+		left = "field";
+		up = "stadium";
+		right = "road";
+		down = "road";
+		center = "road";
+	};
+'13': {
+		left = "road";
+		up = "stadium";
+		right = "road";
+		down = "road";
+		center = "entry";
+	};
+'14': {
+		left = "road";
+		up = "stadium";
+		right = "road";
+		down = "field";
+		center = "road";
+	};
+'15': {
+		left = "field";
+		up = "road";
+		right = "field";
+		down = "road";
+		center = "road";
+	};
+'16': {
+		left = "road";
+		up = "field";
+		right = "field";
+		down = "road";
+		center = "road";
+	};
+'17': {
+		left = "road";
+		up = "field";
+		right = "road";
+		down = "road";
+		center = "entry";
+	};
+'18': {
+		left = "road";
+		up = "road";
+		right = "road";
+		down = "road";
+		center = "entry";
+	};
+'19': {
+		left = "stadium";
+		up = "stadium";
+		right = "stadium";
+		down = "field";
+		center = "stadium";
+	};
+'20': {
+		left = "stadium";
+		up = "field";
+		right = "stadium";
+		down = "field";
+		center = "stadium";
+	};
+'21': {
+		left = "stadium";
+		up = "stadium";
+		right = "road";
+		down = "road";
+		center = "stadium";
+	};
+'22': {
+		left = "stadium";
+		up = "stadium";
+		right = "field";
+		down = "field";
+		center = "stadium";
+	};
+'23': {
+		left = "stadium";
+		up = "stadium";
+		right = "stadium";
+		down = "road";
+		center = "stadium";
+	};
+'24': {
+		left = "stadium";
+		up = "stadium";
+		right = "stadium";
+		down = "road";
+		center = "stadium";
+	};
 }
 
 var cardTypes = [
-'ffffbn',//
-'fffrbn',//
-'sssssn',//
-'sssfsn',
-'ssffsn',
-'ssrrsn',
-'sfsfsn',
-'ssfffn',
-'fsfsfn',
-'fsfffn',
-'rsfrrn',
-'fsrrrn',
-'rsrren',
-'rsrfrn',
-'frfrrn',
-'rffrrn',
-'rfrren',
-'rrrren',
-'sssfsy',
-'sfsfsy',
-'ssrrsy',
-'ssffsy',
-'sssrsn',
-'sssrsy',
+'ffffbn',//1
+'fffrbn',//2
+'sssssn',//3
+'sssfsn',//4
+'ssffsn',//5
+'ssrrsn',//6
+'sfsfsn',//7
+'ssfffn',//8
+'fsfsfn',//9
+'fsfffn',//10
+'rsfrrn',//11
+'fsrrrn',//12
+'rsrren',//13
+'rsrfrn',//14
+'frfrrn',//15
+'rffrrn',//16
+'rfrren',//17
+'rrrren',//18
+'sssfsy',//19
+'sfsfsy',//20
+'ssrrsy',//21
+'ssffsy',//22
+'sssrsn',//23
+'sssrsy',//24
 ];
 var turn_number = 0;
 var coord = 50;
