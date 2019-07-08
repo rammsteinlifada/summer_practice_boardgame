@@ -203,7 +203,7 @@ var turn_number = 0;
 var coord = 50;
 class Deck {
 	shuffle(o) {
-		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
 		return o;
 	}
 
@@ -216,7 +216,7 @@ class Deck {
 
 	}
 
-	rotation(){
+	rotation() {
 		var a = this.last_image;
 		a = a[3] + a.substring(0, 3) + a.substring(4, 6);
 		this.last_image = a;
@@ -237,15 +237,14 @@ class Deck {
 			var im = document.getElementById("cards");
 			this.last_image = a;
 			this.deck.pop();
-			im.onmousedown = function(e) {
+			im.onmousedown = function (e) {
 				var coords = getCoords(im);
 				var shiftX = e.pageX - coords.left;
 				var shiftY = e.pageY - coords.top;
 
 				im.style.position = 'absolute';
-				document.body.appendChild(im, 50,50);
+				document.body.appendChild(im, 50, 50);
 				moveAt(e);
-
 
 
 				im.style.zIndex = 1000; // над другими элементами
@@ -255,11 +254,11 @@ class Deck {
 					im.style.top = e.pageY - shiftY + 'px';
 				}
 
-				document.onmousemove = function(e) {
+				document.onmousemove = function (e) {
 					moveAt(e);
 				};
 
-				im.onmouseup = function(e) {
+				im.onmouseup = function (e) {
 					var newX = (e.pageX - e.pageX % 100);
 					var newY = e.pageY - e.pageY % 100 - 200;
 					var i = newX / 100;
@@ -269,10 +268,9 @@ class Deck {
 
 					if ((e.pageX) < 1000 && (e.pageY) > 200 && (e.pageY) < 1200) {
 
-						if (!(!r.f.field[i-1][j] && !r.f.field[i+1][j] && !r.f.field[i][j-1] && !r.f.field[i][j+1])) {
-							if (!r.f.field[i][j]) {
-
-								if (i > 0 && i < 9 && j > 0 && j < 9) {
+						if (i > 0 && i < 9 && j > 0 && j < 9) {
+							if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
+								if (!r.f.field[i][j]) {
 									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
@@ -286,10 +284,13 @@ class Deck {
 										document.onmousemove = null;
 										im.onmouseup = null;
 									};
-
 								}
-								else {
-									if (i == 0) {
+							}
+						}
+						else {
+							if (i == 0 && (j != 0 && j != 9)) {
+								if (!(!r.f.field[i + 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
+									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
@@ -304,7 +305,11 @@ class Deck {
 											im.onmouseup = null;
 										};
 									}
-									else if (i == 9) {
+								}
+							}
+							else if (i == 9  && (j != 0 && j != 9)) {
+								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
+									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
@@ -319,9 +324,13 @@ class Deck {
 											im.onmouseup = null;
 										};
 									}
-									else if (j == 0) {
+								}
+							}
+							else if (j == 0 && (i != 0 && i != 9)) {
+								if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j + 1])) {
+									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
+											 ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
 											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
@@ -334,7 +343,11 @@ class Deck {
 											im.onmouseup = null;
 										};
 									}
-									else if (j == 9) {
+								}
+							}
+							else if (j == 9 && (i != 0 && i != 9)) {
+								if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] )) {
+									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
 
@@ -350,32 +363,109 @@ class Deck {
 										};
 									}
 								}
+							}
 
+							else if (j == 0 && i == 0) {
+								if (! (!r.f.field[i + 1][j] && !r.f.field[i][j + 1] )) {
+									if (!r.f.field[i][j]) {
+										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
+											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
+
+											r.ctx.drawImage(image, newX, newY);
+											r.f.field[i][j] = b;
+											document.onmousemove = null;
+											im.onmouseup = null;
+											im.remove();
+										}
+										else {
+											document.onmousemove = null;
+											im.onmouseup = null;
+										};
+									}
+								}
+							}
+							else if (j == 0 && i == 9) {
+								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j + 1] )) {
+									if (!r.f.field[i][j]) {
+										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
+											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
+
+											r.ctx.drawImage(image, newX, newY);
+											r.f.field[i][j] = b;
+											document.onmousemove = null;
+											im.onmouseup = null;
+											im.remove();
+										}
+										else {
+											document.onmousemove = null;
+											im.onmouseup = null;
+										};
+									}
+								}
+							}
+
+							else if (j == 9 && i == 0) {
+								if (!( !r.f.field[i + 1][j] && !r.f.field[i][j - 1] )) {
+									if (!r.f.field[i][j]) {
+										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
+											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
+
+											r.ctx.drawImage(image, newX, newY);
+											r.f.field[i][j] = b;
+											document.onmousemove = null;
+											im.onmouseup = null;
+											im.remove();
+										}
+										else {
+											document.onmousemove = null;
+											im.onmouseup = null;
+										};
+									}
+								}
+							}
+							else if (j == 9 && i == 9) {
+								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j - 1] )) {
+									if (!r.f.field[i][j]) {
+										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
+											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
+
+											r.ctx.drawImage(image, newX, newY);
+											r.f.field[i][j] = b;
+											document.onmousemove = null;
+											im.onmouseup = null;
+											im.remove();
+										}
+										else {
+											document.onmousemove = null;
+											im.onmouseup = null;
+										};
+									}
+								}
 							};
-						}
+
+						};
 
 					};
-
 				};
-
-
 			};
-			im.ondragstart = function() {
-				return false;
-			};
-			
+
 		};
 
 
 
+		im.ondragstart = function () {
+			return false;
+		};
+
 
 		function getCoords(elem) {   // кроме IE8-
-  			var box = elem.getBoundingClientRect();
-  			return {
-    			top: box.top + pageYOffset,
-    			left: box.left + pageXOffset
-  			};
+			var box = elem.getBoundingClientRect();
+			return {
+				top: box.top + pageYOffset,
+				left: box.left + pageXOffset
+			};
 		}
+
 	}
 }
 
