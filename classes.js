@@ -2,30 +2,30 @@
 
 //s-stadium, f-field, r-road, b-buiding, e-entry
 
-var cardTypes1 = {
-	'1': {
-		left = "field";
-		up = "field";
-		right = "field";
-		down = "field";
-		center = "building";
-	};
-	'2': {
-		left = "field";
-		up = "field";
-		right = "field";
-		down = "road";
-		center = "building";
-	};
-	'3': {
-		left = "field";
-		up = "field";
-		right = "field";
-		down = "field";
-		center = "building";
-	}
-
-}
+// var cardTypes1 = {
+// 	'1': {
+// 		left = "field";
+// 		up = "field";
+// 		right = "field";
+// 		down = "field";
+// 		center = "building";
+// 	};
+// 	'2': {
+// 		left = "field";
+// 		up = "field";
+// 		right = "field";
+// 		down = "road";
+// 		center = "building";
+// 	};
+// 	'3': {
+// 		left = "field";
+// 		up = "field";
+// 		right = "field";
+// 		down = "field";
+// 		center = "building";
+// 	}
+//
+// }
 
 var cardTypes = [
 'ffffbn',//
@@ -68,9 +68,11 @@ class Deck {
 		this.deck = this.shuffle(this.deck);
 	}
 	
-	show_card() {				
+	show_card() {
+		var zind = 10;
+
 		var block = document.getElementById("sharpp");
-		var a = this.deck[this.deck.length -  1];
+		var a = this.deck[this.deck.length - 1];
 		var image = document.createElement("img");
 		image.id = "cards";
 		image.src = "pics/" + a + ".jpg";
@@ -151,6 +153,7 @@ class Meeple{
 	drag_and_drop(){
 		
 	}
+
 	/*
 	enum position{
 		onBuilding,
@@ -164,7 +167,15 @@ class Meeple{
 	}*/
 }
 
-
+class Player {
+	constructo() {
+		var score;
+		meeples = [];
+		for (let i = 0; i < 6; ++i) {
+			meeples[i] = new Meeple();
+		}
+	}
+}
 
 class Field {
 	constructor() {
@@ -178,6 +189,4 @@ class Field {
 	}
 }
 
-var d = new Deck();
-//assert(d.deck.length == 120);
-//console.log(d.deck);	
+
