@@ -267,23 +267,84 @@ class Deck {
 
 					if ((e.screenX) < 1000 && (e.screenY.toFixed()) > 200 && (e.screenY.toFixed()) < 1200) {
 						if (!r.f.field[i][j]) {
-							if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
-								((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
+							if (i > 0 && i < 19 && j > 0 && j < 19) {
+								if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
+									((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
 
+									r.ctx.drawImage(image, newX, newY);
+									r.f.field[i][j] = a;
+									document.onmousemove = null;
+									im.onmouseup = null;
+									im.remove();
+								}
+								else {
+									document.onmousemove = null;
+									im.onmouseup = null;
+								};
+							}
+							else {
+								if (i == 0) {
+									if (((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
+										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
 
-								r.ctx.drawImage(image, newX, newY);
-								r.f.field[i][j] = a;
-								document.onmousemove = null;
-								im.onmouseup = null;
-								im.remove();
+										r.ctx.drawImage(image, newX, newY);
+										r.f.field[i][j] = a;
+										document.onmousemove = null;
+										im.onmouseup = null;
+										im.remove();
+									}
+									else {
+										document.onmousemove = null;
+										im.onmouseup = null;
+									};
+								}
+								else if (i == 19) {
+									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) &&
+										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
 
+										r.ctx.drawImage(image, newX, newY);
+										r.f.field[i][j] = a;
+										document.onmousemove = null;
+										im.onmouseup = null;
+										im.remove();
+									}
+									else {
+										document.onmousemove = null;
+										im.onmouseup = null;
+									};
+								}
+								else if (j == 0) {
+									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
+										 ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == a[3]))) {
+
+										r.ctx.drawImage(image, newX, newY);
+										r.f.field[i][j] = a;
+										document.onmousemove = null;
+										im.onmouseup = null;
+										im.remove();
+									}
+									else {
+										document.onmousemove = null;
+										im.onmouseup = null;
+									};
+								}
+								else if (j == 19) {
+									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == a[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == a[2])) &&
+										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == a[1])) ) {
+
+										r.ctx.drawImage(image, newX, newY);
+										r.f.field[i][j] = a;
+										document.onmousemove = null;
+										im.onmouseup = null;
+										im.remove();
+									}
+									else {
+										document.onmousemove = null;
+										im.onmouseup = null;
+									};
+								}
 							}
 
-
-							else {
-								document.onmousemove = null;
-								im.onmouseup = null;
-							};
 						};
 					};
 
