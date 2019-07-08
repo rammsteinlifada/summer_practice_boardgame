@@ -213,6 +213,7 @@ class Deck {
 			this.deck = this.deck.concat(cardTypes);
 		this.deck = this.shuffle(this.deck);
 		this.last_image;
+
 	}
 
 	rotation(){
@@ -220,6 +221,8 @@ class Deck {
 		a = a[3] + a.substring(0, 3) + a.substring(4, 6);
 		console.log(a);
 		this.last_image = a;
+		var image = document.getElementById("cards");
+		image.src = "pics/" + a + ".jpg";
 	}
 
 
@@ -357,17 +360,18 @@ class Meeple{
 }
 
 class Player {
-	constructor() {
+	constructor(n) {
 		var score = 0;
 		this.meeples = [];
 		this.pl = [];
 		for (let i = 0; i < 6; ++i) {
 			this.meeples[i] = new Meeple();
 		}
-		var canvas = document.getElementById("first-player"),
-			context = canvas.getContext("2d");
-		this.context.font = "22px Verdana";
-		this.context.strokeText("score: 0", 10, 100);
+		var canvas = document.getElementById("player"+n);
+		var	context = canvas.getContext("2d");
+		context.font = "22px Verdana";
+		context.strokeText(n +" player", 10, 20);
+		context.strokeText("score: 0", 10, 50);
 
 	}
 }

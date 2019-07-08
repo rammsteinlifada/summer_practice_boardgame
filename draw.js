@@ -5,7 +5,6 @@ class Renderer {
 
 		this.dx = - 50 * 100;
 		this.dy = - 50 * 100;
-		this.initDrag(this.cvs);
 
 		this.f = new Field();
 		let cnt = 0;
@@ -24,33 +23,7 @@ class Renderer {
 
 	}
 
-	initDrag(cvs) {
-		let self = this;
-		cvs.onmousedown = (e) => {
-			e.preventDefault();
-			self.isDragging = true;
-			self.startX = e.clientX;
-			self.startY = e.clientY;
-			self.originX = this.dx;
-			self.originY = this.dy;
-			
-			
-		};
-		cvs.onmouseup = (e) => {
-			e.preventDefault();
-			self.isDragging = false;
-			
-			
-		};
-		cvs.onmousemove = (e) => {
-			if (!self.isDragging) return;
-			e.preventDefault();
-			self.dx = self.originX + e.clientX - self.startX;
-			self.dy = self.originY + e.clientY - self.startY;
-			
-			setTimeout(() => self.redraw(), 0);
-		};
-	}
+
 
 	redraw() {
 		let f = this.f;
@@ -75,14 +48,7 @@ class Renderer {
     	this.ctx.strokeStyle = "black";
     	this.ctx.stroke();
 
-		for (let i = 0; i < f.field.length; ++i){
-			for (let j = 0; j < f.field[i].length; ++j) {
-				if (!f.field[i][j]) continue;
-				
-				if (this.cardImages[f.field[i][j]])
-				this.ctx.drawImage(this.cardImages[f.field[i][j]], sz * i + this.dx, sz * j + this.dy);
-			}
-		}
+
 	}
 	
 	drawCard(img){
@@ -93,6 +59,10 @@ class Renderer {
 var r;
 window.addEventListener("DOMContentLoaded", function() {
 	r = new Renderer();
+	p = new Player(1);
+	p = new Player(2);
+	p = new Player(3);
+	p = new Player(4);
 });
 
 d = new Deck;
