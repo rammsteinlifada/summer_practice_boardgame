@@ -286,12 +286,14 @@ class Deck {
 
 				};
 
+
 			};
 			im.ondragstart = function() {
 				return false;
 			};
 			
 		};
+
 
 
 
