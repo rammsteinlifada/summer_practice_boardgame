@@ -250,7 +250,7 @@ class Deck {
 	  		im.onmouseup = function() {
 	    		document.onmousemove = null;
 	    		im.onmouseup = null;
-
+				im.remove();
 	  		};
 		};
 
@@ -325,13 +325,11 @@ class Player {
 		for (let i = 0; i < 6; ++i) {
 			this.meeples[i] = new Meeple();
 		}
-		this.drawPlayers("first-player");
-	}
-	drawPlayers(cnvs) {
-		var canvas = document.getElementByI(cnvs),
+		var canvas = document.getElementByI("first-player"),
 			context = canvas.getContext("2d");
-		// context.font = "22px Verdana";
-		context.strokeText("score: 0", 10, 10);
+		 context.font = "22px Verdana";
+		 context.strokeText("score: 0", 10, 100);
+
 	}
 }
 
