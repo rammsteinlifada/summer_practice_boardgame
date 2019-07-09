@@ -3,7 +3,7 @@
 //s-stadium, f-field, r-road, b-buiding, e-entry
 
 
-var cardTypes = [
+let cardTypes = [
 'ffffbn',//1
 'ffffbn',
 'ffffbn',
@@ -101,11 +101,11 @@ var cardTypes = [
 'srsssy',
 'rssssy'
 ];
-var turn_number = 0;
-var coord = 50;
+let turn_number = 0;
+let coord = 50;
 class Deck {
 	shuffle(o) {
-		for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
+		for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
 		return o;
 	}
 
@@ -119,62 +119,46 @@ class Deck {
 	}
 
 	rotation() {
-		var a = this.last_image;
+		let a = this.last_image;
 		a = a[3] + a.substring(0, 3) + a.substring(4, 6);
 		this.last_image = a;
 
-		var image = document.getElementById("cards");
+		let image = document.getElementById("cards");
 		image.src = "pics/" + a + ".jpg";
 	}
 
+	boolean is_playsed(e){
+		if !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200) //Вне канваса
+			return false;
+		if (i > 0 && i < 10 && j > 0 && j < 10)
+			return false;
+		if ()
+
+	}
 
 	show_card() {
-		var block = document.getElementById("sharpp");
-		if (block.childElementCount < 2) {
-			console.log(this.deck.length);
+		let block = document.getElementById("sharpp");
+		if (block.childElementCount >= 2)
+			return
 			if (this.deck.length <= 0){
 				alert("GAME OVER");
 				return 0;
 			}
-			var a = this.deck[this.deck.length - 1];
-			var image = document.createElement("img");
+
+
+			let a = this.deck[this.deck.length - 1];
+			let image = document.createElement("img");
 			image.id = "cards";
 			image.src = "pics/" + a + ".jpg";
 			block.appendChild(image);
-			var im = document.getElementById("cards");
+			let im = document.getElementById("cards");
 			this.last_image = a;
 			this.deck.pop();
-			im.onmousedown = function (e) {
-				var coords = getCoords(im);
-				var shiftX = e.pageX - coords.left;
-				var shiftY = e.pageY - coords.top;
-
-				im.style.position = 'absolute';
-				document.body.appendChild(im, 50, 50);
-				moveAt(e);
+			initDrag(im);
 
 
-				im.style.zIndex = 1000; // над другими элементами
-
-				function moveAt(e) {
-					im.style.left = e.pageX - shiftX + 'px';
-					im.style.top = e.pageY - shiftY + 'px';
-				}
-
-				document.onmousemove = function (e) {
-					moveAt(e);
-				};
-
-				im.onmouseup = function (e) {
-					var newX = (e.pageX - e.pageX % 100);
-					var newY = e.pageY - e.pageY % 100 - 200;
-					var i = newX / 100;
-					var j = newY / 100;
-					var b = d.last_image;
-
-
-					if ((e.pageX) < 1000 && (e.pageY) > 200 && (e.pageY) < 1200) {
-
+					if (!(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200))
+						return
 						if (i > 0 && i < 9 && j > 0 && j < 9) {
 							if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
 								if (!r.f.field[i][j]) {
@@ -227,7 +211,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -245,7 +229,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -266,7 +250,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -285,7 +269,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -303,7 +287,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -322,7 +306,7 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
 							}
@@ -340,32 +324,13 @@ class Deck {
 										else {
 											document.onmousemove = null;
 											im.onmouseup = null;
-										};
+										}
 									}
 								}
-							};
+							}
 
-						};
-
-					};
-				};
-			};
-
-		};
-
-
-
-		im.ondragstart = () => false;
-
-		function getCoords(elem) {   // кроме IE8-
-			var box = elem.getBoundingClientRect();
-			return {
-				top: box.top + pageYOffset,
-				left: box.left + pageXOffset
-			};
-		}
-
-	}
+						}
+				}
 }
 
 //0 - field; 1 - stadium; 2 - road, 3 - building
@@ -373,7 +338,7 @@ class Card {
 	contains = [];
 	
 	ident(name) {
-		for (var i = 0; i < 5; i++) {
+		for (let i = 0; i < 5; i++) {
 			switch (name[i]) {
 				case 'f':
 					contains[i] = 0;
@@ -395,7 +360,45 @@ class Card {
 	}
 
 }
+function initDrag (im) {
+	im.onmousedown = function (e) {
+		let coords = getCoords(im);
+		let shiftX = e.pageX - coords.left;
+		let shiftY = e.pageY - coords.top;
 
+		im.style.position = 'absolute';
+		document.body.appendChild(im, 50, 50);
+		moveAt(e);
+
+
+		im.style.zIndex = 1000; // над другими элементами
+
+		function moveAt(e) {
+			im.style.left = e.pageX - shiftX + 'px';
+			im.style.top = e.pageY - shiftY + 'px';
+		}
+
+		document.onmousemove = function (e) {
+			moveAt(e);
+		};
+
+		im.ondragstart = () => false;
+		im.onmouseup = function (e) {
+			let newX = (e.pageX - e.pageX % 100);
+			let newY = e.pageY - e.pageY % 100 - 200;
+			let i = newX / 100;
+			let j = newY / 100;
+			let b = d.last_image;
+		}
+	}
+}
+function getCoords(elem) {   // кроме IE8-
+	let box = elem.getBoundingClientRect();
+	return {
+		top: box.top + pageYOffset,
+		left: box.left + pageXOffset
+	}
+}
 class Meeple{
     constructor(n, k) {
         let coordMeepX, coorfMeepY;
@@ -414,6 +417,7 @@ class Meeple{
 }
 
 class Player {
+
     constructor(n) {
         let score = 0;
         this.meeples = [];
@@ -427,6 +431,7 @@ class Player {
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: 0", 10, 50);
     }
+
 }
 
 class Field {
