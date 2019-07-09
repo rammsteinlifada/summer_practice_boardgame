@@ -5,7 +5,20 @@ body {
 .dropdown:hover > .dropdown-menu { 
     display: block; 
     visibility: visible;
-} 
+}
+
+#cards{
+    box-shadow: 0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6);
+}
+
+#rotation{
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border-color: #dc7160;
+    background-color: #dc7160;
+    font-size: 30px;
+}
 
 .div-canvas {
     width: 80%;
@@ -18,4 +31,5 @@ body {
 }
 .dropdown-menu {
     visibility: hidden;
+
 }

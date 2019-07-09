@@ -31,7 +31,8 @@
 					<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
 				</ul>
 			</div>
-
+		</div>
+		<div>
 			<div class="col-xs-4">
 				<canvas id="player1" width="150" height="100"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
@@ -53,9 +54,11 @@
 		<div id = "sharpp" class="col-xs-4" onClick = "d.show_card();" align="left" style="max-height: 110px; max-width: 110px;">
 			<img id="sharp" src="pics/fefu.jpg">
 		</div>
-		<button onclick="d.rotation()">
-			Rotation
-		</button>
+		<div class="col-xs-4" >
+			<button id="rotation" onclick="d.rotation()">
+				Rotation
+			</button>
+		</div>
 	</div>
 	
 	<div class="row">
