@@ -103,6 +103,8 @@ function isPlaced(i, j, field, b) {
 	}
 	if (field[i][j]) {
 		console.log("tytdu");
+		document.onmousemove = null;
+		im.onmouseup = null;
 		return;
 	}
 	if ((!field[i - 1][j] || field[i - 1][j][2] == b[0]) &&
