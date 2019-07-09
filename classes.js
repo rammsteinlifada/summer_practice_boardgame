@@ -1,8 +1,3 @@
-"use strict";
-
-//s-stadium, f-field, r-road, b-buiding, e-entry
-
-
 let cardTypes = [
 'ffffbn',//1
 'ffffbn',
@@ -101,265 +96,71 @@ let cardTypes = [
 'srsssy',
 'rssssy'
 ];
-let turn_number = 0;
-let coord = 50;
+
+function isPlaced(i, j, field, b) {
+    if (!field[i - 1][j] && !field[i + 1][j] && !field[i][j - 1] && !field[i][j + 1]) {
+        return false;
+    }
+    if (field[i][j]) {
+        console.log("tytdu");
+        return;
+    }
+    if ((!field[i - 1][j] || field[i - 1][j][2] == b[0]) &&
+        (!field[i + 1][j] || field[i + 1][j][0] == b[2]) &&
+        (!field[i][j - 1] || field[i][j - 1][3] == b[1]) &&
+        (!field[i][j + 1] || field[i][j + 1][1] == b[3])) {
+        return true;
+    }
+}
+
 class Deck {
-	shuffle(o) {
-		for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
-		return o;
-	}
+    shuffle(o) {
+        for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
+        return o;
+    }
 
-	constructor() {
-		this.deck = [];
-		for (let i = 0; i < 1; i++)
-			this.deck = this.deck.concat(cardTypes);
-		this.deck = this.shuffle(this.deck);
-		this.last_image;
+    constructor() {
+        this.deck = [];
+        for (let i = 0; i < 1; i++)
+            this.deck = this.deck.concat(cardTypes);
+        this.deck = this.shuffle(this.deck);
+        this.last_image;
 
-	}
+    }
 
-	rotation() {
-		let a = this.last_image;
-		a = a[3] + a.substring(0, 3) + a.substring(4, 6);
-		this.last_image = a;
+    rotation() {
+        let a = this.last_image;
+        a = a[3] + a.substring(0, 3) + a.substring(4, 6);
+        this.last_image = a;
 
-		let image = document.getElementById("cards");
-		image.src = "pics/" + a + ".jpg";
-	}
+        let image = document.getElementById("cards");
+        image.src = "pics/" + a + ".jpg";
+    }
 
-	boolean is_playsed(e){
-		if !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200) //Вне канваса
-			return false;
-		if (i > 0 && i < 10 && j > 0 && j < 10)
-			return false;
-		if ()
-
-	}
-
-	show_card() {
-		let block = document.getElementById("sharpp");
-		if (block.childElementCount >= 2)
-			return
-			if (this.deck.length <= 0){
-				alert("GAME OVER");
-				return 0;
-			}
+    show_card() {
+        let block = document.getElementById("sharpp");
+        if (block.childElementCount >= 2)
+            return
+        if (this.deck.length <= 0) {
+            alert("GAME OVER");
+            return 0;
+        }
 
 
-			let a = this.deck[this.deck.length - 1];
-			let image = document.createElement("img");
-			image.id = "cards";
-			image.src = "pics/" + a + ".jpg";
-			block.appendChild(image);
-			let im = document.getElementById("cards");
-			this.last_image = a;
-			this.deck.pop();
-			initDrag(im);
+        let a = this.deck[this.deck.length - 1];
+        let image = document.createElement("img");
+        image.id = "cards";
+        image.src = "pics/" + a + ".jpg";
+        block.appendChild(image);
+        let im = document.getElementById("cards");
+        this.last_image = a;
+        this.deck.pop();
+        initDrag(im);
 
 
-					if (!(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200))
-						return
-						if (i > 0 && i < 9 && j > 0 && j < 9) {
-							if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
-								if (!r.f.field[i][j]) {
-									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-
-										r.f.field[i][j] = b;
-										r.redraw();
-										document.onmousemove = null;
-										im.onmouseup = null;
-										im.remove();
-									}
-									else {
-										document.onmousemove = null;
-										im.onmouseup = null;
-									}
-								}
-							}
-						}
-						else {
-							if (i == 0 && (j != 0 && j != 9)) {
-								if (!(!r.f.field[i + 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
-									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										};
-									}
-								}
-							}
-							else if (i == 9  && (j != 0 && j != 9)) {
-								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j - 1] && !r.f.field[i][j + 1])) {
-									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
-											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-							else if (j == 0 && (i != 0 && i != 9)) {
-								if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j + 1])) {
-									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											 ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-							else if (j == 9 && (i != 0 && i != 9)) {
-								if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] )) {
-									if (!r.f.field[i][j]) {
-										if (
-											(!r.f.field[i - 1][j] || r.f.field[i - 1][j][2] == b[0]) &&
-											(!r.f.field[i + 1][j] || r.f.field[i + 1][j][0] == b[2]) &&
-											(!r.f.field[i][j - 1] || r.f.field[i][j - 1][3] == b[1])
-										) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-
-							else if (j == 0 && i == 0) {
-								if (! (!r.f.field[i + 1][j] && !r.f.field[i][j + 1] )) {
-									if (!r.f.field[i][j]) {
-										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-							else if (j == 0 && i == 9) {
-								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j + 1] )) {
-									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
-											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-
-							else if (j == 9 && i == 0) {
-								if (!( !r.f.field[i + 1][j] && !r.f.field[i][j - 1] )) {
-									if (!r.f.field[i][j]) {
-										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-							else if (j == 9 && i == 9) {
-								if (!(!r.f.field[i - 1][j] && !r.f.field[i][j - 1] )) {
-									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
-											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
-											r.f.field[i][j] = b;
-											r.redraw();
-											document.onmousemove = null;
-											im.onmouseup = null;
-											im.remove();
-										}
-										else {
-											document.onmousemove = null;
-											im.onmouseup = null;
-										}
-									}
-								}
-							}
-
-						}
-				}
+    }
 }
 
-//0 - field; 1 - stadium; 2 - road, 3 - building
-class Card {
-	contains = [];
-	
-	ident(name) {
-		for (let i = 0; i < 5; i++) {
-			switch (name[i]) {
-				case 'f':
-					contains[i] = 0;
-					break;
-				case 's':
-					contains[i] = 1;
-					break;
-				case 'r':
-					contains[i] = 2;
-					break;
-				case 'b':
-					contains[i] = 3;
-					break;
-			}
-		}
-	}
-	remote(name) {
-		name = name[3] + name.substring(0, 3) + name.substring(4, 6);
-	}
-
-}
 function initDrag (im) {
 	im.onmousedown = function (e) {
 		let coords = getCoords(im);
@@ -380,7 +181,7 @@ function initDrag (im) {
 
 		document.onmousemove = function (e) {
 			moveAt(e);
-		};
+		}
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
@@ -389,16 +190,33 @@ function initDrag (im) {
 			let i = newX / 100;
 			let j = newY / 100;
 			let b = d.last_image;
+			console.log(b);
+			if (!(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
+			    return;
+            }
+            if (isPlaced(i, j, r.f.field, b)) {
+                r.f.field[i][j] = b;
+                r.redraw();
+                document.onmousemove = null;
+                im.onmouseup = null;
+                im.remove();
+            }
+            else {
+                document.onmousemove = null;
+                im.onmouseup = null;
+            }
 		}
 	}
 }
-function getCoords(elem) {   // кроме IE8-
+
+function getCoords(elem) {
 	let box = elem.getBoundingClientRect();
 	return {
 		top: box.top + pageYOffset,
 		left: box.left + pageXOffset
 	}
 }
+
 class Meeple{
     constructor(n, k) {
         let coordMeepX, coorfMeepY;
@@ -417,7 +235,6 @@ class Meeple{
 }
 
 class Player {
-
     constructor(n) {
         let score = 0;
         this.meeples = [];
@@ -431,7 +248,6 @@ class Player {
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: 0", 10, 50);
     }
-
 }
 
 class Field {

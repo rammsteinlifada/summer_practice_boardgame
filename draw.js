@@ -10,6 +10,7 @@ class Renderer {
 		let cnt = 0;
 		this.cardImages = {};
 		let self = this;
+		this.initDrag(this.cvs);
 		for(let i = 0; i < cardTypes.length; ++i) {
 			let img = new Image();
 			this.cardImages[cardTypes[i]] = img;
@@ -23,7 +24,31 @@ class Renderer {
 
 	}
 
-
+	initDrag(cvs) {
+		let self = this;
+		cvs.onmousedown = (e) => {
+			e.preventDefault();
+			self.isDragging = true;
+			self.startX = e.clientX;
+			self.startY = e.clientY;
+			self.originX = this.dx;
+			self.originY = this.dy;
+			console.log(self.startX);
+		};
+		cvs.onmouseup = (e) => {
+			e.preventDefault();
+			self.isDragging = false;
+			console.log('up');
+		};
+		cvs.onmousemove = (e) => {
+			if (!self.isDragging) return;
+			e.preventDefault();
+			self.dx = self.originX + e.clientX - self.startX;
+			self.dy = self.originY + e.clientY - self.startY;
+			console.log(self.dy);
+			setTimeout(() => self.redraw(), 0);
+		};
+	}
 
 	redraw() {
 		let f = this.f;
