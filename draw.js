@@ -11,7 +11,7 @@ class Renderer {
 		this.cardImages = {};
 		let self = this;
 		for(let i = 0; i < cardTypes.length; ++i) {
-			var img = new Image();
+			let img = new Image();
 			this.cardImages[cardTypes[i]] = img;
 			img.src = "pics/" + cardTypes[i] + ".jpg";
 			img.onload = img.onerror = function() {
@@ -31,17 +31,17 @@ class Renderer {
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
-		var bw = 1100;
-    	var bh = 1100;
-    	var p = 0;
-    	var cw = bw + (p*2) + 1;
-    	var ch = bh + (p*2) + 1;
+		let bw = 1100;
+    	let bh = 1100;
+    	let p = 0;
+    	let cw = bw + (p*2) + 1;
+    	let ch = bh + (p*2) + 1;
 		
-    	for (var x = 0; x <= bw; x += 100) {
+    	for (let x = 0; x <= bw; x += 100) {
         	this.ctx.moveTo(0.5 + x + p, p);
         	this.ctx.lineTo(0.5 + x + p, bh + p);
     	}
-    	for (var x = 0; x <= bh; x += 100) {
+    	for (let x = 0; x <= bh; x += 100) {
         	this.ctx.moveTo(p, 0.5 + x + p);
         	this.ctx.lineTo(bw + p, 0.5 + x + p);
     	}
@@ -50,22 +50,13 @@ class Renderer {
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;
-				console.log(f.field[i][j]);
-				console.log(this.cardImages[f.field[i][j]]);
 				if (this.cardImages[f.field[i][j]])
 					this.ctx.drawImage(this.cardImages[f.field[i][j]], (i+1)*100- 100, (j-1)*100 + 100);
 			}
-
-
-
 	}
-	
-	drawCard(img){
-		this.ctx.drawImage(img, 100, 100);
-	}	
 }
 
-var r;
+let r;
 window.addEventListener("DOMContentLoaded", function() {
 	r = new Renderer();
 	p = new Player(1);
