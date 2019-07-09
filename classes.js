@@ -98,6 +98,8 @@ let cardTypes = [
 ];
 
 function isPlaced(i, j, field, b) {
+	if ((i == 0) || (i == 13) || (j == 0) || (j == 13))
+		return false;
 	if (!field[i - 1][j] && !field[i + 1][j] && !field[i][j - 1] && !field[i][j + 1]) {
 		return false;
 	}
@@ -139,6 +141,14 @@ class Deck {
 		image.src = "pics/" + a + ".jpg";
 	}
 
+	fill_tip(a, b){
+		let cvs = document.getElementById("canvas");
+		let ctx = cvs.getContext("2d");
+		ctx.strokeStyle = "#000";
+		ctx.fillStyle = "#3cc1ff";
+		ctx.fillRect((a - 1) * 100, b * 100 + 200, 100, 100);
+	}
+
 	show_card() {
 		let block = document.getElementById("sharpp");
 		if (block.childElementCount >= 2)
@@ -159,7 +169,33 @@ class Deck {
 		this.deck.pop();
 		initDrag(im);
 
-
+		//show tips
+		for (let i = 1; i < 13; ++i){
+			for (let j = 0; j < 13; ++j){
+				if (r.f.field[i][j])
+					return
+				if (isPlaced(i + 1, j, r.f.field, r.f.field[i][j])) {
+					if (r.f.field[i][j][2] == r.f.field[i + 1][j][0]) {
+						this.fill_tip(i, j);
+					}
+				}
+				if (isPlaced(i - 1, j, r.f.field, r.f.field[i][j])){
+					if (r.f.field[i][j][0] == r.f.field[i + 1][j][2]){
+						this.fill_tip(i, j);
+					}
+				}
+				if (isPlaced(i, j + 1, r.f.field, r.f.field[i][j])){
+					if (r.f.field[i][j][3] == r.f.field[i + 1][j][1]){
+						this.fill_tip(i, j);
+					}
+				}
+				if (isPlaced(i, j - 1, r.f.field, r.f.field[i][j])){
+					if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
+						this.fill_tip(i, j);
+					}
+				}
+			}
+		}
 	}
 }
 
