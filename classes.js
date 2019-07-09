@@ -397,41 +397,36 @@ class Card {
 }
 
 class Meeple{
-	// enum position{
-	// 	onBuilding,
-	// 	onRoad,
-	// 	onStadium,
-	// 	onField
-	// }
+    constructor(n, k) {
+        let coordMeepX, coorfMeepY;
+        let canvas = document.getElementById("player" + n);
+        let	context = canvas.getContext("2d");
+        let image = new Image(10, 10);
+        image.visibility = true;
+        image.src = "player" + n + ".png";
+        image.onload = () => {
+            context.drawImage(image, 25*k, 60, 20, 20);
+        };
+    }
+    drag_and_drop(){
 
-
-
-	drag_and_drop(){
-		
-	}
-
-	/*
-	enum stage{
-		uncompleted
-		completed
-	}*/
+    }
 }
 
 class Player {
-	constructor(n) {
-		var score = 0;
-		this.meeples = [];
-		this.pl = [];
-		for (let i = 0; i < 6; ++i) {
-			this.meeples[i] = new Meeple();
-		}
-		var canvas = document.getElementById("player"+n);
-		var	context = canvas.getContext("2d");
-		context.font = "22px Verdana";
-		context.strokeText(n +" player", 10, 20);
-		context.strokeText("score: 0", 10, 50);
-
-	}
+    constructor(n) {
+        let score = 0;
+        this.meeples = [];
+        this.pl = [];
+        for (let i = 0; i < 6; ++i) {
+            this.meeples[i] = new Meeple(n, i);
+        }
+        let canvas = document.getElementById("player" + n);
+        let	context = canvas.getContext("2d");
+        context.font = "22px Verdana";
+        context.strokeText(n +" player", 10, 20);
+        context.strokeText("score: 0", 10, 50);
+    }
 }
 
 class Field {
