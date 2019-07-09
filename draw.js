@@ -31,8 +31,8 @@ class Renderer {
 		this.ctx.fillStyle = 'white';
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
-		var bw = 1000;
-    	var bh = 1000;
+		var bw = 1100;
+    	var bh = 1100;
     	var p = 0;
     	var cw = bw + (p*2) + 1;
     	var ch = bh + (p*2) + 1;
@@ -47,7 +47,15 @@ class Renderer {
     	}
     	this.ctx.strokeStyle = "black";
     	this.ctx.stroke();
-		this.ctx.drawImage(this.cardImages[f.field[4][4]], 400, 400)
+		for (let i = 0; i < f.field.length; ++i)
+			for (let j = 0; j < f.field[i].length; ++j) {
+				if (!f.field[i][j]) continue;
+				console.log(f.field[i][j]);
+				console.log(this.cardImages[f.field[i][j]]);
+				if (this.cardImages[f.field[i][j]])
+					this.ctx.drawImage(this.cardImages[f.field[i][j]], (i+1)*100- 100, (j-1)*100 + 100);
+			}
+
 
 
 	}

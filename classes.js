@@ -2,202 +2,104 @@
 
 //s-stadium, f-field, r-road, b-buiding, e-entry
 
-// var cardTypes1 = {
-// 	'1': {
-// 		left = "field";
-// 		up = "field";
-// 		right = "field";
-// 		down = "field";
-// 		center = "building";
-// 	};
-// 	'2': {
-// 		left = "field";
-// 		up = "field";
-// 		right = "field";
-// 		down = "road";
-// 		center = "building";
-// 	};
-// 	'3': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "stadium";
-// 		down = "stadium";
-// 		center = "stadium";
-// 	};
-// '4':{
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "stadium";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '5': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '6': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "road";
-// 		down = "road";
-// 		center = "stadium";
-// 	};
-// '7': {
-// 		left = "stadium";
-// 		up = "field";
-// 		right = "stadium";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '8': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "field";
-// 		center = "field";
-// 	};
-// '9': {
-// 		left = "field";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "stadium";
-// 		center = "field";
-// 	};
-// '10': {
-// 		left = "field";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "field";
-// 		center = "field";
-// 	};
-// '11': {
-// 		left = "road";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "road";
-// 		center = "road";
-// 	};
-// '12': {
-// 		left = "field";
-// 		up = "stadium";
-// 		right = "road";
-// 		down = "road";
-// 		center = "road";
-// 	};
-// '13': {
-// 		left = "road";
-// 		up = "stadium";
-// 		right = "road";
-// 		down = "road";
-// 		center = "entry";
-// 	};
-// '14': {
-// 		left = "road";
-// 		up = "stadium";
-// 		right = "road";
-// 		down = "field";
-// 		center = "road";
-// 	};
-// '15': {
-// 		left = "field";
-// 		up = "road";
-// 		right = "field";
-// 		down = "road";
-// 		center = "road";
-// 	};
-// '16': {
-// 		left = "road";
-// 		up = "field";
-// 		right = "field";
-// 		down = "road";
-// 		center = "road";
-// 	};
-// '17': {
-// 		left = "road";
-// 		up = "field";
-// 		right = "road";
-// 		down = "road";
-// 		center = "entry";
-// 	};
-// '18': {
-// 		left = "road";
-// 		up = "road";
-// 		right = "road";
-// 		down = "road";
-// 		center = "entry";
-// 	};
-// '19': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "stadium";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '20': {
-// 		left = "stadium";
-// 		up = "field";
-// 		right = "stadium";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '21': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "road";
-// 		down = "road";
-// 		center = "stadium";
-// 	};
-// '22': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "field";
-// 		down = "field";
-// 		center = "stadium";
-// 	};
-// '23': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "stadium";
-// 		down = "road";
-// 		center = "stadium";
-// 	};
-// '24': {
-// 		left = "stadium";
-// 		up = "stadium";
-// 		right = "stadium";
-// 		down = "road";
-// 		center = "stadium";
-// 	};
-// }
 
 var cardTypes = [
 'ffffbn',//1
+'ffffbn',
+'ffffbn',
+'ffffbn',
 'fffrbn',//2
+'ffrfbn',
+'frffbn',
+'rfffbn',
 'sssssn',//3
+'sssssn',
+'sssssn',
+'sssssn',
 'sssfsn',//4
+'fssssn',
+'sfsssn',
+'ssfssn',
 'ssffsn',//5
+'sffssn',
+'ffsssn',
+'fssfsn',
 'ssrrsn',//6
+'srrssn',
+'rrsssn',
+'rssrsn',
 'sfsfsn',//7
+'fsfssn',
+'sfsfsn',
+'fsfssn',
 'ssfffn',//8
+'sffsfn',
+'ffssfn',
+'fssffn',
 'fsfsfn',//9
+'sfsffn',
+'fsfsfn',
+'sfsffn',
 'fsfffn',//10
+'sffffn',
+'fffsfn',
+'ffsffn',
 'rsfrrn',//11
+'sfrrrn',
+'frrsrn',
+'rrsfrn',
 'fsrrrn',//12
+'srrfrn',
+'rrfsrn',
+'rfsrrn',
 'rsrren',//13
+'srrren',
+'rrrsen',
+'rrsren',
 'rsrfrn',//14
+'srfrrn',
+'rfrsrn',
+'frsrrn',
 'frfrrn',//15
+'rfrfrn',
+'frfrrn',
+'rfrfrn',
 'rffrrn',//16
+'ffrrrn',
+'frrfrn',
+'rrffrn',
 'rfrren',//17
+'frrren',
+'rrrfen',
+'rrfren',
 'rrrren',//18
+'rrrren',
+'rrrren',
+'rrrren',
 'sssfsy',//19
+'ssfssy',
+'sfsssy',
+'fssssy',
 'sfsfsy',//20
+'fsfssy',
+'sfsfsy',
+'fsfssy',
 'ssrrsy',//21
+'srrssy',
+'rrsssy',
+'rssrsy',
 'ssffsy',//22
+'sffssy',
+'ffsssy',
+'fssfsy',
 'sssrsn',//23
+'ssrssn',
+'srsssn',
+'rssssn',
 'sssrsy',//24
+'ssrssy',
+'srsssy',
+'rssssy'
 ];
 var turn_number = 0;
 var coord = 50;
@@ -209,7 +111,7 @@ class Deck {
 
 	constructor() {
 		this.deck = [];
-		for (let i = 0; i < 4; i++)
+		for (let i = 0; i < 1; i++)
 			this.deck = this.deck.concat(cardTypes);
 		this.deck = this.shuffle(this.deck);
 		this.last_image;
@@ -229,6 +131,11 @@ class Deck {
 	show_card() {
 		var block = document.getElementById("sharpp");
 		if (block.childElementCount < 2) {
+			console.log(this.deck.length);
+			if (this.deck.length <= 0){
+				alert("GAME OVER");
+				return 0;
+			}
 			var a = this.deck[this.deck.length - 1];
 			var image = document.createElement("img");
 			image.id = "cards";
@@ -274,8 +181,8 @@ class Deck {
 									if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 										((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
 
-										r.ctx.drawImage(image, newX, newY);
 										r.f.field[i][j] = b;
+										r.redraw();
 										document.onmousemove = null;
 										im.onmouseup = null;
 										im.remove();
@@ -283,7 +190,7 @@ class Deck {
 									else {
 										document.onmousemove = null;
 										im.onmouseup = null;
-									};
+									}
 								}
 							}
 						}
@@ -293,9 +200,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -312,9 +218,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) && ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -331,9 +236,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											 ((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3]))) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -348,11 +252,13 @@ class Deck {
 							else if (j == 9 && (i != 0 && i != 9)) {
 								if (!(!r.f.field[i - 1][j] && !r.f.field[i + 1][j] && !r.f.field[i][j - 1] )) {
 									if (!r.f.field[i][j]) {
-										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) && ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
-											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
-
-											r.ctx.drawImage(image, newX, newY);
+										if (
+											(!r.f.field[i - 1][j] || r.f.field[i - 1][j][2] == b[0]) &&
+											(!r.f.field[i + 1][j] || r.f.field[i + 1][j][0] == b[2]) &&
+											(!r.f.field[i][j - 1] || r.f.field[i][j - 1][3] == b[1])
+										) {
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -370,9 +276,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -389,9 +294,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
 											((!r.f.field[i][j + 1]) || (r.f.field[i][j + 1][1] == b[3])) ) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -409,9 +313,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if ( ((!r.f.field[i + 1][j]) || (r.f.field[i + 1][j][0] == b[2])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -428,9 +331,8 @@ class Deck {
 									if (!r.f.field[i][j]) {
 										if (((!r.f.field[i - 1][j]) || (r.f.field[i - 1][j][2] == b[0])) &&
 											((!r.f.field[i][j - 1]) || (r.f.field[i][j - 1][3] == b[1])) ) {
-
-											r.ctx.drawImage(image, newX, newY);
 											r.f.field[i][j] = b;
+											r.redraw();
 											document.onmousemove = null;
 											im.onmouseup = null;
 											im.remove();
@@ -453,10 +355,7 @@ class Deck {
 
 
 
-		im.ondragstart = function () {
-			return false;
-		};
-
+		im.ondragstart = () => false;
 
 		function getCoords(elem) {   // кроме IE8-
 			var box = elem.getBoundingClientRect();
@@ -544,7 +443,7 @@ class Field {
 			for (let j = 0; j < n; ++j)
 				this.field[i].push('');
 		}
-		this.field[4][4] = 'rsrfrn'
+		this.field[5][5] = 'rsrfrn'
 	}
 }
 
