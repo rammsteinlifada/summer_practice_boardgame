@@ -271,10 +271,10 @@ function initDrag (im) {
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
-			let newX = (e.pageX - e.pageX % 100);
-			let newY = e.pageY - e.pageY % 100 - 200;
-			let i = newX / 100;
-			let j = newY / 100;
+			let newX = ((e.pageX - e.pageX % 100) - r.dx);
+			let newY = (e.pageY - e.pageY % 100 - 200 - r.dy);
+			let i = (((newX + 1) / 100)*10/10).toFixed();
+			let j = (((newY + 1) / 100)*10/10).toFixed();
 			let b = d.last_image;
 			if (!(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
 				return;
