@@ -120,19 +120,16 @@ function isPlaced(im, i, j, field, b) {
 }
 
 function check(a, b, field){
-	console.log(field[a][b]);
 	if (field[a][b])
 		return false
 	if ((a = 0) || (a = 13) || (b = 0) || (b = 13))
 		return false
 	if (field[a - 1][b] && field[a + 1][b] && field[a][b + 1] && field[a][b - 1])
 		return false
-	console.log('check');
 	return true
 }
 
 function fill_tip(a, b){
-	console.log('fill');
 	let cvs = document.getElementById("canvas");
 	let ctx = cvs.getContext("2d");
 	ctx.strokeStyle = "#000";
@@ -174,7 +171,6 @@ class Deck {
 			return 0;
 		}
 
-
 		let a = this.deck[this.deck.length - 1];
 		let image = document.createElement("img");
 		image.id = "cards";
@@ -191,8 +187,6 @@ class Deck {
 		for (let i = 1; i < 13; ++i){
 			for (let j = 0; j < 13; ++j){
 
-				console.log(r.f.field[i][j]);
-				console.log('sdd');
 				if (r.f.field[i][j])
 					return
 				if (check(i + 1, j, r.f.field)) {
@@ -271,20 +265,22 @@ function initDrag (im) {
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
-			let newX = e.pageX - e.pageX % 100;
-			let newY = e.pageY - e.pageY % 100 - 200;
-			let i = (((newX + 1) / 100)*10/10).toFixed();
-			let j = (((newY + 1) / 100)*10/10).toFixed();
-			let b = d.last_image;
-			if (!(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
+			if (r.cvs.getBounds().  !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
 				return;
 			}
+			const sz = 100;
+			let i = Math.floor((e.pageX - r.dx) / sz);
+			let j = Math.floor((e.pageY - r.dy) / sz) - 2;
+			let b = d.last_image;
 			if (isPlaced(im, i, j, r.f.field, b)) {
 				r.f.field[i][j] = b;
 				r.redraw();
 				document.onmousemove = null;
 				im.onmouseup = null;
 				im.remove();
+				players[r.currentPlayer].score = 20;
+				players[r.currentPlayer].show_score(r.currentPlayer);
+				alert('Ход игрока: '+r.nextPlayer());
 			}
 			else {
 				document.onmousemove = null;
@@ -310,10 +306,12 @@ class Meeple{
 		let image = new Image(10, 10);
 		image.visibility = true;
 		image.src = "player" + n + ".png";
-		image.onload = () => {
-			context.drawImage(image, 25*k, 60, 20, 20);
-		};
 	}
+
+	show_meeples(){
+		image.onload = () => context.drawImage(image, 25*k, 60, 20, 20);
+	}
+
 	drag_and_drop(){
 
 	}
@@ -321,17 +319,22 @@ class Meeple{
 
 class Player {
 	constructor(n) {
-		let score = 0;
+		this.score = 0;
 		this.meeples = [];
 		this.pl = [];
 		for (let i = 0; i < 6; ++i) {
 			this.meeples[i] = new Meeple(n, i);
 		}
+		this.show_score(n);
+	}
+
+	show_score(n){
 		let canvas = document.getElementById("player" + n);
 		let	context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
 		context.font = "22px Verdana";
 		context.strokeText(n +" player", 10, 20);
-		context.strokeText("score: 0", 10, 50);
+		context.strokeText("score: " + this.score, 10, 50);
 	}
 }
 

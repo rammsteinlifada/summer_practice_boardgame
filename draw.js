@@ -1,5 +1,8 @@
 class Renderer {
 	constructor() {
+
+		this.currentPlayer = 1;
+
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
 
@@ -21,8 +24,15 @@ class Renderer {
 					setTimeout(() => self.redraw(), 0);
 			};
 		}
-
 	}
+
+	nextPlayer() {
+		this.currentPlayer = (this.currentPlayer % 4);
+		++this.currentPlayer;
+		return this.currentPlayer;
+	};
+
+
 
 	initDrag(cvs) {
 		let self = this;
@@ -33,19 +43,16 @@ class Renderer {
 			self.startY = e.clientY;
 			self.originX = this.dx;
 			self.originY = this.dy;
-			console.log(self.startX);
 		};
 		cvs.onmouseup = (e) => {
 			e.preventDefault();
 			self.isDragging = false;
-			console.log('up');
 		};
 		cvs.onmousemove = (e) => {
 			if (!self.isDragging) return;
 			e.preventDefault();
 			self.dx = self.originX + e.clientX - self.startX;
 			self.dy = self.originY + e.clientY - self.startY;
-			console.log(self.dy);
 			setTimeout(() => self.redraw(), 0);
 		};
 	}
@@ -84,10 +91,12 @@ class Renderer {
 let r;
 window.addEventListener("DOMContentLoaded", function() {
 	r = new Renderer();
-	p = new Player(1);
-	p = new Player(2);
-	p = new Player(3);
-	p = new Player(4);
+	players = [];
+	for (let i = 1; i < 5; ++i)
+		players[i] = new Player(i);
+
+	r.cvs.addEventListener('mouseenter', () => console.log('E'));
+	r.cvs.addEventListener('mouseleave', () => console.log('L'));
 });
 
 d = new Deck;
