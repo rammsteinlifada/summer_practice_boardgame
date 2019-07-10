@@ -60,7 +60,7 @@ class Renderer {
 	redraw() {
 		let f = this.f;
 		const sz = 100;
-		this.ctx.fillStyle = 'white';
+		this.ctx.fillStyle = "white";
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
 		let bw = 1100;
@@ -68,17 +68,32 @@ class Renderer {
     	let p = 0;
     	let cw = bw + (p*2) + 1;
     	let ch = bh + (p*2) + 1;
-		
-    	for (let x = 0; x <= bw; x += 100) {
-        	this.ctx.moveTo(0.5 + x + p, p);
-        	this.ctx.lineTo(0.5 + x + p, bh + p);
-    	}
-    	for (let x = 0; x <= bh; x += 100) {
-        	this.ctx.moveTo(p, 0.5 + x + p);
-        	this.ctx.lineTo(bw + p, 0.5 + x + p);
-    	}
-    	this.ctx.strokeStyle = "black";
-    	this.ctx.stroke();
+
+
+		this.ctx.strokeStyle = "black";
+    	this.ctx.beginPath();
+
+    	for (let i = 0; i < 11; i++){
+			this.ctx.moveTo(sz*i + this.dx,this.dy);
+			this.ctx.lineTo(sz*i + this.dx + this.cvs.width, this.dy);
+		}
+/*
+		for (let x = 0; x <= bw; x += 100) {
+        	this.ctx.moveTo(0.5 + x + this.dx, p + this.dy);
+        	this.ctx.lineTo(0.5 + x + this.dx, bh + p + this.dy);
+		}*/
+		for (let i = 0; i < 11; i ++){
+			this.ctx.moveTo(Math.max(0, 100*(i - 1)) + this.dx, Math.max(0, 100*(i - 1)) + this.dy);
+			this.ctx.lineTo(Math.max(0, sz*i) + this.dx, Math.max(0, sz*i) + this.dy);
+		}
+
+    /*	for (let x = 0; x <= bh; x += 100) {
+        	this.ctx.moveTo(this.dx, 0.5 + x + this.dy);
+        	this.ctx.lineTo(bw + this.dx, 0.5 + x + this.dy);
+		}8*/
+		this.ctx.closePath();
+		this.ctx.stroke();
+
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;

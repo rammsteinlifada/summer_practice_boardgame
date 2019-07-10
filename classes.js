@@ -265,7 +265,7 @@ function initDrag (im) {
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
-			if (r.cvs.getBounds().  !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
+			if ( !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
 				return;
 			}
 			const sz = 100;
