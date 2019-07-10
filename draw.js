@@ -73,18 +73,18 @@ class Renderer {
 		this.ctx.strokeStyle = "black";
     	this.ctx.beginPath();
 
-    	for (let i = 0; i < 11; i++){
-			this.ctx.moveTo(sz*i + this.dx,this.dy);
-			this.ctx.lineTo(sz*i + this.dx + this.cvs.width, this.dy);
+    	for (let i = 0; i < 12; i++){
+			this.ctx.moveTo(0, sz*i + this.dy % 100);
+			this.ctx.lineTo(this.cvs.width, this.dy % 100 + sz*i);
 		}
 /*
 		for (let x = 0; x <= bw; x += 100) {
         	this.ctx.moveTo(0.5 + x + this.dx, p + this.dy);
         	this.ctx.lineTo(0.5 + x + this.dx, bh + p + this.dy);
 		}*/
-		for (let i = 0; i < 11; i ++){
-			this.ctx.moveTo(Math.max(0, 100*(i - 1)) + this.dx, Math.max(0, 100*(i - 1)) + this.dy);
-			this.ctx.lineTo(Math.max(0, sz*i) + this.dx, Math.max(0, sz*i) + this.dy);
+		for (let i = 0; i < 12; i ++){
+			this.ctx.moveTo(sz*i + this.dx % 100, 0);
+			this.ctx.lineTo(this.dx % 100 + sz*i, this.cvs.width);
 		}
 
     /*	for (let x = 0; x <= bh; x += 100) {
