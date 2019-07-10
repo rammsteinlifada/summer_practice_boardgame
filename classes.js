@@ -217,53 +217,54 @@ class Deck {
 }
 
 function initDrag (im) {
-    im.onmousedown = function (e) {
-        let coords = getCoords(im);
-        let shiftX = e.pageX - coords.left;
-        let shiftY = e.pageY - coords.top;
 
-        im.style.position = 'absolute';
-        document.body.appendChild(im, 50, 50);
-        moveAt(e);
+	im.onmousedown = function (e) {
+		let coords = getCoords(im);
+		let shiftX = e.pageX - coords.left;
+		let shiftY = e.pageY - coords.top;
+
+		im.style.position = 'absolute';
+		document.body.appendChild(im, 50, 50);
+		moveAt(e);
 
 
-        im.style.zIndex = 1000; // над другими элементами
+		im.style.zIndex = 1000; // над другими элементами
 
-        function moveAt(e) {
-            im.style.left = e.pageX - shiftX + 'px';
-            im.style.top = e.pageY - shiftY + 'px';
-        }
+		function moveAt(e) {
+			im.style.left = e.pageX - shiftX + 'px';
+			im.style.top = e.pageY - shiftY + 'px';
+		}
 
-        document.onmousemove = function (e) {
-            moveAt(e);
+		document.onmousemove = function (e) {
+			moveAt(e);
 
-        };
+		};
 
-        im.ondragstart = () => false;
-        im.onmouseup = function (e) {
-            if ( !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
-                return;
-            }
-            const sz = 100;
-            let i = Math.floor((e.pageX - r.dx) / sz);
-            let j = Math.floor((e.pageY - r.dy) / sz) - 2;
-            let b = d.last_image;
-            if (isPlaced(im, i, j, r.f.field, b)) {
-                r.f.field[i][j] = b;
-                r.redraw();
-                document.onmousemove = null;
-                im.onmouseup = null;
-                im.remove();
-                players[r.currentPlayer].score = 20;
-                players[r.currentPlayer].show_score(r.currentPlayer);
-                alert('Ход игрока: '+r.nextPlayer());
-            }
-            else {
-                document.onmousemove = null;
-                im.onmouseup = null;
-            }
-        }
-    }
+		im.ondragstart = () => false;
+		im.onmouseup = function (e) {
+			if ( !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
+				return;
+			}
+			const sz = 100;
+			let i = Math.floor((e.pageX - r.dx) / sz);
+			let j = Math.floor((e.pageY - r.dy) / sz) - 2;
+			let b = d.last_image;
+			if (isPlaced(im, i, j, r.f.field, b)) {
+				r.f.field[i][j] = b;
+				r.redraw();
+				document.onmousemove = null;
+				im.onmouseup = null;
+				im.remove();
+				players[r.currentPlayer].score = 20;
+				players[r.currentPlayer].show_score(r.currentPlayer);
+				alert('Ход игрока: '+r.nextPlayer());
+			}
+			else {
+				document.onmousemove = null;
+				im.onmouseup = null;
+			}
+		}
+	}
 }
 
 function getCoords(elem) {
