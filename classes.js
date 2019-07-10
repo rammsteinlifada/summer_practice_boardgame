@@ -97,7 +97,9 @@ let cardTypes = [
 	'rssssy'
 ];
 
+
 function isPlaced(im, i, j, field, b) {
+
 	if ((i == 0) || (i == 13) || (j == 0) || (j == 13))
 		return false;
 	if (!field[i - 1][j] && !field[i + 1][j] && !field[i][j - 1] && !field[i][j + 1]) {
@@ -108,6 +110,7 @@ function isPlaced(im, i, j, field, b) {
 		im.onmouseup = null;
 		return;
 	}
+
 	if ((!field[i - 1][j] || field[i - 1][j][2] == b[0]) &&
 		(!field[i + 1][j] || field[i + 1][j][0] == b[2]) &&
 		(!field[i][j - 1] || field[i][j - 1][3] == b[1]) &&
@@ -165,7 +168,7 @@ class Deck {
 	show_card() {
 		let block = document.getElementById("sharpp");
 		if (block.childElementCount >= 2)
-			return
+			return;
 		if (this.deck.length <= 0) {
 			alert("GAME OVER");
 			return 0;
@@ -182,9 +185,12 @@ class Deck {
 		this.deck.pop();
 		initDrag(im);
 
+		//this.fill_tip(5, 5);
+
 		//show tips
 		for (let i = 1; i < 13; ++i){
 			for (let j = 0; j < 13; ++j){
+
 				console.log(r.f.field[i][j]);
 				console.log('sdd');
 				if (r.f.field[i][j])
@@ -208,7 +214,33 @@ class Deck {
 					if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
 						fill_tip(i, j);
 					}
+
 				}
+
+
+
+				// if (r.f.field[i][j])
+				// 	return
+				// if (this.check(i + 1, j)) {
+				// 	if (r.f.field[i][j][2] == r.f.field[i + 1][j][0]) {
+				// 		;
+				// 	}
+				// }
+				// if (this.check(i - 1, j)){
+				// 	if (r.f.field[i][j][0] == r.f.field[i + 1][j][2]){
+				// 		this.fill_tip(i, j);
+				// 	}
+				// }
+				// if (this.check(i, j + 1)){
+				// 	if (r.f.field[i][j][3] == r.f.field[i + 1][j][1]){
+				// 		this.fill_tip(i, j);
+				// 	}
+				// }
+				// if (this.check(i, j - 1)){
+				// 	if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
+				// 		this.fill_tip(i, j);
+				// 	}
+				// }
 			}
 		}
 	}
@@ -234,7 +266,8 @@ function initDrag (im) {
 
 		document.onmousemove = function (e) {
 			moveAt(e);
-		}
+
+		};
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
@@ -305,7 +338,7 @@ class Player {
 class Field {
 	constructor() {
 		this.field = [];
-		const n = 10;
+		const n = 13;
 		for (let i = 0; i < n; ++i) {
 			this.field.push([]);
 			for (let j = 0; j < n; ++j)
