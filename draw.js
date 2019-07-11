@@ -20,7 +20,7 @@ class Renderer {
 			img.src = "pics/" + cardTypes[i] + ".jpg";
 			img.onload = img.onerror = function() {
 				++cnt;
-				if (cnt == cardTypes.length)
+				if (cnt === cardTypes.length)
 					setTimeout(() => self.redraw(), 0);
 			};
 		}

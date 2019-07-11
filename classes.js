@@ -99,16 +99,8 @@ let cardTypes = [
 
 
 function isPlaced(im, i, j, field, b) {
-
-    if ((i == 0) || (i == 13) || (j == 0) || (j == 13))
+    if (!checkPlace(i, j, field)) {
         return false;
-    if (!field[i - 1][j] && !field[i + 1][j] && !field[i][j - 1] && !field[i][j + 1]) {
-        return false;
-    }
-    if (field[i][j]) {
-        document.onmousemove = null;
-        im.onmouseup = null;
-        return;
     }
 
     if ((!field[i - 1][j] || field[i - 1][j][2] == b[0]) &&
@@ -119,14 +111,19 @@ function isPlaced(im, i, j, field, b) {
     }
 }
 
-function check(a, b, field){
+function checkPlace(a, b, field){
     if (field[a][b])
-        return false
-    if ((a = 0) || (a = 13) || (b = 0) || (b = 13))
-        return false
-    if (field[a - 1][b] && field[a + 1][b] && field[a][b + 1] && field[a][b - 1])
-        return false
-    return true
+        return false;
+    if ((a == 0) || (a == 13) || (b == 0) || (b == 13))
+        return false;
+    if (field[a - 1][b - 1] || field[a + 1][b - 1] || field[a - 1][b + 1] || field[a + 1][b + 1]) {
+        return true;
+    }
+    else {
+        if (!field[a - 1][b] && !field[a + 1][b] && !field[a][b + 1] && !field[a][b - 1])
+            return false;
+    }
+    return true;
 }
 
 function fill_tip(a, b){
@@ -135,7 +132,6 @@ function fill_tip(a, b){
     ctx.strokeStyle = "#000";
     ctx.fillStyle = "#3cc1ff";
     ctx.fillRect((a - 1) * 100, b * 100 + 200, 100, 100);
-    return
 }
 
 class Deck {
@@ -184,35 +180,32 @@ class Deck {
         //this.fill_tip(5, 5);
 
         //show tips
-        for (let i = 1; i < 13; ++i){
-            for (let j = 0; j < 13; ++j){
-
-                if (r.f.field[i][j])
-                    return
-                if (check(i + 1, j, r.f.field)) {
-                    if (r.f.field[i][j][2] == r.f.field[i + 1][j][0]) {
-                        fill_tip(i, j);
-                    }
-                }
-                if (check(i - 1, j, r.f.field)){
-                    if (r.f.field[i][j][0] == r.f.field[i + 1][j][2]){
-                        fill_tip(i, j);
-                    }
-                }
-                if (check(i, j + 1, r.f.field)){
-                    if (r.f.field[i][j][3] == r.f.field[i + 1][j][1]){
-                        fill_tip(i, j);
-                    }
-                }
-                if (check(i, j - 1, r.f.field)){
-                    if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
-                        fill_tip(i, j);
-                    }
-
-                }
-                
-            }
-        }
+        // for (let i = 1; i < 100; ++i){
+        //     for (let j = 1; j < 100; ++j){
+        //         if (checkPlace(i + 1, j, r.f.field)) {
+        //             if (r.f.field[i][j][2] == r.f.field[i + 1][j][0]) {
+        //                 fill_tip(i, j);
+        //             }
+        //         }
+        //         if (checkPlace(i - 1, j, r.f.field)){
+        //             if (r.f.field[i][j][0] == r.f.field[i + 1][j][2]){
+        //                 fill_tip(i, j);
+        //             }
+        //         }
+        //         if (checkPlace(i, j + 1, r.f.field)){
+        //             if (r.f.field[i][j][3] == r.f.field[i + 1][j][1]){
+        //                 fill_tip(i, j);
+        //             }
+        //         }
+        //         if (checkPlace(i, j - 1, r.f.field)){
+        //             if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
+        //                 fill_tip(i, j);
+        //             }
+        //
+        //         }
+        //
+        //     }
+        // }
     }
 }
 
