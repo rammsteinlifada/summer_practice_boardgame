@@ -271,6 +271,15 @@ function getCoords(elem) {
     }
 }
 
+function saveMap(){
+    let cvs = document.getElementById("canvas");
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cvs));
+    let saveButton = document.getElementById('download');
+    saveButton.click();
+    saveButton.setAttribute("download", "scene.json");
+    console.log('sdfsdf');
+}
+
 function giveMeeple() {
     let block = document.getElementById("meeple" + currentPlayer);
     console.log(currentPlayer);
