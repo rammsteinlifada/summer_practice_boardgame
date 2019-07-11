@@ -111,21 +111,19 @@ function isPlaced(im, i, j, field, b) {
     }
 }
 
-function checkPlace(a, b, field){
-    if (field[a][b])
-        return false;
-    if ((a == 0) || (a == 13) || (b == 0) || (b == 13))
-        return false;
-    if (field[a - 1][b - 1] || field[a + 1][b - 1] || field[a - 1][b + 1] || field[a + 1][b + 1]) {
-        return true;
-    }
-    else {
-        if (!field[a - 1][b] && !field[a + 1][b] && !field[a][b + 1] && !field[a][b - 1])
-            return false;
-    }
-    return true;
+function checkPlace(a, b, field) {
+	if (field[a][b])
+		return false;
+	if ((a == 0) || (a == 101) || (b == 0) || (b == 101))
+		return false;
+	if (field[a - 1][b - 1] || field[a + 1][b - 1] || field[a - 1][b + 1] || field[a + 1][b + 1]) {
+		return true;
+	} else {
+		if (!field[a - 1][b] && !field[a + 1][b] && !field[a][b + 1] && !field[a][b - 1])
+			return false;
+	}
+	return true;
 }
-
 function fill_tip(a, b){
     let cvs = document.getElementById("canvas");
     let ctx = cvs.getContext("2d");
@@ -309,14 +307,14 @@ class Player {
 }
 
 class Field {
-    constructor() {
-        this.field = [];
-        const n = 13;
-        for (let i = 0; i < n; ++i) {
-            this.field.push([]);
-            for (let j = 0; j < n; ++j)
-                this.field[i].push('');
-        }
-        this.field[5][5] = 'rsrfrn'
-    }
+	constructor() {
+		this.field = [];
+		const n = 100;
+		for (let i = 0; i < n; ++i) {
+			this.field.push([]);
+			for (let j = 0; j < n; ++j)
+				this.field[i].push('');
+		}
+		this.field[5][5] = 'rsrfrn'
+	}
 }
