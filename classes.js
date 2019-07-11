@@ -124,6 +124,7 @@ function checkPlace(a, b, field) {
 	}
 	return true;
 }
+
 function fill_tip(a, b){
     let cvs = document.getElementById("canvas");
     let ctx = cvs.getContext("2d");
@@ -174,91 +175,66 @@ class Deck {
         this.last_image = a;
         this.deck.pop();
         initDrag(im);
-
-        //this.fill_tip(5, 5);
-
-        //show tips
-        // for (let i = 1; i < 100; ++i){
-        //     for (let j = 1; j < 100; ++j){
-        //         if (checkPlace(i + 1, j, r.f.field)) {
-        //             if (r.f.field[i][j][2] == r.f.field[i + 1][j][0]) {
-        //                 fill_tip(i, j);
-        //             }
-        //         }
-        //         if (checkPlace(i - 1, j, r.f.field)){
-        //             if (r.f.field[i][j][0] == r.f.field[i + 1][j][2]){
-        //                 fill_tip(i, j);
-        //             }
-        //         }
-        //         if (checkPlace(i, j + 1, r.f.field)){
-        //             if (r.f.field[i][j][3] == r.f.field[i + 1][j][1]){
-        //                 fill_tip(i, j);
-        //             }
-        //         }
-        //         if (checkPlace(i, j - 1, r.f.field)){
-        //             if (r.f.field[i][j][1] == r.f.field[i + 1][j][3]){
-        //                 fill_tip(i, j);
-        //             }
-        //
-        //         }
-        //
-        //     }
-        // }
     }
 }
 
 function initDrag (im) {
-		mouseDownAndUp(im);
-		im.onmouseup = function (e) {
-			if ( !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
-				return;
-			}
-			const sz = 100;
-			let i = Math.floor((e.pageX - r.dx) / sz);
-			let j = Math.floor((e.pageY - r.dy) / sz) - 2;
-			let b = d.last_image;
-			if (isPlaced(im, i, j, r.f.field, b)) {
-				r.f.field[i][j] = b;
-				r.redraw();
-				document.onmousemove = null;
-				im.onmouseup = null;
-				im.remove();
-				players[r.currentPlayer].score = 20;
-				players[r.currentPlayer].show_score(r.currentPlayer);
-			}
-			else {
-				document.onmousemove = null;
-				im.onmouseup = null;
-			}
-		}
-	}
+    im.onmousedown = function (e) {
+        let coords = getCoords(im);
+        let shiftX = e.pageX - coords.left;
+        let shiftY = e.pageY - coords.top;
 
-function mouseDownAndUp(image) {
-	image.onmousedown = function (e) {
-		let coords = getCoords(image);
-		let shiftX = e.pageX - coords.left;
-		let shiftY = e.pageY - coords.top;
-
-		image.style.position = 'absolute';
-		document.body.appendChild(image, 50, 50);
-		moveAt(e);
+        im.style.position = 'absolute';
+        document.body.appendChild(im);
+        moveAt(e);
 
 
-		image.style.zIndex = 1000; // над другими элементами
+        im.style.zIndex = 1000; // над другими элементами
 
-		function moveAt(e) {
-			image.style.left = e.pageX - shiftX + 'px';
-			image.style.top = e.pageY - shiftY + 'px';
-		}
+        function moveAt(e) {
+            im.style.left = e.pageX - shiftX + 'px';
+            im.style.top = e.pageY - shiftY + 'px';
+        }
 
-		document.onmousemove = function (e) {
-			moveAt(e);
+        document.onmousemove = function (e) {
+            moveAt(e);
 
-		};
+        };
 
-		image.ondragstart = () => false;
-	}
+        im.ondragstart = () => false;
+        im.onmouseup = function (e) {
+            if (!(e.pageX < 1100 && e.pageY > 200 && e.pageY < 1300)) {
+                return;
+            }
+            const sz = 100;
+            let i = Math.floor((e.pageX - r.dx) / sz);
+            let j = Math.floor((e.pageY - r.dy) / sz) - 2;
+            let b = d.last_image;
+            if (isPlaced(im, i, j, r.f.field, b)) {
+                r.f.field[i][j] = b;
+                r.redraw();
+                document.onmousemove = null;
+                im.onmouseup = null;
+                im.remove();
+                players[currentPlayer].score = 20;
+                players[currentPlayer].show_score(currentPlayer);
+                if (currentPlayer == 4) {
+                    currentPlayer = 1;
+                }
+                else {
+                    currentPlayer++;
+                }
+            } else {
+                document.onmousemove = null;
+                im.onmouseup = null;
+            }
+
+        }
+    };
+
+
 }
+
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
     return {
@@ -267,20 +243,38 @@ function getCoords(elem) {
     }
 }
 
+function giveMeeple() {
+    let block = document.getElementById("meeple" + currentPlayer);
+    console.log(currentPlayer);
+
+    if (block.childElementCount === 1) {
+        return;
+    }
+
+    let image = new Image();
+    image.src = "player" + currentPlayer + ".png";
+    image.id = "meeple" + currentPlayer;
+    image.height = 20;
+    image.width = 20;
+    block.appendChild(image);
+}
+
 class Meeple{
     constructor(n, k) {
         let coordMeepX, coorfMeepY;
         let canvas = document.getElementById("player" + n);
-        let	context = canvas.getContext("2d");
+        let context = canvas.getContext("2d");
         let image = new Image(10, 10);
         image.visibility = true;
         image.src = "player" + n + ".png";
-        image.onload = () => context.drawImage(image, 25*k, 60, 20, 20);
+        image.onload = () => context.drawImage(image, 25 * k, 60, 20, 20);
     }
 
     drag_and_drop(){
 
     }
+
+
 }
 
 class Player {

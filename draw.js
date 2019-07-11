@@ -1,7 +1,7 @@
+let currentPlayer = 1;
+
 class Renderer {
 	constructor() {
-
-		this.currentPlayer = 1;
 
 		this.cvs = document.getElementById("canvas");
 		console.log(this.cvs.getBoundingClientRect())
@@ -28,9 +28,9 @@ class Renderer {
 	}
 
 	nextPlayer() {
-		this.currentPlayer = (this.currentPlayer % 4);
-		++this.currentPlayer;
-		return this.currentPlayer;
+		currentPlayer = (currentPlayer % 4);
+		++currentPlayer;
+		return currentPlayer;
 	};
 
 
@@ -108,6 +108,8 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 d = new Deck;
+
+
 
 
 
