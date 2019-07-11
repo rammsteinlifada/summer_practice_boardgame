@@ -4,6 +4,7 @@ class Renderer {
 		this.currentPlayer = 1;
 
 		this.cvs = document.getElementById("canvas");
+		console.log(this.cvs.getBoundingClientRect())
 		this.ctx = this.cvs.getContext("2d");
 
 		this.dx = -45*100;

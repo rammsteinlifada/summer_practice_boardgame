@@ -208,30 +208,7 @@ class Deck {
 }
 
 function initDrag (im) {
-
-	im.onmousedown = function (e) {
-		let coords = getCoords(im);
-		let shiftX = e.pageX - coords.left;
-		let shiftY = e.pageY - coords.top;
-
-		im.style.position = 'absolute';
-		document.body.appendChild(im, 50, 50);
-		moveAt(e);
-
-
-		im.style.zIndex = 1000; // над другими элементами
-
-		function moveAt(e) {
-			im.style.left = e.pageX - shiftX + 'px';
-			im.style.top = e.pageY - shiftY + 'px';
-		}
-
-		document.onmousemove = function (e) {
-			moveAt(e);
-
-		};
-
-		im.ondragstart = () => false;
+		mouseDownAndUp(im);
 		im.onmouseup = function (e) {
 			if ( !(e.pageX < 1000 && e.pageY > 200 && e.pageY < 1200)) {
 				return;
@@ -255,8 +232,32 @@ function initDrag (im) {
 			}
 		}
 	}
-}
+function mouseDownAndUp(image) {
+	image.onmousedown = function (e) {
+		let coords = getCoords(image);
+		let shiftX = e.pageX - coords.left;
+		let shiftY = e.pageY - coords.top;
 
+		image.style.position = 'absolute';
+		document.body.appendChild(image, 50, 50);
+		moveAt(e);
+
+
+		image.style.zIndex = 1000; // над другими элементами
+
+		function moveAt(e) {
+			image.style.left = e.pageX - shiftX + 'px';
+			image.style.top = e.pageY - shiftY + 'px';
+		}
+
+		document.onmousemove = function (e) {
+			moveAt(e);
+
+		};
+
+		image.ondragstart = () => false;
+	}
+}
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
     return {
@@ -273,9 +274,6 @@ class Meeple{
         let image = new Image(10, 10);
         image.visibility = true;
         image.src = "player" + n + ".png";
-    }
-
-    show_meeples(){
         image.onload = () => context.drawImage(image, 25*k, 60, 20, 20);
     }
 
@@ -288,7 +286,6 @@ class Player {
     constructor(n) {
         this.score = 0;
         this.meeples = [];
-        this.pl = [];
         for (let i = 0; i < 6; ++i) {
             this.meeples[i] = new Meeple(n, i);
         }
