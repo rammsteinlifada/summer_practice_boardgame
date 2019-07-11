@@ -248,7 +248,6 @@ function initDrag (im) {
 				im.remove();
 				players[r.currentPlayer].score = 20;
 				players[r.currentPlayer].show_score(r.currentPlayer);
-				alert('Ход игрока: '+r.nextPlayer());
 			}
 			else {
 				document.onmousemove = null;
