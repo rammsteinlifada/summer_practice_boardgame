@@ -232,6 +232,7 @@ function initDrag (im) {
 			}
 		}
 	}
+
 function mouseDownAndUp(image) {
 	image.onmousedown = function (e) {
 		let coords = getCoords(image);
