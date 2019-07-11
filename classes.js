@@ -103,10 +103,10 @@ function isPlaced(im, i, j, field, b) {
         return false;
     }
 
-    if ((!field[i - 1][j] || field[i - 1][j][2] == b[0]) &&
-        (!field[i + 1][j] || field[i + 1][j][0] == b[2]) &&
-        (!field[i][j - 1] || field[i][j - 1][3] == b[1]) &&
-        (!field[i][j + 1] || field[i][j + 1][1] == b[3])) {
+    if ((!field[i - 1][j] || field[i - 1][j][2] === b[0]) &&
+        (!field[i + 1][j] || field[i + 1][j][0] === b[2]) &&
+        (!field[i][j - 1] || field[i][j - 1][3] === b[1]) &&
+        (!field[i][j + 1] || field[i][j + 1][1] === b[3])) {
         return true;
     }
 }
@@ -114,7 +114,7 @@ function isPlaced(im, i, j, field, b) {
 function checkPlace(a, b, field) {
     if (field[a][b])
         return false;
-    if ((a == 0) || (a == 101) || (b == 0) || (b == 101))
+    if ((a === 0) || (a === 101) || (b === 0) || (b === 101))
         return false;
     if (field[a - 1][b - 1] || field[a + 1][b - 1] || field[a - 1][b + 1] || field[a + 1][b + 1]) {
         return true;
@@ -136,9 +136,8 @@ function fill_tip(a, b){
 function onCanvas(e){
     let cvs = document.getElementById("canvas");
     let info = cvs.getBoundingClientRect();
-    if ((info.left > e.pageX) || (info.right < e.pageX) || (info.top > e.pageY) || (info.bottom < e.pageY))
-        return false;
-    return true;
+    return !((info.left > e.pageX) || (info.right < e.pageX) || (info.top > e.pageY) || (info.bottom < e.pageY));
+
 }
 
 class Deck {
@@ -196,8 +195,6 @@ function initDragObj (im, flag) {
 		document.body.appendChild(im);
 		moveAt(e);
 
-
-
 		im.style.zIndex = 1000; // над другими элементами
 
 		function moveAt(e) {
@@ -207,34 +204,60 @@ function initDragObj (im, flag) {
 
 		document.onmousemove = function (e) {
 			moveAt(e);
-
 		};
 
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
-			const sz = 100;
-			let i = Math.floor((e.pageX - game.r.dx) / sz);
-			let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
-			let b = game.d.last_image;
-			if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-				game.r.f.field[i][j] = b;
-				game.r.redraw();
-				document.onmousemove = null;
-				im.onmouseup = null;
-				im.remove();
-				game.players[game.currentPlayer].score = 20;
-				game.players[game.currentPlayer].show_score(currentPlayer);
-				if (game.currentPlayer == 4) {
-					game.currentPlayer = 1;
-				}
-				else {
-					game.currentPlayer++;
-				}
-			} else {
-				document.onmousemove = null;
-				im.onmouseup = null;
-			}
-
+		    if (flag === "tile") {
+                const sz = 100;
+                let i = Math.floor((e.pageX - game.r.dx) / sz);
+                let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
+                let b = game.d.last_image;
+                if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
+                    game.r.f.field[i][j] = b;
+                    game.r.redraw();
+                    document.onmousemove = null;
+                    im.onmouseup = null;
+                    im.remove();
+                    game.players[game.currentPlayer].score = 20;
+                    game.players[game.currentPlayer].show_score(currentPlayer);
+                    // if (game.currentPlayer == 4) {
+                    // 	game.currentPlayer = 1;
+                    // }
+                    // else {
+                    // 	game.currentPlayer++;
+                    // }
+                }
+                else {
+                    document.onmousemove = null;
+                    im.onmouseup = null;
+                }
+            }
+		    else {
+                const sz = 100;
+                let i = Math.floor((e.pageX - game.r.dx) / sz);
+                let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
+                let b = game.d.last_image;
+                if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
+                    game.r.f.field[i][j] = b;
+                    game.r.redraw();
+                    document.onmousemove = null;
+                    im.onmouseup = null;
+                    im.remove();
+                    game.players[game.currentPlayer].score = 20;
+                    game.players[game.currentPlayer].show_score(currentPlayer);
+                    // if (game.currentPlayer == 4) {
+                    // 	game.currentPlayer = 1;
+                    // }
+                    // else {
+                    // 	game.currentPlayer++;
+                    // }
+                }
+                else {
+                    document.onmousemove = null;
+                    im.onmouseup = null;
+                }
+            }
 		}
 	};
 
@@ -265,7 +288,7 @@ function giveMeeple() {
 }
 
 function dragMeeple(player) {
-    if (player != currentPlayer)
+    if (player !== currentPlayer)
         return;
     console.log("pl" + player);
     let im = document.getElementById("meeple" + player);
@@ -282,12 +305,6 @@ class Meeple{
         image.src = "player" + n + ".png";
         image.onload = () => context.drawImage(image, 25 * k, 60, 20, 20);
     }
-
-    drag_and_drop(){
-
-    }
-
-
 }
 
 class Player {
