@@ -27,12 +27,6 @@ class Renderer {
 		}
 	}
 
-	nextPlayer() {
-		currentPlayer = (currentPlayer % 4);
-		++currentPlayer;
-		return currentPlayer;
-	};
-
 
 
 	initDrag(cvs) {
@@ -96,18 +90,27 @@ class Renderer {
 	}
 }
 
-let r;
-window.addEventListener("DOMContentLoaded", function() {
-    r = new Renderer();
-    players = [];
-    for (let i = 1; i < 5; ++i)
-        players[i] = new Player(i);
+class Game {
+    r;
+    d;
+    currentPlayer;
+    players;
+    constructor() {
+        this.r = new Renderer();
+        this.players = [];
+        for (let i = 1; i < 5; ++i)
+            this.players[i] = new Player(i);
+        this.d = new Deck;
+        this.currentPlayer = 1;
+    }
+}
 
-    r.cvs.addEventListener('mouseenter', () => console.log('E'));
-    r.cvs.addEventListener('mouseleave', () => console.log('L'));
+let game;
+window.addEventListener("DOMContentLoaded", function() {
+    game = new Game();
 });
 
-d = new Deck;
+
 
 
 

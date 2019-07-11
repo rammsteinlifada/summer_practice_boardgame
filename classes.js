@@ -182,11 +182,11 @@ class Deck {
         let im = document.getElementById("cards");
         this.last_image = a;
         this.deck.pop();
-        initDrag(im);
+        initDragObj(im, "tile");
     }
 }
 
-function initDrag (im) {
+function initDragObj (im, flag) {
 	im.onmousedown = function (e) {
 		let coords = getCoords(im);
 		let shiftX = e.pageX - coords.left;
@@ -213,22 +213,22 @@ function initDrag (im) {
 		im.ondragstart = () => false;
 		im.onmouseup = function (e) {
 			const sz = 100;
-			let i = Math.floor((e.pageX - r.dx) / sz);
-			let j = Math.floor((e.pageY - r.dy) / sz) - 2;
-			let b = d.last_image;
-			if (isPlaced(im, i, j, r.f.field, b) && onCanvas(e)) {
-				r.f.field[i][j] = b;
-				r.redraw();
+			let i = Math.floor((e.pageX - game.r.dx) / sz);
+			let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
+			let b = game.d.last_image;
+			if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
+				game.r.f.field[i][j] = b;
+				game.r.redraw();
 				document.onmousemove = null;
 				im.onmouseup = null;
 				im.remove();
-				players[currentPlayer].score = 20;
-				players[currentPlayer].show_score(currentPlayer);
-				if (currentPlayer == 4) {
-					currentPlayer = 1;
+				game.players[game.currentPlayer].score = 20;
+				game.players[game.currentPlayer].show_score(currentPlayer);
+				if (game.currentPlayer == 4) {
+					game.currentPlayer = 1;
 				}
 				else {
-					currentPlayer++;
+					game.currentPlayer++;
 				}
 			} else {
 				document.onmousemove = null;
@@ -268,6 +268,8 @@ function dragMeeple(player) {
     if (player != currentPlayer)
         return;
     console.log("pl" + player);
+    let im = document.getElementById("meeple" + player);
+    initDragObj(im, "meeple" + player);
 }
 
 class Meeple{
