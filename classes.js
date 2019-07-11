@@ -271,13 +271,17 @@ function getCoords(elem) {
     }
 }
 
-function saveMap(){
-    let cvs = document.getElementById("canvas");
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cvs));
-    let saveButton = document.getElementById('download');
-    saveButton.click();
-    saveButton.setAttribute("download", "scene.json");
+function saveMap(filename){
+    let dataStr = JSON.stringify(game.r.f.field);
+    console.log(dataStr);
     console.log('sdfsdf');
+
+
+    let a = game.r.f.field;
+    let file = new Blob([dataStr], {type: 'application/json'});
+    window.navigator.msSaveorOpenBlob(file, "scene.json");
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
 }
 
 function giveMeeple() {
