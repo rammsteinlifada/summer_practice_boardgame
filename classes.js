@@ -142,6 +142,7 @@ function onCanvas(e){
 }
 
 class Deck {
+<<<<<<< HEAD
 	shuffle(o) {
 		for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
 		return o;
@@ -184,10 +185,55 @@ class Deck {
 		this.deck.pop();
 		initDrag(im);
 	}
+=======
+    shuffle(o) {
+        for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
+        return o;
+    }
+
+    constructor() {
+        this.deck = [];
+        for (let i = 0; i < 1; i++)
+            this.deck = this.deck.concat(cardTypes);
+        this.deck = this.shuffle(this.deck);
+        this.last_image;
+
+    }
+
+    rotation() {
+        let a = this.last_image;
+        a = a[3] + a.substring(0, 3) + a.substring(4, 6);
+        this.last_image = a;
+
+        let image = document.getElementById("cards");
+        image.src = "pics/" + a + ".jpg";
+    }
+
+    show_card() {
+        let block = document.getElementById("sharpp");
+        if (block.childElementCount >= 2)
+            return;
+        if (this.deck.length <= 0) {
+            alert("GAME OVER");
+            return 0;
+        }
+
+        let a = this.deck[this.deck.length - 1];
+        let image = document.createElement("img");
+        image.id = "cards";
+        image.src = "pics/" + a + ".jpg";
+        block.appendChild(image);
+        let im = document.getElementById("cards");
+        this.last_image = a;
+        this.deck.pop();
+        initDrag(im);
+    }
+>>>>>>> 0647667789fd43bf77ac093886867fdbc6de7a91
 }
 
 function initDrag (im) {
 
+<<<<<<< HEAD
 	im.onmousedown = function (e) {
 		let coords = getCoords(im);
 		let shiftX = e.pageX - coords.left;
@@ -244,6 +290,17 @@ function initDrag (im) {
 
 
 }
+=======
+    im.onmousedown = function (e) {
+        let coords = getCoords(im);
+        let shiftX = e.pageX - coords.left;
+        let shiftY = e.pageY - coords.top;
+
+        im.style.position = 'absolute';
+        document.body.appendChild(im);
+        moveAt(e);
+
+>>>>>>> 0647667789fd43bf77ac093886867fdbc6de7a91
 
 function getCoords(elem) {
 	let box = elem.getBoundingClientRect();
@@ -253,6 +310,7 @@ function getCoords(elem) {
 	}
 }
 
+<<<<<<< HEAD
 function giveMeeple() {
 	let block = document.getElementById("meeple" + currentPlayer);
 	console.log(currentPlayer);
@@ -284,6 +342,93 @@ class Meeple{
 
 	}
 
+=======
+        im.style.zIndex = 1000; // над другими элементами
+
+        function moveAt(e) {
+            im.style.left = e.pageX - shiftX + 'px';
+            im.style.top = e.pageY - shiftY + 'px';
+        }
+
+        document.onmousemove = function (e) {
+            moveAt(e);
+
+        };
+
+        im.ondragstart = () => false;
+        im.onmouseup = function (e) {
+            if (!(e.pageX < 1100 && e.pageY > 200 && e.pageY < 1300)) {
+                return;
+            }
+            const sz = 100;
+            let i = Math.floor((e.pageX - r.dx) / sz);
+            let j = Math.floor((e.pageY - r.dy) / sz) - 2;
+            let b = d.last_image;
+            if (isPlaced(im, i, j, r.f.field, b)) {
+                r.f.field[i][j] = b;
+                r.redraw();
+                document.onmousemove = null;
+                im.onmouseup = null;
+                im.remove();
+                players[currentPlayer].score = 20;
+                players[currentPlayer].show_score(currentPlayer);
+                if (currentPlayer == 4) {
+                    currentPlayer = 1;
+                }
+                else {
+                    currentPlayer++;
+                }
+            } else {
+                document.onmousemove = null;
+                im.onmouseup = null;
+            }
+
+        }
+    };
+
+
+}
+
+function getCoords(elem) {
+    let box = elem.getBoundingClientRect();
+    return {
+        top: box.top + pageYOffset,
+        left: box.left + pageXOffset
+    }
+}
+
+function giveMeeple() {
+    let block = document.getElementById("meeple" + currentPlayer);
+    console.log(currentPlayer);
+
+    if (block.childElementCount === 1) {
+        return;
+    }
+
+    let image = new Image();
+    image.src = "player" + currentPlayer + ".png";
+    image.id = "meeple" + currentPlayer;
+    image.height = 20;
+    image.width = 20;
+    block.appendChild(image);
+}
+
+class Meeple{
+    constructor(n, k) {
+        let coordMeepX, coorfMeepY;
+        let canvas = document.getElementById("player" + n);
+        let context = canvas.getContext("2d");
+        let image = new Image(10, 10);
+        image.visibility = true;
+        image.src = "player" + n + ".png";
+        image.onload = () => context.drawImage(image, 25 * k, 60, 20, 20);
+    }
+
+    drag_and_drop(){
+
+    }
+
+>>>>>>> 0647667789fd43bf77ac093886867fdbc6de7a91
 
 }
 

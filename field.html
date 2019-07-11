@@ -32,19 +32,24 @@
 				</ul>
 			</div>
 		</div>
-		<div>
+		<div style="max-width: 1000px">
 			<div class="col-xs-4">
 				<canvas id="player1" width="150" height="100"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
+				<div id="meeple1" style="background: #dc7160; height: 20px; width: 20px"></div>
 			</div>
 			<div class="col-xs-4">
 				<canvas id="player2" align="left" width="150" height="100"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
+				<div id="meeple2" style="background: #dc7160; height: 20px; width: 20px"></div>
 			</div>
-		</div>
 
+			<button onclick="giveMeeple()">
+				Give meeples
+			</button>
+		</div>
 	</div>
 
 	<div class="row" allign="center">
@@ -53,9 +58,10 @@
 		</div>
 		<div class="col-xs-4" id = "sharpp" onClick = "d.show_card();" >
 			<img id="sharp" src="pics/fefu.jpg">
+
 		</div>
 		<div class="col-xs-4">
-			<button id="rotation" onclick="d.rotation()" >
+			<button onclick="d.rotation()" >
 				Rotation
 			</button>
 		</div>
@@ -63,11 +69,15 @@
 	
 	<div class="row">
 		<div class="col-xs-4">
+			<div id="meeple3" style="background: #dc7160; height: 20px; width: 20px"></div>
+
 			<canvas id="player3" align="left" width="150" height="100"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
+			<div id="meeple4" style="background: #dc7160; height: 20px; width: 20px"></div>
+
 			<canvas id="player4" align="left" width="150" height="100"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
