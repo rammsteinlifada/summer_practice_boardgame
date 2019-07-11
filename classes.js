@@ -132,10 +132,12 @@ function fill_tip(a, b){
     ctx.fillRect((a - 1) * 100, b * 100 + 200, 100, 100);
 }
 
-function onCanvas(){
+function onCanvas(e){
     let cvs = document.getElementById("canvas");
-    let ((cvs.info.left > e.pageX) || (cvs.info.right < e.pageX) || (cvs.info.top > e.pageY) || (cvs.info.bottom < e.pageY))
-        return;
+    let info = cvs.getBoundingClientRect();
+    if ((info.left > e.pageX) || (info.right < e.pageX) || (info.top > e.pageY) || (info.bottom < e.pageY))
+        return false;
+    return true;
 }
 
 class Deck {
@@ -216,8 +218,9 @@ class Deck {
 function initDrag (im) {
 		mouseDownAndUp(im);
 		im.onmouseup = function (e) {
-		    if (!onCanvas){
-		        return
+		    if (!onCanvas(e)){
+		        console.log('check');
+		        return;
             }
 
 			const sz = 100;

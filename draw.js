@@ -6,7 +6,6 @@ class Renderer {
 		this.cvs = document.getElementById("canvas");
 		console.log(this.cvs.getBoundingClientRect())
 		this.ctx = this.cvs.getContext("2d");
-		let info = this.cvs.getBoundingClientRect();
 
 		this.dx = -45*100;
 		this.dy = -45*100;
