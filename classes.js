@@ -264,6 +264,12 @@ function giveMeeple() {
     block.appendChild(image);
 }
 
+function dragMeeple(player) {
+    if (player != currentPlayer)
+        return;
+    console.log("pl" + player);
+}
+
 class Meeple{
     constructor(n, k) {
         let coordMeepX, coorfMeepY;

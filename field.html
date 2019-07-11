@@ -37,13 +37,13 @@
 				<canvas id="player1" width="150" height="100"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-				<div id="meeple1" style="background: #dc7160; height: 20px; width: 20px"></div>
+				<div id="meeple1" onclick="dragMeeple(1)" style="height: 20px; width: 20px"></div>
 			</div>
 			<div class="col-xs-4">
 				<canvas id="player2" align="left" width="150" height="100"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-				<div id="meeple2" style="background: #dc7160; height: 20px; width: 20px"></div>
+				<div id="meeple2" onclick="dragMeeple(2)" style="height: 20px; width: 20px"></div>
 			</div>
 
 			<button onclick="giveMeeple()">
@@ -69,14 +69,14 @@
 	
 	<div class="row">
 		<div class="col-xs-4">
-			<div id="meeple3" style="background: #dc7160; height: 20px; width: 20px"></div>
+			<div id="meeple3" onclick="dragMeeple(3)" style="height: 20px; width: 20px"></div>
 
 			<canvas id="player3" align="left" width="150" height="100"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
-			<div id="meeple4" style="background: #dc7160; height: 20px; width: 20px"></div>
+			<div id="meeple4" onclick="dragMeeple(4)" style="height: 20px; width: 20px"></div>
 
 			<canvas id="player4" align="left" width="150" height="100"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
