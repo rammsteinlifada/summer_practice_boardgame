@@ -315,6 +315,6 @@ class Field {
 			for (let j = 0; j < n; ++j)
 				this.field[i].push('');
 		}
-		this.field[5][5] = 'rsrfrn'
+		this.field[50][50] = 'rsrfrn';
 	}
 }

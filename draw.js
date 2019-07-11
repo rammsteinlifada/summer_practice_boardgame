@@ -6,8 +6,8 @@ class Renderer {
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
 
-		this.dx = 0;
-		this.dy = 0;
+		this.dx = -45*100;
+		this.dy = -45*100;
 
 		this.f = new Field();
 		let cnt = 0;
@@ -90,7 +90,7 @@ class Renderer {
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;
 				if (this.cardImages[f.field[i][j]])
-					this.ctx.drawImage(this.cardImages[f.field[i][j]], sz*(i) + this.dx, sz*(j)+ this.dy);
+					this.ctx.drawImage(this.cardImages[f.field[i][j]], sz*i + this.dx, sz*j+ this.dy);
 			}
 	}
 }
