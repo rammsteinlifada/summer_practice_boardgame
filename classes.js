@@ -133,6 +133,14 @@ function fill_tip(a, b){
     ctx.fillRect((a - 1) * 100, b * 100 + 200, 100, 100);
 }
 
+function onCanvas(e){
+    let cvs = document.getElementById("canvas");
+    let info = cvs.getBoundingClientRect();
+    if ((info.left > e.pageX) || (info.right < e.pageX) || (info.top > e.pageY) || (info.bottom < e.pageY))
+        return false;
+    return true;
+}
+
 class Deck {
     shuffle(o) {
         for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
@@ -179,6 +187,7 @@ class Deck {
 }
 
 function initDrag (im) {
+
     im.onmousedown = function (e) {
         let coords = getCoords(im);
         let shiftX = e.pageX - coords.left;
@@ -187,6 +196,7 @@ function initDrag (im) {
         im.style.position = 'absolute';
         document.body.appendChild(im);
         moveAt(e);
+
 
 
         im.style.zIndex = 1000; // над другими элементами
