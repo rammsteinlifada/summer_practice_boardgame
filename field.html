@@ -38,21 +38,17 @@
 		</div>
 		<div style="max-width: 1000px">
 			<div class="col-xs-4">
-				<canvas id="player1" width="150" height="100"
+				<canvas id="player1" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 				<div id="meeple1" onclick="dragMeeple(1)" style="height: 20px; width: 20px"></div>
 			</div>
 			<div class="col-xs-4">
-				<canvas id="player2" align="left" width="150" height="100"
+				<canvas id="player2" align="left" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 				<div id="meeple2" onclick="dragMeeple(2)" style="height: 20px; width: 20px"></div>
 			</div>
-
-			<button  onclick="giveMeeple()">
-				Give meeples
-			</button>
 
 			<button id="download" onclick="saveMap('scene.txt')">
 				Save map
@@ -62,9 +58,18 @@
 				Load map
 			</button>
 
+			<textarea id = "textarea" >
+
+			</textarea>
+
 		</div>
 	</div>
-
+	<div>
+		<div id = "Meeples1" align="left">
+		</div>
+		<div id = "Meeples2" align="right">
+		</div>
+	</div>
 	<div class="row" allign="center">
 		<div class="col-xs-8" align="left" style="max-height: 1100px;width: 1100px">
 			<canvas id="canvas" width="1100" height="1100"></canvas>
@@ -82,33 +87,38 @@
 			</button>
 		</div>
 	</div>
-	
+	<div>
+		<div id = "Meeples3" align="left">
+		</div>
+		<div id = "Meeples4" align="right">
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-xs-4">
 			<div id="meeple3" onclick="dragMeeple(3)" style="height: 20px; width: 20px"></div>
 
-			<canvas id="player3" align="left" width="150" height="100"
+			<canvas id="player3" align="left" width="150" height="60"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
 			<div id="meeple4" onclick="dragMeeple(4)" style="height: 20px; width: 20px"></div>
 
-			<canvas id="player4" align="left" width="150" height="100"
+			<canvas id="player4" align="left" width="150" height="60"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
-		<div class="col-xs-4">
-			<div style="font-size: 50px">CHAT</div>
-			<div id="html-chat"></div>
-			<script>
-				$(document).ready(function()
-				{
-					htmljs_Chat_Init( $("#html-chat") )
-				});
-			</script>
-		</div>
 	</div>
 
+	<div class1="col-xs-4" style="bottom: 0; right: 0; position: fixed;">
+		<div style="font-size: 50px">CHAT</div>
+		<div id="html-chat"></div>
+		<script>
+			$(document).ready(function()
+			{
+				htmljs_Chat_Init( $("#html-chat") )
+			});
+		</script>
+	</div>
 </body>
 </html>
