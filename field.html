@@ -61,6 +61,7 @@
 			<button onclick="loadMap()">
 				Load map
 			</button>
+
 		</div>
 	</div>
 
@@ -74,14 +75,7 @@
 			<img id="sharp" src="pics/fefu.jpg">
 
 		</div>
-		<div id="html-chat"></div>
-		<script>
-			$(document).ready(function()
-			{
-				CometServer().start({dev_id: 15 })
-				htmljs_Chat_Init( $("#html-chat") )
-			});
-		</script>
+
 		<div class="col-xs-4">
 			<button onclick="game.d.rotation()" >
 				Rotation
@@ -106,7 +100,13 @@
 		</div>
 		<div class="col-xs-4">
 			<div style="font-size: 50px">CHAT</div>
-
+			<div id="html-chat"></div>
+			<script>
+				$(document).ready(function()
+				{
+					htmljs_Chat_Init( $("#html-chat") )
+				});
+			</script>
 		</div>
 	</div>
 

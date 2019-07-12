@@ -34,9 +34,9 @@ button{
 
 }
 .holder-html-chat{ border: 1px solid #ccc;padding:10px;background-color: #fff;width: 600px;}
-.html-chat-history{ max-width: 300px; overflow: auto;max-height: 400px; border: 1px solid #ccc;padding: 5px;}
+.html-chat-history{ max-width: 100px; overflow: auto;max-height: 100px; border: 1px solid #ccc;padding: 5px;}
 .html-chat-js-name{ margin-top:10px; }
-.html-chat-js-input{ max-width: 600px;max-height: 100px;width: 600px;margin-top:10px; }
+.html-chat-js-input{ max-width: 200px;max-height: 100px;width: 600px;margin-top:10px; }
 .html-chat-js-button-holder{ margin-bottom: 0px;margin-top: 10px; }
 .html-chat-js-button-holder input{ width: 220px; }
 .html-chat-js-answer{ float:right; }
