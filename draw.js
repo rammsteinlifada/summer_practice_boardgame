@@ -7,8 +7,8 @@ class Renderer {
 		console.log(this.cvs.getBoundingClientRect());
 		this.ctx = this.cvs.getContext("2d");
 
-		this.dx = -45*100;
-		this.dy = -45*100;
+		this.dx = -45 * 100;
+		this.dy = -45 * 100;
 
 		this.f = new Field();
 		let cnt = 0;
@@ -91,6 +91,8 @@ class Renderer {
 }
 
 class Game {
+    curI;
+    curJ;
     r;
     d;
     currentPlayer;

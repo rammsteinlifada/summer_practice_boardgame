@@ -214,18 +214,15 @@ function initDragObj (im, flag) {
                 let b = game.d.last_image;
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
                     game.r.f.field[i][j] = new Card(b);
+                    game.curI = i;
+                    game.curJ = j;
                     game.r.redraw();
                     document.onmousemove = null;
                     im.onmouseup = null;
                     im.remove();
                     game.players[game.currentPlayer].score = 20;
                     game.players[game.currentPlayer].show_score(currentPlayer);
-                    // if (game.currentPlayer == 4) {
-                    // 	game.currentPlayer = 1;
-                    // }
-                    // else {
-                    // 	game.currentPlayer++;
-                    // }
+
                 }
                 else {
                     document.onmousemove = null;
@@ -244,7 +241,7 @@ function initDragObj (im, flag) {
                     im.onmouseup = null;
                     im.remove();
                     game.players[game.currentPlayer].score = 20;
-                    game.players[game.currentPlayer].show_score(currentPlayer);
+                    game.players[game.currentPlayer].showScore(currentPlayer);
                     // if (game.currentPlayer == 4) {
                     // 	game.currentPlayer = 1;
                     // }
@@ -308,14 +305,10 @@ function dragMeeple(player) {
 }
 
 class Meeple{
-    constructor(n, k) {
-        let coordMeepX, coorfMeepY;
-        let canvas = document.getElementById("player" + n);
-        let context = canvas.getContext("2d");
-        let image = new Image(10, 10);
-        image.visibility = true;
-        image.src = "player" + n + ".png";
-        image.onload = () => context.drawImage(image, 25 * k, 60, 20, 20);
+    coordMeepX;
+    coorfMeepY;
+    constructor() {
+
     }
 }
 class Card{
@@ -328,22 +321,33 @@ class Card{
 }
 
 class Player {
+    meeplesCount;
     constructor(n) {
+        this.meeplesCount = 6;
         this.score = 0;
         this.meeples = [];
         for (let i = 0; i < 6; ++i) {
             this.meeples[i] = new Meeple(n, i);
         }
-        this.show_score(n);
+        this.showScore(n);
+        this.showMeepleCount(n);
     }
 
-    show_score(n){
+    showScore(n){
         let canvas = document.getElementById("player" + n);
         let	context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.font = "22px Verdana";
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: " + this.score, 10, 50);
+    }
+
+    showMeepleCount(n) {
+        let canvas = document.getElementById("player" + n);
+        let	context = canvas.getContext("2d");
+        context.font = "22px Verdana";
+
+        context.strokeText("meeples: " + this.meeplesCount, 10, 80);
     }
 }
 
@@ -358,5 +362,17 @@ class Field {
         }
         this.field[50][50] = new Card('rsrfrn');
 
+    }
+}
+
+function f() {
+    
+}
+
+class CheckClosed {
+    constructor() {
+        let queue = [];
+        queue.push(game.r.f.field[game.curI][game.curJ])
+        
     }
 }
