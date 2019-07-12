@@ -18,6 +18,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="application/javascript" src="classes.js"></script>
 	<script type="text/javascript" src="draw.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" ></script>
+	<script type="text/javascript" src="https://comet-server.ru/CometServerApi.js" ></script>
+	<script type="text/javascript" src="https://comet-server.ru/doc/html_chat.js" ></script>
+	<link rel="stylesheet" type="text/css" href="https://comet-server.ru/doc/html_chat.css"></link>
 
 </head>
 <body>
@@ -63,11 +67,21 @@
 	<div class="row" allign="center">
 		<div class="col-xs-8" align="left" style="max-height: 1100px;width: 1100px">
 			<canvas id="canvas" width="1100" height="1100"></canvas>
+
 		</div>
+
 		<div class="col-xs-4" id = "sharpp" onClick = "game.d.show_card();" >
 			<img id="sharp" src="pics/fefu.jpg">
 
 		</div>
+		<div id="html-chat"></div>
+		<script>
+			$(document).ready(function()
+			{
+				CometServer().start({dev_id: 15 })
+				htmljs_Chat_Init( $("#html-chat") )
+			});
+		</script>
 		<div class="col-xs-4">
 			<button onclick="game.d.rotation()" >
 				Rotation
@@ -92,6 +106,7 @@
 		</div>
 		<div class="col-xs-4">
 			<div style="font-size: 50px">CHAT</div>
+
 		</div>
 	</div>
 

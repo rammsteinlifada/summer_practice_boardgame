@@ -102,11 +102,10 @@ function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
         return false;
     }
-
-    if ((!field[i - 1][j] || field[i - 1][j][2] === b[0]) &&
-        (!field[i + 1][j] || field[i + 1][j][0] === b[2]) &&
-        (!field[i][j - 1] || field[i][j - 1][3] === b[1]) &&
-        (!field[i][j + 1] || field[i][j + 1][1] === b[3])) {
+    if ((!field[i - 1][j] || field[i - 1][j].name[2] === b[0]) &&
+        (!field[i + 1][j] || field[i + 1][j].name[0] === b[2]) &&
+        (!field[i][j - 1] || field[i][j - 1].name[3] === b[1]) &&
+        (!field[i][j + 1] || field[i][j + 1].name[1] === b[3])) {
         return true;
     }
 }
@@ -214,7 +213,7 @@ function initDragObj (im, flag) {
                 let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
                 let b = game.d.last_image;
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-                    game.r.f.field[i][j] = b;
+                    game.r.f.field[i][j] = new Card(b);
                     game.r.redraw();
                     document.onmousemove = null;
                     im.onmouseup = null;
@@ -319,6 +318,14 @@ class Meeple{
         image.onload = () => context.drawImage(image, 25 * k, 60, 20, 20);
     }
 }
+class Card{
+	name;
+	meeple_pos;
+	constructor(string){
+		this.name = string;
+		this.meeple_pos = 0;
+	}
+}
 
 class Player {
     constructor(n) {
@@ -349,6 +356,7 @@ class Field {
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[50][50] = 'rsrfrn';
+        this.field[50][50] = new Card('rsrfrn');
+
     }
 }

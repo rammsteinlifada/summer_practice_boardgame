@@ -84,8 +84,8 @@ class Renderer {
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {
 				if (!f.field[i][j]) continue;
-				if (this.cardImages[f.field[i][j]])
-					this.ctx.drawImage(this.cardImages[f.field[i][j]], sz*i + this.dx, sz*j+ this.dy);
+				if (this.cardImages[f.field[i][j].name])
+					this.ctx.drawImage(this.cardImages[f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
 			}
 	}
 }
