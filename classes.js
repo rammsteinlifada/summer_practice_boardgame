@@ -97,6 +97,12 @@ let cardTypes = [
     'rssssy'
 ];
 
+objValues = {
+    "r":[1, 1],
+    "s":[1, 2],
+    "f":[0, 1],
+    "b":[0, 9],
+};
 
 function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
@@ -221,7 +227,7 @@ function initDragObj (im, flag) {
                     im.onmouseup = null;
                     im.remove();
                     game.players[game.currentPlayer].score = 20;
-                    game.players[game.currentPlayer].show_score(currentPlayer);
+                    game.players[game.currentPlayer].showScore(currentPlayer);
 
                 }
                 else {
@@ -230,12 +236,14 @@ function initDragObj (im, flag) {
                 }
             }
 		    else {
+		        let card;
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
                 let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
                 let b = game.d.last_image;
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-                    game.r.f.field[i][j] = b;
+                    card = new Card(b, '.....');
+                    game.r.f.field[i][j] = card;
                     game.r.redraw();
                     document.onmousemove = null;
                     im.onmouseup = null;
@@ -271,7 +279,6 @@ function saveMap(filename){
     let dataStr = JSON.stringify(game.r.f.field);
     console.log(dataStr);
     console.log('sdfsdf');
-
 
     let a = game.r.f.field;
     let file = new Blob([dataStr], {type: 'application/json'});
@@ -311,12 +318,15 @@ class Meeple{
 
     }
 }
+
 class Card{
 	name;
-	meeple_pos;
-	constructor(string){
-		this.name = string;
-		this.meeple_pos = 0;
+	meeplePos;
+	ii;
+	jj;
+	constructor(namee, pos){
+		this.name = namee;
+		this.meeplePos = pos;
 	}
 }
 
@@ -360,19 +370,82 @@ class Field {
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[50][50] = new Card('rsrfrn');
+        this.field[50][50] = new Card('rsrfrn', '.....');
 
     }
 }
 
-function f() {
-    
+function searchComplete() {
+    let fieldVisited = [];
+
+    for (let i = 0; i < 100; ++i) {
+        fieldVisited.push([]);
+    }
+
+    let field = game.r.f.field;
+    let tempPoints = [];
+    let queue = [];
+    let card = new Card(field[game.curI][game.curJ].name);
+    card.ii = game.curI;
+    card.jj = game.curJ;
+    fieldVisited[card.ii][card.jj] = true;
+    queue.push(field[game.curI][game.curJ]);
+    let cardForPushing = new Card();
+    while(queue.length > 0) {
+        card = queue.pop();
+        fieldVisited[card.ii][card.jj] = true;
+        for (let i = 0; i < 4; i++) {
+            if (field[card.ii + 1][card.jj] && (field[card.ii + 1][card.jj][i] === field[card.ii + 1][card.jj][(i + 2) % 4] === 's' ||
+                field[card.ii + 1][card.jj][i] === field[card.ii + 1][card.jj][(i + 2) % 4] === 'r')) {
+                if (!fieldVisited[card.ii + 1][card.jj]) {
+                    cardForPushing.name = field[card.ii + 1][card.jj].name;
+                    cardForPushing.meeplePos = field[card.ii + 1][card.jj].meeplePos;
+                    cardForPushing.ii = card.ii + 1;
+                    cardForPushing.jj = card.jj;
+                    queue.push(cardForPushing);
+                }
+            }
+
+            if (field[card.ii - 1][card.jj] && (field[card.ii - 1][card.jj][i] === field[card.ii - 1][card.jj][(i + 2) % 4] === 's' ||
+                field[card.ii - 1][card.jj][i] === field[card.ii - 1][card.jj][(i + 2) % 4] === 'r')) {
+                if (!fieldVisited[card.ii - 1][card.jj]) {
+                    cardForPushing.name = field[card.ii - 1][card.jj].name;
+                    cardForPushing.meeplePos = field[card.ii - 1][card.jj].meeplePos;
+                    cardForPushing.ii = card.ii - 1;
+                    cardForPushing.jj = card.jj;
+                    queue.push(cardForPushing);
+                }
+            }
+
+            if (field[card.ii][card.jj + 1] && (field[card.ii][card.jj + 1][i] === field[card.ii][card.jj + 1][(i + 2) % 4] === 's' ||
+                field[card.ii][card.jj + 1][i] === field[card.ii][card.jj + 1][(i + 2) % 4] === 'r')) {
+                if (!fieldVisited[card.ii][card.jj + 1]) {
+                    cardForPushing.name = field[card.ii][card.jj + 1].name;
+                    cardForPushing.meeplePos = field[card.ii][card.jj + 1].meeplePos;
+                    cardForPushing.ii = card.ii;
+                    cardForPushing.jj = card.jj + 1;
+                    queue.push(cardForPushing);
+                }
+            }
+
+            if (field[card.ii][card.jj - 1] && (field[card.ii][card.jj - 1][i] === field[card.ii][card.jj - 1][(i + 2) % 4] === 's' ||
+                field[card.ii][card.jj - 1][i] === field[card.ii][card.jj - 1][(i + 2) % 4] === 'r')) {
+                if (!fieldVisited[card.ii][card.jj - 1]) {
+                    cardForPushing.name = field[card.ii][card.jj - 1].name;
+                    cardForPushing.meeplePos = field[card.ii][card.jj - 1].meeplePos;
+                    cardForPushing.ii = card.ii;
+                    cardForPushing.jj = card.jj - 1;
+                    queue.push(cardForPushing);
+                }
+            }
+        }
+
+    }
 }
 
 class CheckClosed {
     constructor() {
-        let queue = [];
-        queue.push(game.r.f.field[game.curI][game.curJ])
+
         
     }
 }

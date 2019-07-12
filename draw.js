@@ -104,6 +104,8 @@ class Game {
             this.players[i] = new Player(i);
         this.d = new Deck;
         this.currentPlayer = 1;
+        this.curI = 50;
+        this.curJ = 50;
     }
 }
 
