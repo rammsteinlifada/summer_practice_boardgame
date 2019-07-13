@@ -141,7 +141,8 @@ function fill_tip(a, b){
 function onCanvas(e){
     let cvs = document.getElementById("canvas");
     let info = cvs.getBoundingClientRect();
-    return !((info.left > e.pageX) || (info.right < e.pageX) || (info.top > e.pageY) || (info.bottom < e.pageY));
+    console.log(e.clientX,' ',e.clientY,' ',e.pageX,' ',e.pageY);
+    return !((info.left > e.clientX) || (info.right < e.clientX) || (info.top > e.clientY) || (info.bottom < e.clientY));
 
 }
 
