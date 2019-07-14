@@ -130,6 +130,94 @@ function checkPlace(a, b, field) {
     return true;
 }
 
+function checkBuilding (i, j, field){
+    if (a <= 1 || b <= 1 || a >= 100 || b >=100)
+        return 0;
+    if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j - 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1])
+        return 9;
+}
+
+function dfs(a, b, field, flag) {
+    if (a <= 0 && a >= 101 && b <= 0 && b >= 101)
+        return
+    //получить картинку
+    //получить номер игрока по карте
+    let scoreS = 0;
+    let scoreR = 0;
+    let scoreB = 0;
+    let s = 0;
+    let r = 0;
+    if (im[0] == 's' && flag == 's'){
+        scoreS += 2;
+        dfs(a - 1, b, field, 's');
+        s = 1;
+    }
+    if (im[1] == 's' && flag == 's'){
+        if (s == 0) {
+            scoreS += 2;
+            s = 1;
+        }
+        dfs(a, b - 1, field, 's');
+    }
+    if (im[2] == 's' && flag == 's'){
+        if (s == 0){
+            scoreS += 2;
+            s = 1;
+        }
+        dfs(a + 1, b, field, 's');
+    }
+    if (im[3] == 's' && flag == 's'){
+        if (s == 0){
+            scoreS += 2;
+            s = 1;
+        }
+        dfs(a, b - 1, field, 's');
+    }if (im[0] == 'r' && flag == 'r'){
+        ++scoreR;
+        dfs(a - 1, b, field, 'r');
+        r = 1;
+    }
+    if (im[1] == 'r' && flag == 'r'){
+        if (r == 0) {
+            ++scoreR;
+            r = 1;
+        }
+        dfs(a, b - 1, field, 'r');
+    }
+    if (im[2] == 'r' && flag == 'r'){
+        if (r == 0){
+            ++scoreR;
+            r = 1;
+        }
+        dfs(a + 1, b, field, 'r');
+    }
+    if (im[3] == 'r' && flag == 'r'){
+        if (r == 0){
+            ++scoreR;
+            r = 1;
+        }
+        dfs(a, b - 1, field, 'r');
+    }if (im[4] == 'b'){
+        if (checkBuilding(a, b, field))
+            scoreB = 9;
+    }
+    used[a][b] = 1;
+    currentPlayer = currentPlayer + scoreS + scoreR + scoreB;
+}
+
+function scoreCount(field){
+    new used(101).fill(0);
+    for (let i = 1; i < 101; i++){
+        for (let j = 1; j < 101; j++){
+            if (!field[i][j])
+                return false;
+            if (used[i][j] == 1)
+                continue;
+            dfs(i, j, field);
+        }
+    }
+}
+
 function fill_tip(a, b){
     let cvs = document.getElementById("canvas");
     let ctx = cvs.getContext("2d");
