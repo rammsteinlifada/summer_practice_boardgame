@@ -347,7 +347,11 @@ function initDragObj (im, flag) {
                 let id = im.id;
                 console.log(i, j);
                 console.log(game.curI, game.curJ);
-                if ((game.curI != i) || (game.curJ != j) ) {
+                let a = Math.floor(((e.pageX - game.r.dx) % 100) / 33 + 1);
+                let b = Math.floor(((e.pageY + 20 - game.r.dy) % 100) / 33 + 1);
+                let pos = 0;
+                pos = (b - 1) * 3 + a; 
+                if ((game.curI != i) || (game.curJ != j) || (pos == 5) ) {
                     console.log("asd");
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
@@ -359,25 +363,7 @@ function initDragObj (im, flag) {
                     game.players[game.currentPlayer].meepleFlag = true;
                     initDragObj(image, "meeple");
                 }
-                else {
-                    let pos;
-                    let a = Math.floor(((e.pageX - game.r.dx) % 100) / 33 + 1);
-                    let b = Math.floor(((e.pageY - game.r.dy) % 100) / 33 + 1);
-                    if (game.r.f.field[i][j][4] == 'b'){
-                        if (a == 2 && b == 2){
-                            pos = 4;
-                        }else{
-                            if (a != 2){
-                                pos = a + 1;
-                            }else{
-                                if (b == 1){
-                                    pos = 1;
-                                }else{
-                                    pos = 3;
-                                }
-                            }
-                        }
-                    }
+                else {       
                     console.log(pos);
                     // находим позицию на карточке
                     game.r.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
