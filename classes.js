@@ -130,7 +130,6 @@ function checkPlace(a, b, field) {
     return true;
 }
 
-<<<<<<< Updated upstream
 function checkBuilding (i, j, field){
     if (a <= 1 || b <= 1 || a >= 100 || b >=100)
         return 0;
@@ -361,8 +360,27 @@ function initDragObj (im, flag) {
                     initDragObj(image, "meeple");
                 }
                 else {
+                    let pos;
+                    let a = Math.floor(((e.pageX - game.r.dx) % 100) / 33 + 1);
+                    let b = Math.floor(((e.pageY - game.r.dy) % 100) / 33 + 1);
+                    if (game.r.f.field[i][j][4] == 'b'){
+                        if (a == 2 && b == 2){
+                            pos = 4;
+                        }else{
+                            if (a != 2){
+                                pos = a + 1;
+                            }else{
+                                if (b == 1){
+                                    pos = 1;
+                                }else{
+                                    pos = 3;
+                                }
+                            }
+                        }
+                    }
+                    console.log(pos);
                     // находим позицию на карточке
-                    game.field[game.curI][game.curJ].isMeeple = // позиция мипла * 10 + game.currentPlayer;
+                    game.r.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
                     document.onmousemove = null;
                     im.onmouseup = null;
 
