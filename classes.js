@@ -130,6 +130,7 @@ function checkPlace(a, b, field) {
     return true;
 }
 
+<<<<<<< Updated upstream
 function checkBuilding (i, j, field){
     if (a <= 1 || b <= 1 || a >= 100 || b >=100)
         return 0;
@@ -229,7 +230,6 @@ function fill_tip(a, b){
 function onCanvas(e){
     let cvs = document.getElementById("canvas");
     let info = cvs.getBoundingClientRect();
-    console.log(e.clientX,' ',e.clientY,' ',e.pageX,' ',e.pageY);
     return !((info.left > e.clientX) || (info.right < e.clientX) || (info.top > e.clientY) || (info.bottom < e.clientY));
 
 }
@@ -259,6 +259,10 @@ class Deck {
     }
 
     show_card() {
+        if (!game.players[game.currentPlayer].cardFlag){
+            return;
+        }
+        game.players[game.currentPlayer].cardFlag = false;
         let block = document.getElementById("sharpp");
         if (block.childElementCount >= 2)
             return;
@@ -275,12 +279,18 @@ class Deck {
         let im = document.getElementById("cards");
         this.last_image = a;
         this.deck.pop();
-        initDragObj(im, "tile");
+        initDragObj(im, "tile");;
     }
 }
 
 function initDragObj (im, flag) {
 	im.onmousedown = function (e) {
+	    if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
+	        return;
+        }
+        if ((flag == "meeple")){
+            game.players[game.currentPlayer].meepleFlag = false;
+        }
 		let coords = getCoords(im);
 		let shiftX = e.pageX - coords.left;
 		let shiftY = e.pageY - coords.top;
@@ -289,7 +299,7 @@ function initDragObj (im, flag) {
 		document.body.appendChild(im);
 		moveAt(e);
 
-		im.style.zIndex = 1000; // над другими элементами
+		im.style.zIndex = 1000;
 
 		function moveAt(e) {
 			im.style.left = e.pageX - shiftX + 'px';
@@ -305,10 +315,10 @@ function initDragObj (im, flag) {
 		    if (flag === "tile") {
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
+                let j = Math.floor((e.pageY - game.r.dy) / sz) - 3;
                 let b = game.d.last_image;
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-                    game.r.f.field[i][j] = new Card(b);
+                    game.r.f.field[i][j] = new Card(b, '.....');
                     game.curI = i;
                     game.curJ = j;
                     game.r.redraw();
@@ -316,8 +326,14 @@ function initDragObj (im, flag) {
                     im.onmouseup = null;
                     im.remove();
                     game.players[game.currentPlayer].score = 20;
-                    game.players[game.currentPlayer].showScore(currentPlayer);
+                    game.players[game.currentPlayer].showScore(game.currentPlayer);
+                    cnt = 0;
+                    for (let j = 0; j < 6; j++) {
+                        let meeple = document.getElementById("meeple" + game.currentPlayer + j);
+                        game.players[game.currentPlayer].meepleFlag = true;
+                         initDragObj(meeple, "meeple");
 
+                    }
                 }
                 else {
                     document.onmousemove = null;
@@ -328,34 +344,43 @@ function initDragObj (im, flag) {
 		        let card;
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy) / sz) - 2;
-                let b = game.d.last_image;
-                if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-                    card = new Card(b, '.....');
-                    game.r.f.field[i][j] = card;
-                    game.r.redraw();
-                    document.onmousemove = null;
-                    im.onmouseup = null;
-                    im.remove();
-                    game.players[game.currentPlayer].score = 20;
-                    game.players[game.currentPlayer].showScore(currentPlayer);
-                    // if (game.currentPlayer == 4) {
-                    // 	game.currentPlayer = 1;
-                    // }
-                    // else {
-                    // 	game.currentPlayer++;
-                    // }
+                let j = Math.floor((e.pageY - game.r.dy) / sz) - 3;
+                let id = im.id;
+                console.log(i, j);
+                console.log(game.curI, game.curJ);
+                if ((game.curI != i) || (game.curJ != j) ) {
+                    console.log("asd");
+                    let block = document.getElementById("Meeples" + game.currentPlayer);
+                    let imageMeeple = document.getElementById(id);
+                    imageMeeple.remove();
+                    let image = document.createElement("img");
+                    image.id = id;
+                    image.src = "player" + game.currentPlayer + ".png";
+                    block.appendChild(image);
+                    game.players[game.currentPlayer].meepleFlag = true;
+                    initDragObj(image, "meeple");
                 }
                 else {
+                    // находим позицию на карточке
+                    game.field[game.curI][game.curJ].isMeeple = // позиция мипла * 10 + game.currentPlayer;
                     document.onmousemove = null;
                     im.onmouseup = null;
+
                 }
             }
 		}
 	};
 
 }
-
+function nextTurn() {
+    game.players[game.currentPlayer].meepleFlag = false;
+    console.log(game.currentPlayer);
+    game.currentPlayer ++;
+    if (game.currentPlayer == 5) {
+        game.currentPlayer = 1;
+    }
+    game.players[game.currentPlayer].cardFlag= true;
+}
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
     return {
@@ -366,50 +391,26 @@ function getCoords(elem) {
 
 function saveMap(filename){
 	let dataStr = JSON.stringify(game.r.f.field);
-	console.log(dataStr);
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
 }
 
-function giveMeeple() {
-    let block = document.getElementById("meeple" + currentPlayer);
-    console.log(currentPlayer);
 
-    if (block.childElementCount === 1) {
-        return;
-    }
-
-    let image = new Image();
-    image.src = "player" + currentPlayer + ".png";
-    image.id = "meeple" + currentPlayer;
-    image.height = 20;
-    image.width = 20;
-    block.appendChild(image);
-}
-
-function dragMeeple(player) {
-    if (player !== currentPlayer)
-        return;
-    console.log("pl" + player);
-    let im = document.getElementById("meeple" + player);
-    initDragObj(im, "meeple" + player);
-}
-
-class Meeple{
+/*class Meeple{
     coordMeepX;
     coorfMeepY;
     constructor() {
 
     }
 }
-
+*/
 class Card{
 	name;
 	meeplePos;
-	ii;
-	jj;
+    isMeeple;
 	constructor(namee, pos){
 		this.name = namee;
+		this.isMeeple = 0; // 0 - есть мипл, xy - x позиция мипла, y - чьего игрока мипл
 		this.meeplePos = pos;
 	}
 }
@@ -417,14 +418,14 @@ class Card{
 class Player {
     meeplesCount;
     constructor(n) {
-        this.meeplesCount = 6;
+        this.meepleFlag = false;
+        this.cardFlag = true;
         this.score = 0;
-        this.meeples = [];
-        for (let i = 0; i < 6; ++i) {
-            this.meeples[i] = new Meeple(n, i);
-        }
+        //this.meeples = [];
+        //for (let i = 0; i < 6; ++i) {
+          //  this.meeples[i] = new Meeple(n, i);
+        //}
         this.showScore(n);
-        this.showMeepleCount(n);
     }
 
     showScore(n){
@@ -434,14 +435,6 @@ class Player {
         context.font = "22px Verdana";
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: " + this.score, 10, 50);
-    }
-
-    showMeepleCount(n) {
-        let canvas = document.getElementById("player" + n);
-        let	context = canvas.getContext("2d");
-        context.font = "22px Verdana";
-
-        context.strokeText("meeples: " + this.meeplesCount, 10, 80);
     }
 }
 
@@ -454,7 +447,7 @@ class Field {
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[50][50] = new Card('rsrfrn', '.....');
+        this.field[50][50] = new Card('rsrfrn', '.........');
 
     }
 }

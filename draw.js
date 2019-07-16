@@ -1,4 +1,3 @@
-let currentPlayer = 1;
 
 class Renderer {
 	constructor() {
@@ -83,12 +82,29 @@ class Renderer {
 
 		for (let i = 0; i < f.field.length; ++i)
 			for (let j = 0; j < f.field[i].length; ++j) {
-				if (!f.field[i][j]) continue;
+				if (!f.field[i][j]) {
+					continue;
+				}
 				if (this.cardImages[f.field[i][j].name])
 					this.ctx.drawImage(this.cardImages[f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
 			}
+
+	}
+
+	drawMeeples(){
+		for (let i = 1; i < 5; i++){
+			let block = document.getElementById("Meeples" + i);
+			for (let j = 0; j < 6; j++) {
+				let image = document.createElement("img");
+				image.id = "meeple" + i + j;
+				image.src = "player" + i + ".png";
+				block.appendChild(image);
+			}
+
+		}
 	}
 }
+
 
 class Game {
     curI;
@@ -112,6 +128,7 @@ class Game {
 let game;
 window.addEventListener("DOMContentLoaded", function() {
     game = new Game();
+    game.r.drawMeeples();
 });
 
 

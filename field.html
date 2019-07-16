@@ -41,19 +41,19 @@
 				<canvas id="player1" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-				<div id="meeple1" onclick="dragMeeple(1)" style="height: 20px; width: 20px"></div>
 			</div>
 			<div class="col-xs-4">
 				<canvas id="player2" align="left" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
-				<div id="meeple2" onclick="dragMeeple(2)" style="height: 20px; width: 20px"></div>
 			</div>
 
 			<button id="download" onclick="saveMap('scene.txt')">
 				Save map
 			</button>
-
+			<button id="nextTurn" onclick="nextTurn()">
+				Next turn!
+			</button>
 			<button onclick="loadMap()">
 				Load map
 			</button>
@@ -88,21 +88,19 @@
 		</div>
 	</div>
 	<div>
-		<div id = "Meeples3" align="left">
+		<div id = "Meeples4" align="left">
 		</div>
-		<div id = "Meeples4" align="right">
+		<div id = "Meeples3" align="left">
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-4">
-			<div id="meeple3" onclick="dragMeeple(3)" style="height: 20px; width: 20px"></div>
 
 			<canvas id="player3" align="left" width="150" height="60"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 			<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 		</div>
 		<div class="col-xs-4">
-			<div id="meeple4" onclick="dragMeeple(4)" style="height: 20px; width: 20px"></div>
 
 			<canvas id="player4" align="left" width="150" height="60"
 					style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
