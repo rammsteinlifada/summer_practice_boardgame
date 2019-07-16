@@ -3,7 +3,6 @@ class Renderer {
 	constructor() {
 
 		this.cvs = document.getElementById("canvas");
-		console.log(this.cvs.getBoundingClientRect());
 		this.ctx = this.cvs.getContext("2d");
 
 		this.dx = -45 * 100;
@@ -52,6 +51,7 @@ class Renderer {
 	}
 
 	redraw() {
+
 		let f = this.f;
 		const sz = 100;
 		this.ctx.fillStyle = "white";
@@ -87,6 +87,33 @@ class Renderer {
 				}
 				if (this.cardImages[f.field[i][j].name])
 					this.ctx.drawImage(this.cardImages[f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
+				if (f.field[i][j].isMeeple != 0){
+				    let meepleX = 0;
+				    let meepleY = Math.trunc(f.field[i][j].isMeeple / 40) * 30 + 5;
+				    console.log(Math.trunc(f.field[i][j].isMeeple % 30 / 10),'x');
+				    if (Math.trunc(f.field[i][j].isMeeple % 30 / 10 ) == 1){
+                        meepleX = 15;
+                    }
+				    else{
+				        if (Math.trunc(f.field[i][j].isMeeple % 30 / 10) == 2){
+                            meepleX = 50;
+                        }
+				        else{
+                            meepleX = 80;
+                        }
+                    }
+				    console.log(meepleX,meepleY,'xy')
+                    let img = new Image();
+                    this.cvs = document.getElementById("canvas");
+                    img.src = "player" + (f.field[i][j].isMeeple % 10) + ".png";
+                    this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
+                    let block = document.getElementById("Meeples" + game.currentPlayer);
+                    let imageMeeple = document.getElementById(game.lastId);
+                    if (! game.isRemoved) {
+                        imageMeeple.remove(game.lastId);
+                        game.isRemoved = true;
+                    }
+                }
 			}
 
 	}
@@ -111,9 +138,12 @@ class Game {
     curJ;
     r;
     d;
+    lastImage;
     currentPlayer;
     players;
+    lastId;
     constructor() {
+        this.isRemoved = false;
         this.r = new Renderer();
         this.players = [];
         for (let i = 1; i < 5; ++i)

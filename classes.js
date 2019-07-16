@@ -255,6 +255,7 @@ class Deck {
 
         let image = document.getElementById("cards");
         image.src = "pics/" + a + ".jpg";
+        console.log(image.src);
     }
 
     show_card() {
@@ -273,6 +274,7 @@ class Deck {
         let a = this.deck[this.deck.length - 1];
         let image = document.createElement("img");
         image.id = "cards";
+        console.log(a);
         image.src = "pics/" + a + ".jpg";
         block.appendChild(image);
         let im = document.getElementById("cards");
@@ -284,11 +286,13 @@ class Deck {
 
 function initDragObj (im, flag) {
 	im.onmousedown = function (e) {
+
 	    if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
 	        return;
         }
         if ((flag == "meeple")){
             game.players[game.currentPlayer].meepleFlag = false;
+            game.isRemoved = false;
         }
 		let coords = getCoords(im);
 		let shiftX = e.pageX - coords.left;
@@ -316,6 +320,7 @@ function initDragObj (im, flag) {
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
                 let j = Math.floor((e.pageY - game.r.dy) / sz) - 3;
                 let b = game.d.last_image;
+                console.log(b);
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
                     game.r.f.field[i][j] = new Card(b, '.....');
                     game.curI = i;
@@ -351,21 +356,21 @@ function initDragObj (im, flag) {
                 let b = Math.floor(((e.pageY + 20 - game.r.dy) % 100) / 33 + 1);
                 let pos = 0;
                 pos = (b - 1) * 3 + a; 
-                if ((game.curI != i) || (game.curJ != j) || (pos == 5) ) {
-                    console.log("asd");
+                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.r.f.field[game.curI][game.curJ].name == 'e') )) {
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
                     imageMeeple.remove();
                     let image = document.createElement("img");
                     image.id = id;
+                    console.log(image.id);
                     image.src = "player" + game.currentPlayer + ".png";
                     block.appendChild(image);
                     game.players[game.currentPlayer].meepleFlag = true;
                     initDragObj(image, "meeple");
                 }
-                else {       
+                else {
                     console.log(pos);
-                    // находим позицию на карточке
+                    game.lastId = id;
                     game.r.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
                     document.onmousemove = null;
                     im.onmouseup = null;
@@ -384,6 +389,7 @@ function nextTurn() {
         game.currentPlayer = 1;
     }
     game.players[game.currentPlayer].cardFlag= true;
+    game.r.redraw();
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
