@@ -271,15 +271,14 @@ class Deck {
         a = a[3] + a.substring(0, 3) + a.substring(4, 6);
         this.last_image = a;
 
-        let image = document.getElementById("cards");
-        image.src = "pics/" + a + ".jpg?" + new Date().getTime();;
+        let image = document.getElementById("cards" + this.deck.length);
+        image.src = "pics/" + a + ".jpg";
     }
 
     show_card() {
         if (!game.players[game.currentPlayer].cardFlag){
             return;
         }
-        game.players[game.currentPlayer].cardFlag = false;
         let block = document.getElementById("sharpp");
         if (block.childElementCount >= 2)
             return;
@@ -287,13 +286,15 @@ class Deck {
             alert("GAME OVER");
             return 0;
         }
-
-        let a = this.deck[this.deck.length - 1];
+        let len = this.deck.length - 1;
+        game.players[game.currentPlayer].cardFlag = false;
+        let a = this.deck[len];
         let image = document.createElement("img");
-        image.id = "cards";
+        image.id = "cards" + len;
+        console.log(image.id);
         image.src = "pics/" + a + ".jpg";
         block.appendChild(image);
-        let im = document.getElementById("cards");
+        let im = document.getElementById("cards" + len);
         this.last_image = a;
         this.deck.pop();
         initDragObj(im, "tile");;
