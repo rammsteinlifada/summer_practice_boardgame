@@ -304,8 +304,6 @@ class Deck {
 function initDragObj (im, flag) {
 	im.onmousedown = function (e) {
 
-        game.nextTurnFlag = true;
-
 	    if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
 	        return;
         }
@@ -351,6 +349,7 @@ function initDragObj (im, flag) {
                     document.onmousemove = null;
                     im.onmouseup = null;
                     im.remove();
+                    game.nextTurnFlag = true;
                     cnt = 0;
                     for (let j = 0; j < 6; j++) {
                         let meeple = document.getElementById("meeple" + game.currentPlayer + j);

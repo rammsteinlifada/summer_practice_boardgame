@@ -143,7 +143,9 @@ class Game {
     currentPlayer;
     players;
     lastId;
+    nextTurnFlag;
     constructor() {
+    	this.nextTurnFlag = false;
         this.isRemoved = false;
         this.r = new Renderer();
         this.players = [];
@@ -160,6 +162,7 @@ let game;
 window.addEventListener("DOMContentLoaded", function() {
     game = new Game();
     game.r.drawMeeplesAndLightning();
+    game.nextTurnFlag = false;
 });
 
 
