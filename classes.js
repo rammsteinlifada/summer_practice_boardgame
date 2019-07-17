@@ -130,90 +130,103 @@ function checkPlace(a, b, field) {
     return true;
 }
 
-function checkBuilding (i, j, field){
+function checkBuilding (i, j){
+    let field = game.r.f.field;
     if (a <= 1 || b <= 1 || a >= 100 || b >=100)
         return 0;
     if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j - 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1])
         return 9;
 }
 
-function dfs(a, b, field, flag) {
+function dfs(used, a, b, flag) {
     if (a <= 0 && a >= 101 && b <= 0 && b >= 101)
         return
-    //получить картинку
-    //получить номер игрока по карте
+    console.log(a,b,'ab')
+    let image = game.r.f.field[a][b].name;
+    let player = game.r.f.field[a][b].isMeeple % 10;
     let scoreS = 0;
     let scoreR = 0;
     let scoreB = 0;
     let s = 0;
     let r = 0;
-    if (im[0] == 's' && flag == 's'){
+    if (image[0] == 's' && flag == 's'){
         scoreS += 2;
-        dfs(a - 1, b, field, 's');
+        dfs(used,a - 1, b,'s');
         s = 1;
     }
-    if (im[1] == 's' && flag == 's'){
+    if (image[1] == 's' && flag == 's'){
         if (s == 0) {
             scoreS += 2;
             s = 1;
         }
-        dfs(a, b - 1, field, 's');
+        dfs(used, a, b - 1, field, 's');
     }
-    if (im[2] == 's' && flag == 's'){
+    if (image[2] == 's' && flag == 's'){
         if (s == 0){
             scoreS += 2;
             s = 1;
         }
-        dfs(a + 1, b, field, 's');
+        dfs(used,a + 1, b, 's');
     }
-    if (im[3] == 's' && flag == 's'){
+    if (image[3] == 's' && flag == 's'){
         if (s == 0){
             scoreS += 2;
             s = 1;
         }
-        dfs(a, b - 1, field, 's');
-    }if (im[0] == 'r' && flag == 'r'){
+        dfs(a, b - 1, 's');
+    }if (image[0] == 'r' && flag == 'r'){
         ++scoreR;
-        dfs(a - 1, b, field, 'r');
+        dfs(used,a - 1, b,'r');
         r = 1;
     }
-    if (im[1] == 'r' && flag == 'r'){
+    if (image[1] == 'r' && flag == 'r'){
         if (r == 0) {
             ++scoreR;
             r = 1;
         }
-        dfs(a, b - 1, field, 'r');
+        dfs(used, a, b - 1,'r');
     }
-    if (im[2] == 'r' && flag == 'r'){
+    if (image[2] == 'r' && flag == 'r'){
         if (r == 0){
             ++scoreR;
             r = 1;
         }
-        dfs(a + 1, b, field, 'r');
+        dfs(used, a + 1, b,'r');
     }
-    if (im[3] == 'r' && flag == 'r'){
+    if (image[3] == 'r' && flag == 'r'){
         if (r == 0){
             ++scoreR;
             r = 1;
         }
-        dfs(a, b - 1, field, 'r');
-    }if (im[4] == 'b'){
-        if (checkBuilding(a, b, field))
+        dfs(used, a, b - 1,'r');
+    }if (image[4] == 'b'){
+        if (checkBuilding(a, b))
             scoreB = 9;
     }
     used[a][b] = 1;
-    currentPlayer = currentPlayer + scoreS + scoreR + scoreB;
+    game.players[game.currentPlayer].score = scoreS + scoreR + scoreB;
+    console.log(scoreS + scoreR + scoreB,'sc');
+    game.players[game.currentPlayer].showScore(game.currentPlayer);
 }
 
 function scoreCount(field){
-    new used(101).fill(0);
-    for (let i = 1; i < 101; i++){
-        for (let j = 1; j < 101; j++){
-            if (!field[i][j])
-                return false;
+    let used = [];
+    const n = 101
+    for (let i = 1; i < n; i++){
+        used.push([]);
+        for (let j = 1; j < n; j++) {
+            used[i].push(0);
+        }
+    }
+
+    console.log('SCORE')
+    for (let i = 1; i <n; i++){
+        for (let j = 1; j < n; j++){
+            if (!game.r.f.field[i][j])
+                continue;
             if (used[i][j] == 1)
                 continue;
-            dfs(i, j, field);
+            dfs(used, i, j, "a");
         }
     }
 }
@@ -254,8 +267,7 @@ class Deck {
         this.last_image = a;
 
         let image = document.getElementById("cards");
-        image.src = "pics/" + a + ".jpg";
-        console.log(image.src);
+        image.src = "pics/" + a + ".jpg?" + new Date().getTime();;
     }
 
     show_card() {
@@ -274,7 +286,6 @@ class Deck {
         let a = this.deck[this.deck.length - 1];
         let image = document.createElement("img");
         image.id = "cards";
-        console.log(a);
         image.src = "pics/" + a + ".jpg";
         block.appendChild(image);
         let im = document.getElementById("cards");
@@ -291,6 +302,10 @@ function initDragObj (im, flag) {
 	        return;
         }
         if ((flag == "meeple")){
+            let id = im.id;
+            if (id[6] != game.currentPlayer){
+                return;
+            }
             game.players[game.currentPlayer].meepleFlag = false;
             game.isRemoved = false;
         }
@@ -318,9 +333,8 @@ function initDragObj (im, flag) {
 		    if (flag === "tile") {
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy) / sz) - 3;
+                let j = Math.floor((e.pageY - game.r.dy ) / sz) - 3;
                 let b = game.d.last_image;
-                console.log(b);
                 if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
                     game.r.f.field[i][j] = new Card(b, '.....');
                     game.curI = i;
@@ -329,8 +343,6 @@ function initDragObj (im, flag) {
                     document.onmousemove = null;
                     im.onmouseup = null;
                     im.remove();
-                    game.players[game.currentPlayer].score = 20;
-                    game.players[game.currentPlayer].showScore(game.currentPlayer);
                     cnt = 0;
                     for (let j = 0; j < 6; j++) {
                         let meeple = document.getElementById("meeple" + game.currentPlayer + j);
@@ -348,12 +360,10 @@ function initDragObj (im, flag) {
 		        let card;
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy) / sz) - 3;
+                let j = Math.floor((e.pageY - game.r.dy - 50) / sz) - 2;
                 let id = im.id;
-                console.log(i, j);
-                console.log(game.curI, game.curJ);
                 let a = Math.floor(((e.pageX - game.r.dx) % 100) / 33 + 1);
-                let b = Math.floor(((e.pageY + 20 - game.r.dy) % 100) / 33 + 1);
+                let b = Math.floor(((e.pageY - game.r.dy - 250) % 100 ) / 33 + 1);
                 let pos = 0;
                 pos = (b - 1) * 3 + a; 
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.r.f.field[game.curI][game.curJ].name == 'e') )) {
@@ -362,14 +372,13 @@ function initDragObj (im, flag) {
                     imageMeeple.remove();
                     let image = document.createElement("img");
                     image.id = id;
-                    console.log(image.id);
                     image.src = "player" + game.currentPlayer + ".png";
                     block.appendChild(image);
                     game.players[game.currentPlayer].meepleFlag = true;
                     initDragObj(image, "meeple");
                 }
                 else {
-                    console.log(pos);
+                    console.log(pos,'pos');
                     game.lastId = id;
                     game.r.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
                     document.onmousemove = null;
@@ -382,14 +391,21 @@ function initDragObj (im, flag) {
 
 }
 function nextTurn() {
+    if (game.players[game.currentPlayer].cardFlag){
+        return;
+    }
+    let prevPlayer = document.getElementById("player" + game.currentPlayer);
+    prevPlayer.style.boxShadow = "";
     game.players[game.currentPlayer].meepleFlag = false;
-    console.log(game.currentPlayer);
     game.currentPlayer ++;
     if (game.currentPlayer == 5) {
         game.currentPlayer = 1;
     }
+    let player = document.getElementById("player" + game.currentPlayer);
+    player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.r.redraw();
+    //scoreCount(game.r.f.field);
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();

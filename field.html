@@ -25,7 +25,6 @@
 
 </head>
 <body>
-	<div class="row" height="200px">
 		<div>
 			<div class="dropdown open">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"> Меню </button>
@@ -36,38 +35,40 @@
 				</ul>
 			</div>
 		</div>
-		<div style="max-width: 1000px">
+		<div class="row">
 			<div class="col-xs-4">
 				<canvas id="player1" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 			</div>
+
 			<div class="col-xs-4">
 				<canvas id="player2" align="left" width="150" height="60"
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
+
+
 			</div>
+			<div class="col-xs-4">
+				<button id="download" onclick="saveMap('scene.txt')">
+					Save map
+				</button>
+				<button id="nextTurn" onclick="nextTurn()">
+					Next turn!
+				</button>
+				<button onclick="loadMap()">
+					Load map
+				</button>
 
-			<button id="download" onclick="saveMap('scene.txt')">
-				Save map
-			</button>
-			<button id="nextTurn" onclick="nextTurn()">
-				Next turn!
-			</button>
-			<button onclick="loadMap()">
-				Load map
-			</button>
+				<textarea id = "textarea" >
 
-			<textarea id = "textarea" >
-
-			</textarea>
-
+				</textarea>
+			</div>
 		</div>
-	</div>
-	<div>
-		<div id = "Meeples1" align="left">
+	<div class="row">
+		<div class="col-xs-4" id = "Meeples1">
 		</div>
-		<div id = "Meeples2" align="right">
+		<div class="col-xs-4" id = "Meeples2">
 		</div>
 	</div>
 	<div class="row" allign="center">
@@ -87,10 +88,10 @@
 			</button>
 		</div>
 	</div>
-	<div>
-		<div id = "Meeples4" align="left">
+	<div class="row">
+		<div class="col-xs-4" id = "Meeples4" >
 		</div>
-		<div id = "Meeples3" align="left">
+		<div class="col-xs-4" id = "Meeples3" >
 		</div>
 	</div>
 	<div class="row">

@@ -89,13 +89,12 @@ class Renderer {
 					this.ctx.drawImage(this.cardImages[f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
 				if (f.field[i][j].isMeeple != 0){
 				    let meepleX = 0;
-				    let meepleY = Math.trunc(f.field[i][j].isMeeple / 40) * 30 + 5;
-				    console.log(Math.trunc(f.field[i][j].isMeeple % 30 / 10),'x');
-				    if (Math.trunc(f.field[i][j].isMeeple % 30 / 10 ) == 1){
+				    let meepleY = Math.trunc((Math.trunc(f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
+				    if (Math.trunc(f.field[i][j].isMeeple / 10) % 3  == 1){
                         meepleX = 15;
                     }
 				    else{
-				        if (Math.trunc(f.field[i][j].isMeeple % 30 / 10) == 2){
+				        if (Math.trunc(f.field[i][j].isMeeple / 10) % 3 == 2){
                             meepleX = 50;
                         }
 				        else{
@@ -118,7 +117,7 @@ class Renderer {
 
 	}
 
-	drawMeeples(){
+	drawMeeplesAndLightning(){
 		for (let i = 1; i < 5; i++){
 			let block = document.getElementById("Meeples" + i);
 			for (let j = 0; j < 6; j++) {
@@ -129,6 +128,8 @@ class Renderer {
 			}
 
 		}
+        let player = document.getElementById("player" + game.currentPlayer);
+        player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
 	}
 }
 
@@ -158,7 +159,7 @@ class Game {
 let game;
 window.addEventListener("DOMContentLoaded", function() {
     game = new Game();
-    game.r.drawMeeples();
+    game.r.drawMeeplesAndLightning();
 });
 
 
