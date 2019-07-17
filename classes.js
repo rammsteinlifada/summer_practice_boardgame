@@ -249,6 +249,11 @@ function onCanvas(e){
 class Deck {
     shuffle(o) {
         for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
+        o[95] = 'ssfffn';
+        o[94] = 'ffssfn';
+        o[93] = 'fsfssn';
+        o[92] = 'sfsfsn';
+        o[91] = 'rfrfrn';
         return o;
     }
 
@@ -297,6 +302,8 @@ class Deck {
 
 function initDragObj (im, flag) {
 	im.onmousedown = function (e) {
+
+        game.nextTurnFlag = true;
 
 	    if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
 	        return;
@@ -391,6 +398,8 @@ function initDragObj (im, flag) {
 
 }
 function nextTurn() {
+    if (!game.nextTurnFlag)
+        return
     if (game.players[game.currentPlayer].cardFlag){
         return;
     }
@@ -405,6 +414,7 @@ function nextTurn() {
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.r.redraw();
+    game.nextTurnFlag = false;
     //scoreCount(game.r.f.field);
 }
 function getCoords(elem) {
