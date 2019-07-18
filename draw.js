@@ -7,8 +7,6 @@ class Renderer {
 
 		this.dx = -45 * 100;
 		this.dy = -45 * 100;
-
-		this.f = new Field();
 		let cnt = 0;
 		this.cardImages = {};
 		let self = this;
@@ -51,8 +49,6 @@ class Renderer {
 	}
 
 	redraw() {
-
-		let f = this.f;
 		const sz = 100;
 		this.ctx.fillStyle = "white";
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
@@ -80,21 +76,21 @@ class Renderer {
 		this.ctx.closePath();
 		this.ctx.stroke();
 
-		for (let i = 0; i < f.field.length; ++i)
-			for (let j = 0; j < f.field[i].length; ++j) {
-				if (!f.field[i][j]) {
+		for (let i = 0; i < game.f.field.length; ++i)
+			for (let j = 0; j < game.f.field[i].length; ++j) {
+				if (!game.f.field[i][j]) {
 					continue;
 				}
-				if (this.cardImages[f.field[i][j].name])
-					this.ctx.drawImage(this.cardImages[f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
-				if (f.field[i][j].isMeeple != 0){
+				if (this.cardImages[game.f.field[i][j].name])
+					this.ctx.drawImage(this.cardImages[game.f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
+				if (game.f.field[i][j].isMeeple != 0){
 				    let meepleX = 0;
-				    let meepleY = Math.trunc((Math.trunc(f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
-				    if (Math.trunc(f.field[i][j].isMeeple / 10) % 3  == 1){
+				    let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
+				    if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3  == 1){
                         meepleX = 15;
                     }
 				    else{
-				        if (Math.trunc(f.field[i][j].isMeeple / 10) % 3 == 2){
+				        if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3 == 2){
                             meepleX = 50;
                         }
 				        else{
@@ -103,9 +99,10 @@ class Renderer {
                     }
 				    console.log(meepleX,meepleY,'xy')
                     let img = new Image();
-                    this.cvs = document.getElementById("canvas");
-                    img.src = "player" + (f.field[i][j].isMeeple % 10) + ".png";
+                    img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
+                    console.log(img);
                     this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
+                    console.log("uuuut")
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(game.lastId);
                     if (! game.isRemoved) {
@@ -144,7 +141,9 @@ class Game {
     players;
     lastId;
     nextTurnFlag;
+    f;
     constructor() {
+		this.f = new Field();
     	this.nextTurnFlag = false;
         this.isRemoved = false;
         this.r = new Renderer();

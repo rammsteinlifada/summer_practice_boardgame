@@ -131,7 +131,7 @@ function checkPlace(a, b, field) {
 }
 
 function checkBuilding (i, j){
-    let field = game.r.f.field;
+    let field = game.f.field;
     if (a <= 1 || b <= 1 || a >= 100 || b >=100)
         return 0;
     if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j - 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1])
@@ -142,14 +142,20 @@ function dfs(used, a, b, flag) {
     if (a <= 0 && a >= 101 && b <= 0 && b >= 101)
         return
     console.log(a,b,'ab')
-    let image = game.r.f.field[a][b].name;
-    let player = game.r.f.field[a][b].isMeeple % 10;
+    let image = game.f.field[a][b].name;
+    let player = game.f.field[a][b].isMeeple % 10;
     let scoreS = 0;
     let scoreR = 0;
     let scoreB = 0;
     let s = 0;
     let r = 0;
-    if (image[0] == 's' && flag == 's'){
+    if (flag == "start"){
+        dfs(used, a - 1, b, 0);
+        dfs(used, a, b - 1, 1);
+        dfs(used, a + 1, b, 2);
+        dfs(used, a, b + 1, 3);
+    }
+    if (image[0] == 's' && image[flag] == 's'){
         scoreS += 2;
         dfs(used,a - 1, b,'s');
         s = 1;
@@ -210,7 +216,7 @@ function dfs(used, a, b, flag) {
 }
 
 function scoreCount(field){
-    let used = [];
+    let used = [[]];
     const n = 101
     for (let i = 1; i < n; i++){
         used.push([]);
@@ -222,11 +228,11 @@ function scoreCount(field){
     console.log('SCORE')
     for (let i = 1; i <n; i++){
         for (let j = 1; j < n; j++){
-            if (!game.r.f.field[i][j])
+            if (!field[i][j])
                 continue;
             if (used[i][j] == 1)
                 continue;
-            dfs(used, i, j, "a");
+            dfs(used, i, j, -1);
         }
     }
 }
@@ -249,11 +255,6 @@ function onCanvas(e){
 class Deck {
     shuffle(o) {
         for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x) ;
-        o[95] = 'ssfffn';
-        o[94] = 'ffssfn';
-        o[93] = 'fsfssn';
-        o[92] = 'sfsfsn';
-        o[91] = 'rfrfrn';
         return o;
     }
 
@@ -338,11 +339,11 @@ function initDragObj (im, flag) {
 		im.onmouseup = function (e) {
 		    if (flag === "tile") {
                 const sz = 100;
-                let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy ) / sz) - 3;
+                let i = Math.floor((e.pageX - game.r.dx + 5) / sz );
+                let j = Math.floor((e.pageY - game.r.dy +5) / sz) - 3;
                 let b = game.d.last_image;
-                if (isPlaced(im, i, j, game.r.f.field, b) && onCanvas(e)) {
-                    game.r.f.field[i][j] = new Card(b, '.....');
+                if (isPlaced(im, i, j, game.f.field, b) && onCanvas(e)) {
+                    game.f.field[i][j] = new Card(b, '.....');
                     game.curI = i;
                     game.curJ = j;
                     game.r.redraw();
@@ -373,7 +374,7 @@ function initDragObj (im, flag) {
                 let b = Math.floor(((e.pageY - game.r.dy - 250) % 100 ) / 33 + 1);
                 let pos = 0;
                 pos = (b - 1) * 3 + a; 
-                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.r.f.field[game.curI][game.curJ].name == 'e') )) {
+                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
                     imageMeeple.remove();
@@ -387,7 +388,7 @@ function initDragObj (im, flag) {
                 else {
                     console.log(pos,'pos');
                     game.lastId = id;
-                    game.r.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
+                    game.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
                     document.onmousemove = null;
                     im.onmouseup = null;
 
@@ -415,7 +416,7 @@ function nextTurn() {
     game.players[game.currentPlayer].cardFlag= true;
     game.r.redraw();
     game.nextTurnFlag = false;
-    //scoreCount(game.r.f.field);
+    //scoreCount(game.f.field);
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
@@ -426,7 +427,7 @@ function getCoords(elem) {
 }
 
 function saveMap(filename){
-	let dataStr = JSON.stringify(game.r.f.field);
+	let dataStr = JSON.stringify(game.f.field);
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
 }
