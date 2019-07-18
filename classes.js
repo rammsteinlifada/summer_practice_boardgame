@@ -365,10 +365,11 @@ function initDragObj (im, flag) {
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
                 let j = Math.floor((e.pageY - game.r.dy - sz / 2) / sz) - 2;
                 let id = im.id;
-                let a = Math.floor(((e.pageX - game.r.dx) % sz) / sz_3 + 1);
+                let a = Math.floor(((e.pageX - game.r.dx) % sz) / 33 + 1);
                 let b = Math.floor(((e.pageY - game.r.dy - 2,5*sz) % sz ) / sz_3 + 1);
                 let pos = 0;
-                pos = (b - 1) * 3 + a; 
+                pos = (b - 1) * 3 + a;
+                console.log(pos);
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
@@ -383,6 +384,13 @@ function initDragObj (im, flag) {
                 else {
                     game.lastId = id;
                     game.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
+                    let block = document.getElementById("Meeples" + game.currentPlayer);
+                    let imageMeeple = document.getElementById(game.lastId);
+                    if  (!game.isRemoved) {
+                        imageMeeple.remove();
+                        game.isRemoved = true;
+                    }
+                    game.r.redrawMeeples();
                     document.onmousemove = null;
                     im.onmouseup = null;
 
@@ -408,13 +416,6 @@ function nextTurn() {
     let player = document.getElementById("player" + game.currentPlayer);
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
-    game.r.redraw();
-    let block = document.getElementById("Meeples" + game.currentPlayer);
-    let imageMeeple = document.getElementById(game.lastId);
-    if  (!((game.isRemoved) && (game.nextTurnFlag))) {
-        imageMeeple.remove();
-        game.isRemoved = true;
-    }
     game.nextTurnFlag = false;
     //scoreCount(game.f.field);
 }
