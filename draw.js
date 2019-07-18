@@ -83,28 +83,39 @@ class Renderer {
 				}
 				if (this.cardImages[game.f.field[i][j].name])
 					this.ctx.drawImage(this.cardImages[game.f.field[i][j].name], sz * i + this.dx, sz * j + this.dy);
-				if (game.f.field[i][j].isMeeple != 0){
-				    let meepleX = 0;
-				    let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
-				    if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3  == 1){
-                        meepleX = 15;
-                    }
-				    else{
-				        if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3 == 2){
-                            meepleX = 50;
-                        }
-				        else{
-                    }
-                            meepleX = 80;
-                        }
-                    let img = new Image();
-                    img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
-                    this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
-                }
 			}
-
+		this.redrawMeeples();
 	}
 
+	redrawMeeples(){
+		const sz = 100;
+		for (let i = 0; i < game.f.field.length; ++i)
+			for (let j = 0; j < game.f.field[i].length; ++j) {
+				if ((!game.f.field[i][j]) || (game.f.field[i][j].isMeeple == 0)) {
+					continue;
+				}
+					let meepleX = 0;
+					let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
+					if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3  == 1){
+						meepleX = 15;
+					}
+					else{
+						if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3 == 2){
+							meepleX = 50;
+						}
+						else{
+							meepleX = 80;
+						}
+					}
+					let img = new Image();
+					console.log(game.f.field[i][j].isMeeple % 10);
+					img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
+					console.log(img);
+					this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
+					console.log("uuuut")
+
+			}
+	}
 	drawMeeplesAndLightning(){
 		for (let i = 1; i < 5; i++){
 			let block = document.getElementById("Meeples" + i);
@@ -133,8 +144,10 @@ class Game {
 	curI;
 	curJ;
 	lastId;
+	pos;
     constructor() {
     	this.lastId;
+    	this.pos;
 		this.f = new Field();
     	this.nextTurnFlag = false;
         this.isRemoved = false;
