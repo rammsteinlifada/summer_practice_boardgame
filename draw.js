@@ -94,16 +94,12 @@ class Renderer {
                             meepleX = 50;
                         }
 				        else{
+                    }
                             meepleX = 80;
                         }
-                    }
                     let img = new Image();
                     img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
-                    console.log(img);
                     this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
-                    console.log("uuuut")
-
-
                 }
 			}
 
