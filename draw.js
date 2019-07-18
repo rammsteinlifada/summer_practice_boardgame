@@ -97,18 +97,13 @@ class Renderer {
                             meepleX = 80;
                         }
                     }
-				    console.log(meepleX,meepleY,'xy')
                     let img = new Image();
                     img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
                     console.log(img);
                     this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
                     console.log("uuuut")
-                    let block = document.getElementById("Meeples" + game.currentPlayer);
-                    let imageMeeple = document.getElementById(game.lastId);
-                    if (! game.isRemoved) {
-                        imageMeeple.remove(game.lastId);
-                        game.isRemoved = true;
-                    }
+
+
                 }
 			}
 
@@ -132,17 +127,18 @@ class Renderer {
 
 
 class Game {
-    curI;
-    curJ;
-    r;
-    d;
-    lastImage;
-    currentPlayer;
-    players;
-    lastId;
-    nextTurnFlag;
-    f;
+	nextTurnFlag;
+	f;
+	isRemoved;
+	r;
+	players;
+	d;
+	currentPlayer;
+	curI;
+	curJ;
+	lastId;
     constructor() {
+    	this.lastId;
 		this.f = new Field();
     	this.nextTurnFlag = false;
         this.isRemoved = false;

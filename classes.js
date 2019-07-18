@@ -141,9 +141,8 @@ function checkBuilding (i, j){
 function dfs(used, a, b, flag) {
     if (a <= 0 && a >= 101 && b <= 0 && b >= 101)
         return
-    console.log(a,b,'ab')
-    let image = game.f.field[a][b].name;
-    let player = game.f.field[a][b].isMeeple % 10;
+    let image = game.r.f.field[a][b].name;
+    let player = game.r.f.field[a][b].isMeeple % 10;
     let scoreS = 0;
     let scoreR = 0;
     let scoreB = 0;
@@ -211,7 +210,6 @@ function dfs(used, a, b, flag) {
     }
     used[a][b] = 1;
     game.players[game.currentPlayer].score = scoreS + scoreR + scoreB;
-    console.log(scoreS + scoreR + scoreB,'sc');
     game.players[game.currentPlayer].showScore(game.currentPlayer);
 }
 
@@ -224,8 +222,6 @@ function scoreCount(field){
             used[i].push(0);
         }
     }
-
-    console.log('SCORE')
     for (let i = 1; i <n; i++){
         for (let j = 1; j < n; j++){
             if (!field[i][j])
@@ -292,7 +288,6 @@ class Deck {
         let a = this.deck[len];
         let image = document.createElement("img");
         image.id = "cards" + len;
-        console.log(image.id);
         image.src = "pics/" + a + ".jpg";
         block.appendChild(image);
         let im = document.getElementById("cards" + len);
@@ -365,13 +360,13 @@ function initDragObj (im, flag) {
                 }
             }
 		    else {
-		        let card;
                 const sz = 100;
+                const sz_3 = Math.floor(sz / 3)
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy - 50) / sz) - 2;
+                let j = Math.floor((e.pageY - game.r.dy - sz / 2) / sz) - 2;
                 let id = im.id;
-                let a = Math.floor(((e.pageX - game.r.dx) % 100) / 33 + 1);
-                let b = Math.floor(((e.pageY - game.r.dy - 250) % 100 ) / 33 + 1);
+                let a = Math.floor(((e.pageX - game.r.dx) % sz) / sz_3 + 1);
+                let b = Math.floor(((e.pageY - game.r.dy - 2,5*sz) % sz ) / sz_3 + 1);
                 let pos = 0;
                 pos = (b - 1) * 3 + a; 
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
@@ -386,7 +381,6 @@ function initDragObj (im, flag) {
                     initDragObj(image, "meeple");
                 }
                 else {
-                    console.log(pos,'pos');
                     game.lastId = id;
                     game.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
                     document.onmousemove = null;
@@ -415,6 +409,12 @@ function nextTurn() {
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.r.redraw();
+    let block = document.getElementById("Meeples" + game.currentPlayer);
+    let imageMeeple = document.getElementById(game.lastId);
+    if  (!((game.isRemoved) && (game.nextTurnFlag))) {
+        imageMeeple.remove();
+        game.isRemoved = true;
+    }
     game.nextTurnFlag = false;
     //scoreCount(game.f.field);
 }
@@ -442,9 +442,9 @@ function saveMap(filename){
 }
 */
 class Card{
-	name;
-	meeplePos;
-    isMeeple;
+	//name;
+	//meeplePos;
+    //isMeeple;
 	constructor(namee, pos){
 		this.name = namee;
 		this.isMeeple = 0; // 0 - есть мипл, xy - x позиция мипла, y - чьего игрока мипл
@@ -453,7 +453,7 @@ class Card{
 }
 
 class Player {
-    meeplesCount;
+    //meeplesCount;
     constructor(n) {
         this.meepleFlag = false;
         this.cardFlag = true;
