@@ -138,83 +138,35 @@ function checkBuilding (i, j){
         return 9;
 }
 
-function dfs(used, a, b, flag) {
-    if (a <= 0 && a >= 101 && b <= 0 && b >= 101)
-        return
-    let image = game.r.f.field[a][b].name;
-    let player = game.r.f.field[a][b].isMeeple % 10;
+function dfs(used, i, j, pos) {
+    if (i <= 0 && i >= 101 && j <= 0 && j >= 101)
+        return;
+    let field = game.f.field;
+    if (!field[i][j]){
+        return false;
+    }
+    used[i][j] = 1;
+    let image = field[i][j].name;
+    let player = field[i][j].isMeeple % 10;
     let scoreS = 0;
     let scoreR = 0;
     let scoreB = 0;
     let s = 0;
     let r = 0;
-    if (flag == "start"){
-        dfs(used, a - 1, b, 0);
-        dfs(used, a, b - 1, 1);
-        dfs(used, a + 1, b, 2);
-        dfs(used, a, b + 1, 3);
+    if (image[4] != image[pos]){
+        return false;
     }
-    if (image[0] == 's' && image[flag] == 's'){
-        scoreS += 2;
-        dfs(used,a - 1, b,'s');
-        s = 1;
-    }
-    if (image[1] == 's' && flag == 's'){
-        if (s == 0) {
-            scoreS += 2;
-            s = 1;
-        }
-        dfs(used, a, b - 1, field, 's');
-    }
-    if (image[2] == 's' && flag == 's'){
-        if (s == 0){
-            scoreS += 2;
-            s = 1;
-        }
-        dfs(used,a + 1, b, 's');
-    }
-    if (image[3] == 's' && flag == 's'){
-        if (s == 0){
-            scoreS += 2;
-            s = 1;
-        }
-        dfs(a, b - 1, 's');
-    }if (image[0] == 'r' && flag == 'r'){
-        ++scoreR;
-        dfs(used,a - 1, b,'r');
-        r = 1;
-    }
-    if (image[1] == 'r' && flag == 'r'){
-        if (r == 0) {
-            ++scoreR;
-            r = 1;
-        }
-        dfs(used, a, b - 1,'r');
-    }
-    if (image[2] == 'r' && flag == 'r'){
-        if (r == 0){
-            ++scoreR;
-            r = 1;
-        }
-        dfs(used, a + 1, b,'r');
-    }
-    if (image[3] == 'r' && flag == 'r'){
-        if (r == 0){
-            ++scoreR;
-            r = 1;
-        }
-        dfs(used, a, b - 1,'r');
-    }if (image[4] == 'b'){
-        if (checkBuilding(a, b))
-            scoreB = 9;
-    }
-    used[a][b] = 1;
-    game.players[game.currentPlayer].score = scoreS + scoreR + scoreB;
+
+    game.players[Math.trunc(field[i][j].isMeeple / 10)].score = scoreS + scoreR + scoreB;
+    console.log(scoreS + scoreR + scoreB,'sc');
     game.players[game.currentPlayer].showScore(game.currentPlayer);
 }
 
-function scoreCount(field){
+function scoreCount(){
     let used = [[]];
+    console.log('123')
+    let field = game.f.field;
+    scoreB = 0;
     const n = 101
     for (let i = 1; i < n; i++){
         used.push([]);
@@ -222,15 +174,21 @@ function scoreCount(field){
             used[i].push(0);
         }
     }
-    for (let i = 1; i <n; i++){
-        for (let j = 1; j < n; j++){
-            if (!field[i][j])
+
+    for (let i = 1; i < 101; i++){
+        for (let j = 1; j < 101; j++){
+            if (!field[i][j]){
                 continue;
-            if (used[i][j] == 1)
-                continue;
-            dfs(used, i, j, -1);
+            }
+            if (field[i][j].name[4] == 'b'){
+                if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j + 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1]){
+                    scoreB += 9;
+                    continue;
+                }
+            }
         }
     }
+    console.log(scoreB,' B');
 }
 
 function fill_tip(a, b){
@@ -417,7 +375,7 @@ function nextTurn() {
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
-    //scoreCount(game.f.field);
+    scoreCount();
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
