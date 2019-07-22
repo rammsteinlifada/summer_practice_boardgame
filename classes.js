@@ -130,9 +130,41 @@ function checkPlace(a, b, field) {
     return true;
 }
 
+function checkMeeplePosition(i, j){
+	let card = game.f.field[i][j];
+	let meeplePosition = Math.trunc(card.isMeeple / 10);
+	if (meeplePosition < 4 && card[1] == 's')
+		return 1;
+	if (meeplePosition % 3 == 1 && card[0] == 's')
+		return 0;
+	if (meeplePosition > 6 && card[3] == 's')
+		return 3;
+	if (meeplePosition % 3 == 0 && card[2] == 's')
+		return 2;
+	if (meeplePosition == 5 && card[4] == 's')
+		return 4;
+	switch (meeplePosition){
+		case 2:
+			if (card[1] == 'r')
+				return 1;
+			break;
+		case 8:
+			if (card[3] == 'r')
+				return 3;
+			break;
+		case 4:
+			if (card[0] == 'r')
+				return 0;
+			break;
+		case 6:
+			if (card[2] == 'r')
+				return 2;
+			break;
+	}
+}
 
 //dfs()
-function scoreCount(){
+/*function scoreCount(){
 
     for (let i = 1; i < 101; i++){
         for (let j = 1; j < 101; j++){
@@ -151,7 +183,7 @@ function scoreCount(){
                     if (position == 3)
                         dfs(i, j+1);
                 else{
-                    for (let k = 0; i 4; i++){
+                    for (let k = 0; k < 4; k++){
 
 
                     }
@@ -159,7 +191,7 @@ function scoreCount(){
             }
         }
     }
-}
+}*/
 
 
 function onCanvas(e){
@@ -323,6 +355,7 @@ function initDragObj (im, flag) {
 	};
 
 }
+
 function nextTurn() {
     if (!game.nextTurnFlag)
         return
@@ -342,6 +375,7 @@ function nextTurn() {
     game.nextTurnFlag = false;
     //scoreCount();
 }
+
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
     return {
