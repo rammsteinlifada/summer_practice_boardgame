@@ -130,32 +130,113 @@ function checkPlace(a, b, field) {
     return true;
 }
 
+function checkMeeplePosition(i, j){
+    let card = game.f.field[i][j];
+    let meeplePosition = Math.trunc(card.isMeeple / 10);
+    if (meeplePosition < 4 && card.name[1] == 's')
+        return 1;
+    if (meeplePosition % 3 == 1 && card.name[0] == 's')
+        return 0;
+    if (meeplePosition > 6 && card.name[3] == 's')
+        return 3;
+    if (meeplePosition % 3 == 0 && card.name[2] == 's')
+        return 2;
+    if (meeplePosition == 5 && card.name[4] == 's')
+        return 4;
+    /*switch (meeplePosition){
+        case 2:
+            if (card[1] == 'r')
+                return 1;
+            break;
+        case 8:
+            if (card[3] == 'r')
+                return 3;
+            break;
+        case 4:
+            if (card[0] == 'r')
+                return 0;
+            break;
+        case 6:
+            if (card[2] == 'r')
+                return 2;
+            break;
+    }
 
-//dfs()
+     */
+}
+function dfs(used, i, j, flag){
+    if (used[i][j] == 1){
+        return;
+    }
+    used[i][j] = 1;
+    if (!game.f.field[i][j]){
+        flag = false;
+    }
+    else{
+        console.log(i, j);
+        score += 2;
+        if (game.f.field[i][j].name[4] == 's'){
+            for (let k = 0; k < 4; k++) {
+                if (game.f.field[i][j].name[k] == 's') {
+                    edjes(used, i, j, k, flag);
+                }
+            }
+        }
+    }
+}
+function edjes(used, i, j, k, flag){
+    if (k == 0)
+        dfs(used,i-1, j, flag);
+    if (k == 1)
+        dfs(used, i, j-1, flag);
+    if (k == 2)
+        dfs(used,i+1, j, flag);
+    if (k == 3)
+        dfs(used, i, j+1, flag);
+}
 function scoreCount(){
-
-    for (let i = 1; i < 101; i++){
-        for (let j = 1; j < 101; j++){
+    score = 0;
+    let used = [[]];
+    const n = 101
+    for (let i = 1; i < n-1; i++){
+        used.push([]);
+        for (let j = 1; j < n-1; j++) {
+            used[i].push(0);
+        }
+    }
+    for (let i = 1; i < n-1; i++){
+        for (let j = 1; j < n-1; j++){
             if (!game.f.field[i][j]){
                 continue;
             }
-            if (game.f.field.isMeeple != 0){
-                position = checkMeepleposition();
-                if (game.f.field[i][j].name[4] != 's'){
-                    if (position == 0)
-                        dfs(i-1, j);
-                    if (position == 1)
-                        dfs(i, j-1);
-                    if (position == 2)
-                        dfs(i+1, j);
-                    if (position == 3)
-                        dfs(i, j+1);
+            if (game.f.field[i][j].isMeeple != 0){
+                if (used[i][j] == 1){
+                    continue;
+                }
+                let flag = true;
+                score += 2;
+                used[i][j] = 1;
+                position = checkMeeplePosition(i, j);
+                if (game.f.field[i][j].name[4] != 's') {
+                    edjes(used, i, j, position, flag);
+                    if (flag) {
+                        score = score * 2;
+                    }
+                    flag = true;
+                    console.log(score,'3');
+                }
                 else{
-                    for (let k = 0; i 4; i++){
-
-
+                    for (let k = 0; k < 4; k++){
+                        if (game.f.field[i][j].name[k] == 's'){
+                            let flag = true;
+                            edjes(used, i, j, k, flag);
+                        }
+                    }
+                    if (flag){
+                        score = score * 2;
                     }
                 }
+
             }
         }
     }
@@ -281,16 +362,19 @@ function initDragObj (im, flag) {
                 }
             }
 		    else {
+		        let cvs = document.getElementById("canvas");
+		        let info = cvs.getBoundingClientRect();
                 const sz = 100;
                 const sz_3 = Math.floor(sz / 3)
+                console.log(e.pageY - game.r.dy );
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy - sz / 2) / sz) - 3;
+                let j = Math.floor((e.pageY - game.r.dy ) / sz) - 3;
                 let id = im.id;
                 let a = Math.floor(((e.pageX - game.r.dx) % sz) / 33 + 1);
-                let b = Math.floor(((e.pageY - game.r.dy ) % sz ) / sz_3 + 1);
-                let pos = 0;
+                let b = Math.floor(((e.pageY - game.r.dy - info.top) % sz) / 33 + 1);
+                console.log(a, b);
                 console.log(i, j);
-                console.log(a, b)
+                let pos = 0;
                 pos = (b - 1) * 3 + a;
                 console.log(pos);
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
@@ -340,7 +424,7 @@ function nextTurn() {
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
-    //scoreCount();
+    scoreCount();
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
@@ -382,22 +466,28 @@ class Player {
     constructor(n) {
         this.meepleFlag = false;
         this.cardFlag = true;
-        this.score = 0;
+        this.scoreB = 0;
+        this.scoreF = 0;
+        this.scoreR = 0;
+        this.scoreS = 0;
         //this.meeples = [];
         //for (let i = 0; i < 6; ++i) {
           //  this.meeples[i] = new Meeple(n, i);
         //}
-        this.showScore(n);
+        //this.showScore(n);
     }
 
-    showScore(n){
+    /*showScore(n){
+        let score = scoreB + scoreF + scoreR + scoreS;
         let canvas = document.getElementById("player" + n);
         let	context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.font = "22px Verdana";
         context.strokeText(n +" player", 10, 20);
-        context.strokeText("score: " + this.score, 10, 50);
+        context.strokeText("score: " + score, 10, 50);
     }
+
+         */
 }
 
 class Field {
@@ -409,7 +499,7 @@ class Field {
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[48][48] = new Card('rsrfrn', '.........');
+        this.field[50][50] = new Card('rsrfrn', '.........');
 
     }
 }
