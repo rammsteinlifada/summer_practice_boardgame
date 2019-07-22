@@ -194,49 +194,51 @@ function edjes(used, i, j, k, flag){
     if (k == 3)
         dfs(used, i, j+1, flag);
 }
-function scoreCount() {
+function scoreCount(){
     score = 0;
     let used = [[]];
     const n = 101
-    for (let i = 1; i < n - 1; i++) {
+    for (let i = 1; i < n-1; i++){
         used.push([]);
-        for (let j = 1; j < n - 1; j++) {
+        for (let j = 1; j < n-1; j++) {
             used[i].push(0);
         }
     }
-    for (let i = 1; i < n - 1; i++)
-        for (let j = 1; j < n - 1; j++) {
-            let card = game.f.field[i][j];
-            let meeplePosition = Math.trunc(card.isMeeple / 10);
-            if (meeplePosition < 4 && card[1] == 's')
-                return 1;
-            if (meeplePosition % 3 == 1 && card[0] == 's')
-                return 0;
-            if (meeplePosition > 6 && card[3] == 's')
-                return 3;
-            if (meeplePosition % 3 == 0 && card[2] == 's')
-                return 2;
-            if (meeplePosition == 5 && card[4] == 's')
-                return 4;
-            switch (meeplePosition) {
-                case 2:
-                    if (card[1] == 'r')
-                        return 1;
-                    break;
-                case 8:
-                    if (card[3] == 'r')
-                        return 3;
-                    break;
-                case 4:
-                    if (card[0] == 'r')
-                        return 0;
-                    break;
-                case 6:
-                    if (card[2] == 'r')
-                        return 2;
-                    break;
+    for (let i = 1; i < n-1; i++){
+        for (let j = 1; j < n-1; j++){
+            if (!game.f.field[i][j]){
+                continue;
+            }
+            if (game.f.field[i][j].isMeeple != 0){
+                if (used[i][j] == 1){
+                    continue;
+                }
+                let flag = true;
+                score += 2;
+                used[i][j] = 1;
+                position = checkMeeplePosition(i, j);
+                if (game.f.field[i][j].name[4] != 's') {
+                    edjes(used, i, j, position, flag);
+                    if (flag) {
+                        score = score * 2;
+                    }
+                    flag = true;
+                }
+                else{
+                    for (let k = 0; k < 4; k++){
+                        if (game.f.field[i][j].name[k] == 's'){
+                            let flag = true;
+                            edjes(used, i, j, k, flag);
+                        }
+                    }
+                    if (flag){
+                        score = score * 2;
+                    }
+                }
+
             }
         }
+    }
 }
 
 function onCanvas(e){
@@ -475,7 +477,7 @@ class Player {
         //this.showScore(n);
     }
 
-    /*showScore(n){
+    showScore(n){
         let score = scoreB + scoreF + scoreR + scoreS;
         let canvas = document.getElementById("player" + n);
         let	context = canvas.getContext("2d");
@@ -484,8 +486,6 @@ class Player {
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: " + score, 10, 50);
     }
-
-         */
 }
 
 class Field {
