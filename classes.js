@@ -387,6 +387,7 @@ function getCoords(elem) {
 
 function saveMap(filename){
 	let dataStr = JSON.stringify(game.f.field);
+
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
 }
