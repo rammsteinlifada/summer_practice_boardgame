@@ -485,7 +485,7 @@ class Field {
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[50][50] = new Card('rsrfrn', '.........');
+        this.field[48][48] = new Card('rsrfrn', '.........');
 
     }
 }
