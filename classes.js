@@ -130,74 +130,37 @@ function checkPlace(a, b, field) {
     return true;
 }
 
-function checkBuilding (i, j){
-    let field = game.f.field;
-    if (a <= 1 || b <= 1 || a >= 100 || b >=100)
-        return 0;
-    if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j - 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1])
-        return 9;
-}
 
-function dfs(used, i, j, pos) {
-    if (i <= 0 && i >= 101 && j <= 0 && j >= 101)
-        return;
-    let field = game.f.field;
-    if (!field[i][j]){
-        return false;
-    }
-    used[i][j] = 1;
-    let image = field[i][j].name;
-    let player = field[i][j].isMeeple % 10;
-    let scoreS = 0;
-    let scoreR = 0;
-    let scoreB = 0;
-    let s = 0;
-    let r = 0;
-    if (image[4] != image[pos]){
-        return false;
-    }
-
-    game.players[Math.trunc(field[i][j].isMeeple / 10)].score = scoreS + scoreR + scoreB;
-    console.log(scoreS + scoreR + scoreB,'sc');
-    game.players[game.currentPlayer].showScore(game.currentPlayer);
-}
-
+//dfs()
 function scoreCount(){
-    let used = [[]];
-    console.log('123')
-    let field = game.f.field;
-    scoreB = 0;
-    const n = 101
-    for (let i = 1; i < n; i++){
-        used.push([]);
-        for (let j = 1; j < n; j++) {
-            used[i].push(0);
-        }
-    }
 
     for (let i = 1; i < 101; i++){
         for (let j = 1; j < 101; j++){
-            if (!field[i][j]){
+            if (!game.f.field[i][j]){
                 continue;
             }
-            if (field[i][j].name[4] == 'b'){
-                if (field[i - 1][j] && field[i - 1][j - 1] && field[i][j - 1] && field[i + 1][j + 1] && field[i + 1][j] && field[i + 1][j + 1] && field[i][j + 1] && field[i - 1][j + 1]){
-                    scoreB += 9;
-                    continue;
+            if (game.f.field.isMeeple != 0){
+                position = checkMeepleposition();
+                if (game.f.field[i][j].name[4] != 's'){
+                    if (position == 0)
+                        dfs(i-1, j);
+                    if (position == 1)
+                        dfs(i, j-1);
+                    if (position == 2)
+                        dfs(i+1, j);
+                    if (position == 3)
+                        dfs(i, j+1);
+                else{
+                    for (let k = 0; i 4; i++){
+
+
+                    }
                 }
             }
         }
     }
-    console.log(scoreB,' B');
 }
 
-function fill_tip(a, b){
-    let cvs = document.getElementById("canvas");
-    let ctx = cvs.getContext("2d");
-    ctx.strokeStyle = "#000";
-    ctx.fillStyle = "#3cc1ff";
-    ctx.fillRect((a - 1) * 100, b * 100 + 200, 100, 100);
-}
 
 function onCanvas(e){
     let cvs = document.getElementById("canvas");
@@ -321,11 +284,13 @@ function initDragObj (im, flag) {
                 const sz = 100;
                 const sz_3 = Math.floor(sz / 3)
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy - sz / 2) / sz) - 2;
+                let j = Math.floor((e.pageY - game.r.dy - sz / 2) / sz) - 3;
                 let id = im.id;
                 let a = Math.floor(((e.pageX - game.r.dx) % sz) / 33 + 1);
-                let b = Math.floor(((e.pageY - game.r.dy - 2,5*sz) % sz ) / sz_3 + 1);
+                let b = Math.floor(((e.pageY - game.r.dy ) % sz ) / sz_3 + 1);
                 let pos = 0;
+                console.log(i, j);
+                console.log(a, b)
                 pos = (b - 1) * 3 + a;
                 console.log(pos);
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
@@ -375,7 +340,7 @@ function nextTurn() {
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
-    scoreCount();
+    //scoreCount();
 }
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
