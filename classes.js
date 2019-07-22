@@ -434,11 +434,18 @@ function getCoords(elem) {
     }
 }
 
-function saveMap(filename){
+function saveMap(){
 	let dataStr = JSON.stringify(game.f.field);
 
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
+}
+
+function loadMap(){
+	var text = document.getElementById("textarea").value;
+	var obj = JSON.parse(text);
+	game.f.field = obj;
+	game.r.redraw();
 }
 
 
