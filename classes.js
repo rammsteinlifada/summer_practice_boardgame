@@ -102,7 +102,7 @@ objValues = {
     "s":[1, 2],
     "f":[0, 1],
     "b":[0, 9],
-};
+}
 
 function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
@@ -194,54 +194,50 @@ function edjes(used, i, j, k, flag){
     if (k == 3)
         dfs(used, i, j+1, flag);
 }
-function scoreCount(){
+function scoreCount() {
     score = 0;
     let used = [[]];
     const n = 101
-    for (let i = 1; i < n-1; i++){
+    for (let i = 1; i < n - 1; i++) {
         used.push([]);
-        for (let j = 1; j < n-1; j++) {
+        for (let j = 1; j < n - 1; j++) {
             used[i].push(0);
         }
     }
-    for (let i = 1; i < n-1; i++){
-        for (let j = 1; j < n-1; j++){
-            if (!game.f.field[i][j]){
-                continue;
-            }
-            if (game.f.field[i][j].isMeeple != 0){
-                if (used[i][j] == 1){
-                    continue;
-                }
-                let flag = true;
-                score += 2;
-                used[i][j] = 1;
-                position = checkMeeplePosition(i, j);
-                if (game.f.field[i][j].name[4] != 's') {
-                    edjes(used, i, j, position, flag);
-                    if (flag) {
-                        score = score * 2;
-                    }
-                    flag = true;
-                    console.log(score,'3');
-                }
-                else{
-                    for (let k = 0; k < 4; k++){
-                        if (game.f.field[i][j].name[k] == 's'){
-                            let flag = true;
-                            edjes(used, i, j, k, flag);
-                        }
-                    }
-                    if (flag){
-                        score = score * 2;
-                    }
-                }
-
+    for (let i = 1; i < n - 1; i++)
+        for (let j = 1; j < n - 1; j++) {
+            let card = game.f.field[i][j];
+            let meeplePosition = Math.trunc(card.isMeeple / 10);
+            if (meeplePosition < 4 && card[1] == 's')
+                return 1;
+            if (meeplePosition % 3 == 1 && card[0] == 's')
+                return 0;
+            if (meeplePosition > 6 && card[3] == 's')
+                return 3;
+            if (meeplePosition % 3 == 0 && card[2] == 's')
+                return 2;
+            if (meeplePosition == 5 && card[4] == 's')
+                return 4;
+            switch (meeplePosition) {
+                case 2:
+                    if (card[1] == 'r')
+                        return 1;
+                    break;
+                case 8:
+                    if (card[3] == 'r')
+                        return 3;
+                    break;
+                case 4:
+                    if (card[0] == 'r')
+                        return 0;
+                    break;
+                case 6:
+                    if (card[2] == 'r')
+                        return 2;
+                    break;
             }
         }
-    }
 }
-
 
 function onCanvas(e){
     let cvs = document.getElementById("canvas");
@@ -407,6 +403,7 @@ function initDragObj (im, flag) {
 	};
 
 }
+
 function nextTurn() {
     if (!game.nextTurnFlag)
         return
@@ -426,6 +423,7 @@ function nextTurn() {
     game.nextTurnFlag = false;
     scoreCount();
 }
+
 function getCoords(elem) {
     let box = elem.getBoundingClientRect();
     return {
@@ -501,80 +499,5 @@ class Field {
         }
         this.field[50][50] = new Card('rsrfrn', '.........');
 
-    }
-}
-
-function searchComplete() {
-    let fieldVisited = [];
-
-    for (let i = 0; i < 100; ++i) {
-        fieldVisited.push([]);
-    }
-
-    let field = game.r.f.field;
-    let tempPoints = [];
-    let queue = [];
-    let card = new Card(field[game.curI][game.curJ].name);
-    card.ii = game.curI;
-    card.jj = game.curJ;
-    fieldVisited[card.ii][card.jj] = true;
-    queue.push(field[game.curI][game.curJ]);
-    let cardForPushing = new Card();
-    while(queue.length > 0) {
-        card = queue.pop();
-        fieldVisited[card.ii][card.jj] = true;
-        for (let i = 0; i < 4; i++) {
-            if (field[card.ii + 1][card.jj] && (field[card.ii + 1][card.jj][i] === field[card.ii + 1][card.jj][(i + 2) % 4] === 's' ||
-                field[card.ii + 1][card.jj][i] === field[card.ii + 1][card.jj][(i + 2) % 4] === 'r')) {
-                if (!fieldVisited[card.ii + 1][card.jj]) {
-                    cardForPushing.name = field[card.ii + 1][card.jj].name;
-                    cardForPushing.meeplePos = field[card.ii + 1][card.jj].meeplePos;
-                    cardForPushing.ii = card.ii + 1;
-                    cardForPushing.jj = card.jj;
-                    queue.push(cardForPushing);
-                }
-            }
-
-            if (field[card.ii - 1][card.jj] && (field[card.ii - 1][card.jj][i] === field[card.ii - 1][card.jj][(i + 2) % 4] === 's' ||
-                field[card.ii - 1][card.jj][i] === field[card.ii - 1][card.jj][(i + 2) % 4] === 'r')) {
-                if (!fieldVisited[card.ii - 1][card.jj]) {
-                    cardForPushing.name = field[card.ii - 1][card.jj].name;
-                    cardForPushing.meeplePos = field[card.ii - 1][card.jj].meeplePos;
-                    cardForPushing.ii = card.ii - 1;
-                    cardForPushing.jj = card.jj;
-                    queue.push(cardForPushing);
-                }
-            }
-
-            if (field[card.ii][card.jj + 1] && (field[card.ii][card.jj + 1][i] === field[card.ii][card.jj + 1][(i + 2) % 4] === 's' ||
-                field[card.ii][card.jj + 1][i] === field[card.ii][card.jj + 1][(i + 2) % 4] === 'r')) {
-                if (!fieldVisited[card.ii][card.jj + 1]) {
-                    cardForPushing.name = field[card.ii][card.jj + 1].name;
-                    cardForPushing.meeplePos = field[card.ii][card.jj + 1].meeplePos;
-                    cardForPushing.ii = card.ii;
-                    cardForPushing.jj = card.jj + 1;
-                    queue.push(cardForPushing);
-                }
-            }
-
-            if (field[card.ii][card.jj - 1] && (field[card.ii][card.jj - 1][i] === field[card.ii][card.jj - 1][(i + 2) % 4] === 's' ||
-                field[card.ii][card.jj - 1][i] === field[card.ii][card.jj - 1][(i + 2) % 4] === 'r')) {
-                if (!fieldVisited[card.ii][card.jj - 1]) {
-                    cardForPushing.name = field[card.ii][card.jj - 1].name;
-                    cardForPushing.meeplePos = field[card.ii][card.jj - 1].meeplePos;
-                    cardForPushing.ii = card.ii;
-                    cardForPushing.jj = card.jj - 1;
-                    queue.push(cardForPushing);
-                }
-            }
-        }
-
-    }
-}
-
-class CheckClosed {
-    constructor() {
-
-        
     }
 }
