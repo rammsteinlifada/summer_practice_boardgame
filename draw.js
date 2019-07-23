@@ -5,8 +5,8 @@ class Renderer {
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
 
-		this.dx = -45 * 100;
-		this.dy = -45 * 100;
+		this.dx = -47 * 100;
+		this.dy = -47 * 100;
 		let cnt = 0;
 		this.cardImages = {};
 		let self = this;
@@ -54,16 +54,16 @@ class Renderer {
 		this.ctx.fillRect(0, 0, this.cvs.width, this.cvs.height);
 
 		let bw = 1100;
-    	let bh = 1100;
-    	let p = 0;
-    	let cw = bw + (p*2) + 1;
-    	let ch = bh + (p*2) + 1;
+		let bh = 1100;
+		let p = 0;
+		let cw = bw + (p*2) + 1;
+		let ch = bh + (p*2) + 1;
 
 
 		this.ctx.strokeStyle = "black";
-    	this.ctx.beginPath();
+		this.ctx.beginPath();
 
-    	for (let i = 0; i < 12; i++){
+		for (let i = 0; i < 12; i++){
 			this.ctx.moveTo(0, sz*i + this.dy % 100);
 			this.ctx.lineTo(this.cvs.width, this.dy % 100 + sz*i);
 		}
@@ -91,25 +91,25 @@ class Renderer {
 		const sz = 100;
 		for (let i = 0; i < game.f.field.length; ++i)
 			for (let j = 0; j < game.f.field[i].length; ++j) {
-				if ((!game.f.field[i][j]) || (game.f.field[i][j].isMeeple == 0)) {
+				if ((!game.f.field[i][j]) || (!game.f.field[i][j].isMeeple) ) {
 					continue;
 				}
-					let meepleX = 0;
-					let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
-					if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3  == 1){
-						meepleX = 15;
+				let meepleX = 0;
+				let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].meepleCharacteristic / 10 - 1) / 3)) * 33 + 16;
+				if (Math.trunc(game.f.field[i][j].meepleCharacteristic / 10) % 3  == 1){
+					meepleX = 15;
+				}
+				else{
+					if (Math.trunc(game.f.field[i][j].meepleCharacteristic / 10) % 3 == 2){
+						meepleX = 50;
 					}
 					else{
-						if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3 == 2){
-							meepleX = 50;
-						}
-						else{
-							meepleX = 80;
-						}
+						meepleX = 80;
 					}
-					let img = new Image();
-					img.src = "player" + (game.f.field[i][j].isMeeple % 10) + ".png";
-					this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
+				}
+				let img = new Image();
+				img.src = "player" + (game.f.field[i][j].meepleCharacteristic % 10) + ".png";
+				this.ctx.drawImage(img,sz * i + this.dx + meepleX - 10,  sz * j + this.dy + meepleY);
 
 			}
 	}
@@ -124,8 +124,8 @@ class Renderer {
 			}
 
 		}
-        let player = document.getElementById("player" + game.currentPlayer);
-        player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
+		let player = document.getElementById("player" + game.currentPlayer);
+		player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
 	}
 }
 
@@ -142,28 +142,28 @@ class Game {
 	curJ;
 	lastId;
 	pos;
-    constructor() {
-    	this.lastId;
-    	this.pos;
+	constructor() {
+		this.lastId;
+		this.pos;
 		this.f = new Field();
-    	this.nextTurnFlag = false;
-        this.isRemoved = false;
-        this.r = new Renderer();
-        this.players = [];
-        for (let i = 1; i < 5; ++i)
-            this.players[i] = new Player(i);
-        this.d = new Deck;
-        this.currentPlayer = 1;
-        this.curI = 50;
-        this.curJ = 50;
-    }
+		this.nextTurnFlag = false;
+		this.isRemoved = false;
+		this.r = new Renderer();
+		this.players = [];
+		for (let i = 1; i < 5; ++i)
+			this.players[i] = new Player(i);
+		this.d = new Deck;
+		this.currentPlayer = 1;
+		this.curI = 50;
+		this.curJ = 50;
+	}
 }
 
 let game;
 window.addEventListener("DOMContentLoaded", function() {
-    game = new Game();
-    game.r.drawMeeplesAndLightning();
-    game.nextTurnFlag = false;
+	game = new Game();
+	game.r.drawMeeplesAndLightning();
+	game.nextTurnFlag = false;
 });
 
 

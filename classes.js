@@ -97,13 +97,6 @@ let cardTypes = [
     'rssssy'
 ];
 
-objValues = {
-    "r":[1, 1],
-    "s":[1, 2],
-    "f":[0, 1],
-    "b":[0, 9],
-}
-
 function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
         return false;
@@ -132,7 +125,7 @@ function checkPlace(a, b, field) {
 
 function checkMeeplePosition(i, j){
     let card = game.f.field[i][j];
-    let meeplePosition = Math.trunc(card.isMeeple / 10);
+    let meeplePosition = Math.trunc(card.meepleCharacteristic / 10);
     if (meeplePosition < 4 && card.name[1] == 's')
         return 1;
     if (meeplePosition % 3 == 1 && card.name[0] == 's')
@@ -143,6 +136,8 @@ function checkMeeplePosition(i, j){
         return 2;
     if (meeplePosition == 5 && card.name[4] == 's')
         return 4;
+    return -1;
+    //if (meeplePosition == 5 && card.name[4] == 'b')
     /*switch (meeplePosition){
         case 2:
             if (card[1] == 'r')
@@ -164,79 +159,187 @@ function checkMeeplePosition(i, j){
 
      */
 }
-function dfs(used, i, j, flag){
-    if (used[i][j] == 1){
-        return;
-    }
-    used[i][j] = 1;
-    if (!game.f.field[i][j]){
-        flag = false;
-    }
-    else{
-        console.log(i, j);
-        score += 2;
-        if (game.f.field[i][j].name[4] == 's'){
+function fullDfs(i, j, k, player) {
+    if ((!player.used[i][j][k]) && (game.f.field[i][j])) {
+        let a = checkMeeplePosition(i, j);
+        player.used[i][j][k] = true;
+        if ((game.f.field[i][j].isMeeple) && ((a == k) || (game.f.field[i][j].name[4] == 's'))) {
+            console.log("asdfghjk");
+            return false;
+        }
+
+        console.log(i, j)
+        console.log(i,j,'22')
+        if (game.f.field[i][j].name[4] == 's') {
+            console.log(i, j, "asdf");
+            player.used[i][j][4] = true;
             for (let k = 0; k < 4; k++) {
                 if (game.f.field[i][j].name[k] == 's') {
-                    edjes(used, i, j, k, flag);
+                    let a = edjes(i, j, k, game.players[game.currentPlayer]);
+                    console.log(a[0], a[1], "asdf");
+                    fullDfs(a[0], a[1], a[2], a[3]);
                 }
             }
         }
     }
 }
-function edjes(used, i, j, k, flag){
-    if (k == 0)
-        dfs(used,i-1, j, flag);
-    if (k == 1)
-        dfs(used, i, j-1, flag);
-    if (k == 2)
-        dfs(used,i+1, j, flag);
-    if (k == 3)
-        dfs(used, i, j+1, flag);
-}
-function scoreCount(){
-    score = 0;
-    let used = [[]];
-    const n = 101
-    for (let i = 1; i < n-1; i++){
-        used.push([]);
-        for (let j = 1; j < n-1; j++) {
-            used[i].push(0);
+function checkConflict(i, j) {
+    for (let i = 1; i < 102 ; i++) {
+        for (let j = 1; j < 102; j++) {
+            game.players[game.currentPlayer].used[i][j] = [false, false, false, false];
         }
     }
-    for (let i = 1; i < n-1; i++){
-        for (let j = 1; j < n-1; j++){
-            if (!game.f.field[i][j]){
+    position = checkMeeplePosition(i, j);
+    game.players[game.currentPlayer].used[i][j][position] = true;
+    if (game.f.field[i][j].name[4] != 's') {
+        let a = edjes(i, j, position, game.players[game.currentPlayer]);
+        if (fullDfs(a[0], a[1], a[2], a[3]) == false) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    else {
+        game.players[game.currentPlayer].used[i][j][4] = true;
+        for (let k = 0; k < 4; k++) {
+            if (game.f.field[i][j].name[k] == 's') {
+                let a = edjes(i, j, k, game.players[game.currentPlayer]);
+                console.log(fullDfs(a[0], a[1], a[2], a[3]));
+                return fullDfs(a[0], a[1], a[2], a[3]) === undefined;
+            }
+        }
+
+    }
+
+}
+function dfs(i, j, k, player, occupiedMeeples){
+    if (player.used[i][j][k]){
+        return;
+    }
+    if (!game.f.field[i][j]){
+        player.isolation = false;
+    }
+    else{
+        console.log(i,j,'+2');
+        player.localScore += 1;
+        let a = checkMeeplePosition(i, j);
+        if ((game.f.field[i][j].isMeeple) && ((a == k) || (game.f.field[i][j].name[4] == 's')) && (game.players[game.f.field[i][j].meepleCharacteristic % 10] = player)){
+            if (game.f.field[i][j].name[5] == 'y'){
+                game.players[game.f.field[i][j].meepleCharacteristic % 10].meeplesOnStructure += 2;
+            }
+            else {
+                game.players[game.f.field[i][j].meepleCharacteristic % 10].meeplesOnStructure += 1;
+            }
+            console.log("sdvvsdfb");
+            occupiedMeeples.push([i, j]);
+        }
+        player.used[i][j][k] = true;
+        if (game.f.field[i][j].name[4] == 's'){
+            player.used[i][j][4] = true;
+            for (let k = 0; k < 4; k++) {
+                if (game.f.field[i][j].name[k] == 's') {
+                    let a = edjes(i, j, k, player);
+
+                    dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+                }
+            }
+        }
+    }
+}
+
+function checkBuilding(i, j){
+    let localScore = 1;
+    if (game.f.field[i - 1][j])
+        localScore++;
+    if (game.f.field[i - 1][j - 1])
+        localScore++;
+    if (game.f.field[i][j - 1])
+        localScore++;
+    if (game.f.field[i + 1][j - 1])
+        localScore++;
+    if (game.f.field[i + 1][j])
+        localScore++;
+    if (game.f.field[i + 1][j + 1])
+        localScore++;
+    if (game.f.field[i][j + 1])
+        localScore++;
+    if (game.f.field[i - 1][j + 1])
+        localScore++;
+    return localScore;
+}
+
+function edjes(i, j, k, player){ // определение смежной карточки по позиции мипла на карточке
+    player.used[i][j][k] = true;
+    if (k == 0)
+        return [i-1, j, 2, player];
+    if (k == 1)
+        return [i, j-1, 3, player];
+    if (k == 2)
+        return [i+1, j, 0, player];
+    if (k == 3)
+        return [i, j+1, 1, player];
+}
+
+function scoreCount() {
+    const n = 100;
+    for (let i = 1; i < n - 1; i++) {
+        for (let j = 1; j < n - 1; j++) {
+            if ((!game.f.field[i][j]) || (game.f.field[i][j].meepleCharacteristic == 0)) {
                 continue;
             }
-            if (game.f.field[i][j].isMeeple != 0){
-                if (used[i][j] == 1){
-                    continue;
-                }
-                let flag = true;
-                score += 2;
-                used[i][j] = 1;
-                position = checkMeeplePosition(i, j);
-                if (game.f.field[i][j].name[4] != 's') {
-                    edjes(used, i, j, position, flag);
-                    if (flag) {
-                        score = score * 2;
-                    }
-                    flag = true;
-                }
-                else{
-                    for (let k = 0; k < 4; k++){
-                        if (game.f.field[i][j].name[k] == 's'){
-                            let flag = true;
-                            edjes(used, i, j, k, flag);
-                        }
-                    }
-                    if (flag){
-                        score = score * 2;
-                    }
-                }
-
+            let occupiedMeeples = [];
+            meeplePlayer = game.f.field[i][j].meepleCharacteristic % 10;
+            game.players[meeplePlayer].isolation = true;
+            game.players[meeplePlayer].localScore = 0;
+            position = checkMeeplePosition(i, j);
+            if (game.f.field[i][j].name[4] == 'b' && position == -1){
+                console.log("dfgh")
+                game.players[meeplePlayer].scoreB += checkBuilding(i, j);
+                continue;
             }
+            if (game.players[meeplePlayer].used[i][j][position]){
+                continue;
+            }
+            if (game.f.field[i][j].isMeeple)
+                occupiedMeeples.push([i, j]);
+            game.players[meeplePlayer].meeplesOnStructure += 1;
+            if (game.f.field[i][j].name[5] == 'y'){
+                game.players[meeplePlayer].localScore += 2;
+            }
+            else {
+                game.players[meeplePlayer].localScore += 1;
+            }
+            game.players[meeplePlayer].used[i][j][position] = true;
+            if (game.f.field[i][j].name[4] != 's') {
+                let a = edjes(i, j, position, game.players[meeplePlayer]);
+                dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+            }
+            else {
+                game.players[meeplePlayer].used[i][j][4] = true;
+                for (let k = 0; k < 4; k++) {
+                    if (game.f.field[i][j].name[k] == 's') {
+                        let a = edjes(i, j, k, game.players[meeplePlayer]);
+                        dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+                    }
+                }
+            }
+            console.log(game.players[meeplePlayer].isolation,'isolation');
+            if (game.players[meeplePlayer].isolation) {
+                console.log(i,j,'*2')
+                game.players[meeplePlayer].localScore *= 2;
+                for (let k = 0; k < occupiedMeeples.length; k++) {
+                    let i1 = occupiedMeeples[k][0];
+                    let j1 = occupiedMeeples[k][1];
+                    game.f.field[i1][j1].isMeeple = false;
+                    let block = document.getElementById("Meeples" + meeplePlayer);
+                    let image = document.createElement("img");
+                    image.id = game.players[meeplePlayer].usedMeeples.pop() ;
+                    image.src = "player" + meeplePlayer + ".png";
+                    block.appendChild(image);
+                }
+            }
+            game.players[meeplePlayer].scoreS += game.players[meeplePlayer].localScore;
         }
     }
 }
@@ -298,10 +401,10 @@ class Deck {
 }
 
 function initDragObj (im, flag) {
-	im.onmousedown = function (e) {
+    im.onmousedown = function (e) {
 
-	    if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
-	        return;
+        if ((flag == "meeple") && (!game.players[game.currentPlayer].meepleFlag)){
+            return;
         }
         if ((flag == "meeple")){
             let id = im.id;
@@ -311,34 +414,37 @@ function initDragObj (im, flag) {
             game.players[game.currentPlayer].meepleFlag = false;
             game.isRemoved = false;
         }
-		let coords = getCoords(im);
-		let shiftX = e.pageX - coords.left;
-		let shiftY = e.pageY - coords.top;
+        let coords = getCoords(im);
+        let shiftX = e.pageX - coords.left;
+        let shiftY = e.pageY - coords.top;
 
-		im.style.position = 'absolute';
-		document.body.appendChild(im);
-		moveAt(e);
+        im.style.position = 'absolute';
+        document.body.appendChild(im);
+        moveAt(e);
 
-		im.style.zIndex = 1000;
+        im.style.zIndex = 1000;
 
-		function moveAt(e) {
-			im.style.left = e.pageX - shiftX + 'px';
-			im.style.top = e.pageY - shiftY + 'px';
-		}
+        function moveAt(e) {
+            im.style.left = e.pageX - shiftX + 'px';
+            im.style.top = e.pageY - shiftY + 'px';
+        }
 
-		document.onmousemove = function (e) {
-			moveAt(e);
-		};
+        document.onmousemove = function (e) {
+            moveAt(e);
+        };
 
-		im.ondragstart = () => false;
-		im.onmouseup = function (e) {
-		    if (flag === "tile") {
+        im.ondragstart = () => false;
+        im.onmouseup = function (e) {
+            if (flag === "tile") {
                 const sz = 100;
                 let i = Math.floor((e.pageX - game.r.dx + 5) / sz );
                 let j = Math.floor((e.pageY - game.r.dy +5) / sz) - 3;
                 let b = game.d.last_image;
                 if (isPlaced(im, i, j, game.f.field, b) && onCanvas(e)) {
-                    game.f.field[i][j] = new Card(b, '.....');
+                    game.f.field[i][j] = new Card(b);
+                    for (let j = 0; j < 4; j++) {
+
+                    }
                     game.curI = i;
                     game.curJ = j;
                     game.r.redraw();
@@ -350,7 +456,7 @@ function initDragObj (im, flag) {
                     for (let j = 0; j < 6; j++) {
                         let meeple = document.getElementById("meeple" + game.currentPlayer + j);
                         game.players[game.currentPlayer].meepleFlag = true;
-                         initDragObj(meeple, "meeple");
+                        initDragObj(meeple, "meeple");
 
                     }
                 }
@@ -359,23 +465,24 @@ function initDragObj (im, flag) {
                     im.onmouseup = null;
                 }
             }
-		    else {
-		        let cvs = document.getElementById("canvas");
-		        let info = cvs.getBoundingClientRect();
+            else {
+                let cvs = document.getElementById("canvas");
+                let info = cvs.getBoundingClientRect();
                 const sz = 100;
-                const sz_3 = Math.floor(sz / 3)
-                console.log(e.pageY - game.r.dy );
+                const sz_3 = Math.floor(sz / 3);
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy ) / sz) - 3;
+                let j = Math.floor((e.pageY - game.r.dy - 250 ) / sz) ;
                 let id = im.id;
                 let a = Math.floor(((e.pageX - game.r.dx) % sz) / 33 + 1);
                 let b = Math.floor(((e.pageY - game.r.dy - info.top) % sz) / 33 + 1);
-                console.log(a, b);
-                console.log(i, j);
                 let pos = 0;
                 pos = (b - 1) * 3 + a;
-                console.log(pos);
-                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e') )) {
+                game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;
+                console.log(checkMeeplePosition(game.curI,game.curJ));
+                console.log(game.f.field[game.curI][game.curJ].name[checkMeeplePosition(game.curI,game.curJ)]);
+                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e')) ||
+                    (( checkMeeplePosition(game.curI,game.curJ) != -1)&&(!checkConflict(i, j) )) ) {
+                    game.f.field[game.curI][game.curJ].meepleCharacteristic = 0;
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
                     imageMeeple.remove();
@@ -388,12 +495,13 @@ function initDragObj (im, flag) {
                 }
                 else {
                     game.lastId = id;
-                    game.f.field[game.curI][game.curJ].isMeeple = 10*pos + game.currentPlayer;
+                    game.f.field[game.curI][game.curJ].isMeeple = true;
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(game.lastId);
                     if  (!game.isRemoved) {
                         imageMeeple.remove();
                         game.isRemoved = true;
+                        game.players[game.currentPlayer].usedMeeples.push(game.lastId);
                     }
                     game.r.redrawMeeples();
                     document.onmousemove = null;
@@ -401,12 +509,25 @@ function initDragObj (im, flag) {
 
                 }
             }
-		}
-	};
+        }
+    };
 
 }
 
 function nextTurn() {
+    for (let k = 1; k < 5; k++) {
+        game.players[k].scoreS = 0;
+        game.players[k].scoreB = 0;
+        game.players[k].scoreR = 0;
+        game.players[k].scoreF = 0;
+        game.players[k].meeplesOnStructure = 0;
+        for (let i = 1; i < 102 ; i++) {
+            for (let j = 1; j < 102; j++) {
+                game.players[k].used[i][j] = [false, false, false, false];
+            }
+        }
+    }
+
     if (!game.nextTurnFlag)
         return
     if (game.players[game.currentPlayer].cardFlag){
@@ -424,6 +545,11 @@ function nextTurn() {
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
     scoreCount();
+    console.log("123456789")
+    game.r.redraw  ();
+    for (let k = 1; k < 5; k++) {
+        game.players[k].showScore(k);
+    }
 }
 
 function getCoords(elem) {
@@ -434,38 +560,30 @@ function getCoords(elem) {
     }
 }
 
-function saveMap(){
-	let dataStr = JSON.stringify(game.f.field);
+function saveMap(filename){
+    let dataStr = JSON.stringify(game.f.field);
 
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
 }
 
 function loadMap(){
-	var text = document.getElementById("textarea").value;
-	var obj = JSON.parse(text);
-	game.f.field = obj;
-	game.r.redraw();
+    let text = document.getElementById("textarea").value;
+    let obj = JSON.parse(text);
+    game.f.field = obj;
+    game.r.redraw();
 }
 
 
-/*class Meeple{
-    coordMeepX;
-    coorfMeepY;
-    constructor() {
-
-    }
-}
-*/
 class Card{
-	//name;
-	//meeplePos;
-    //isMeeple;
-	constructor(namee, pos){
-		this.name = namee;
-		this.isMeeple = 0; // 0 - есть мипл, xy - x позиция мипла, y - чьего игрока мипл
-		this.meeplePos = pos;
-	}
+    //name;
+    //meeplePos;
+    constructor(namee){
+        this.isOccupied = [0, 0, 0, 0, 0];
+        this.name = namee;
+        this.isMeeple = false;
+        this.meepleCharacteristic = 0; // 0 - есть мипл, xy - x позиция мипла, y - чьего игрока мипл
+    }
 }
 
 class Player {
@@ -477,15 +595,23 @@ class Player {
         this.scoreF = 0;
         this.scoreR = 0;
         this.scoreS = 0;
-        //this.meeples = [];
-        //for (let i = 0; i < 6; ++i) {
-          //  this.meeples[i] = new Meeple(n, i);
-        //}
-        //this.showScore(n);
+        this.localScore = 0;
+        this.isolation = true;
+        this.usedMeeples = [];
+        this.meeplesOnStructure = 0;
+        this.showScore(n);
+        this.used = [[]];
+        const x = 102;
+        for (let i = 1; i < x ; i++) {
+            this.used.push([]);
+            for (let j = 1; j < x ; j++) {
+                this.used[i].push([false, false, false, false]);
+            }
+        }
     }
 
     showScore(n){
-        let score = scoreB + scoreF + scoreR + scoreS;
+        let score = this.scoreB + this.scoreF + this.scoreR + this.scoreS;
         let canvas = document.getElementById("player" + n);
         let	context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -498,13 +624,13 @@ class Player {
 class Field {
     constructor() {
         this.field = [];
-        const n = 100;
+        const n = 102;
         for (let i = 0; i < n; ++i) {
             this.field.push([]);
             for (let j = 0; j < n; ++j)
                 this.field[i].push('');
         }
-        this.field[50][50] = new Card('rsrfrn', '.........');
+        this.field[50][50] = new Card('rsrfrn');
 
     }
 }
