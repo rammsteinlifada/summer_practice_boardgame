@@ -29,9 +29,8 @@
 			<div class="dropdown open">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"> Меню </button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<li><a class="dropdown-item" href="#">Главное меню</a></li>
-					<li><a class="dropdown-item" href="#">Настройки</a></li>
-					<li><a class="dropdown-item" href="#">(что-то еще)</a></li>
+					<li><a class="dropdown-item" onclick='location.href="main.html"'>Main menu</a></li>
+					<li><a class="dropdown-item" onclick='location.href="rules.html"'>Rules</a></li>
 				</ul>
 			</div>
 		</div>
@@ -47,7 +46,7 @@
 						style="background-color:#eee; border:1px solid #ccc; margin-top: 20px"></canvas>
 				<img src="userf.png" style="height: 100px; margin-bottom: 100px">
 				
-			<button id="download" onclick="saveMap('scene.txt')">
+			<button id="download" onclick="saveMap()">
 				Save map
 			</button>
 			<button id="nextTurn" onclick="nextTurn()">

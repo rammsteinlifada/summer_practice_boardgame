@@ -5,8 +5,8 @@ class Renderer {
 		this.cvs = document.getElementById("canvas");
 		this.ctx = this.cvs.getContext("2d");
 
-		this.dx = -47 * 100;
-		this.dy = -47 * 100;
+		this.dx = -45 * 100;
+		this.dy = -45 * 100;
 		let cnt = 0;
 		this.cardImages = {};
 		let self = this;
@@ -95,7 +95,7 @@ class Renderer {
 					continue;
 				}
 					let meepleX = 0;
-					let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10 - 1) / 3)) * 33 + 16;
+					let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].isMeeple / 10) / 4)) * 25 + 16;
 					if (Math.trunc(game.f.field[i][j].isMeeple / 10) % 3  == 1){
 						meepleX = 15;
 					}
