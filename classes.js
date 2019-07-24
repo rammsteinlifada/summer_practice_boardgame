@@ -160,16 +160,13 @@ function checkMeeplePosition(i, j){
                 return 4;
             break;
     }
-    if (meeplePosition < 4 && card.name[1] == 'f')
-        return 1;
-    if (meeplePosition % 3 == 1 && card.name[0] == 'f')
-        return 0;
-    if (meeplePosition > 6 && card.name[3] == 'f')
-        return 3;
-    if (meeplePosition % 3 == 0 && card.name[2] == 'f')
-        return 2;
-    if (meeplePosition == 5 && card.name[4] == 'f')
-        return 4;
+    if ((meeplePosition < 4 && card.name[1] == 'f') ||
+        (meeplePosition % 3 == 1 && card.name[0] == 'f') ||
+        (meeplePosition > 6 && card.name[3] == 'f') ||
+        (meeplePosition % 3 == 0 && card.name[2] == 'f') ||
+        (meeplePosition == 5 && card.name[4] == 'f')) {
+        return -1;
+    }
     return -1;
 }
 
@@ -514,8 +511,10 @@ function initDragObj (im, flag) {
                 let pos = 0;
                 pos = (b - 1) * 3 + a;
                 game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;
-                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name[4] == 'e')) ||
-                    (( checkMeeplePosition(game.curI,game.curJ) != -1)&&((pos != 5)&&(game.f.field[game.curI][game.curJ].name[4] != 'b')) &&(!checkConflict(i, j) )) ) {
+                console.log(checkMeeplePosition(game.curI,game.curJ));
+                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name[4] == 'e')) || (checkMeeplePosition(game.curI,game.curJ) == -1) ||
+                    (((pos != 5)&&(game.f.field[game.curI][game.curJ].name[4] != 'b'))) ||
+                    (( checkMeeplePosition(game.curI,game.curJ) != -1)&&(!checkConflict(i, j)))){
                     game.f.field[game.curI][game.curJ].meepleCharacteristic = 0;
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
