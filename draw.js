@@ -95,7 +95,7 @@ class Renderer {
 					continue;
 				}
 				let meepleX = 0;
-				let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].meepleCharacteristic / 10 - 1) / 3)) * 33 + 16;
+				let meepleY = Math.trunc((Math.trunc(game.f.field[i][j].meepleCharacteristic / 10 - 1) / 3)) * 33 + 6;
 				if (Math.trunc(game.f.field[i][j].meepleCharacteristic / 10) % 3  == 1){
 					meepleX = 15;
 				}

@@ -136,9 +136,8 @@ function checkMeeplePosition(i, j){
         return 2;
     if (meeplePosition == 5 && card.name[4] == 's')
         return 4;
-    return -1;
-    //if (meeplePosition == 5 && card.name[4] == 'b')
-    /*switch (meeplePosition){
+    if (meeplePosition == 5 && card.name[4] == 'b')
+    switch (meeplePosition){
         case 2:
             if (card[1] == 'r')
                 return 1;
@@ -156,9 +155,19 @@ function checkMeeplePosition(i, j){
                 return 2;
             break;
     }
-
-     */
+    if (meeplePosition < 4 && card.name[1] == 'f')
+        return 1;
+    if (meeplePosition % 3 == 1 && card.name[0] == 'f')
+        return 0;
+    if (meeplePosition > 6 && card.name[3] == 'f')
+        return 3;
+    if (meeplePosition % 3 == 0 && card.name[2] == 'f')
+        return 2;
+    if (meeplePosition == 5 && card.name[4] == 'f')
+        return 4;
+    return -1;
 }
+
 function fullDfs(i, j, k, player) {
     if ((!player.used[i][j][k]) && (game.f.field[i][j])) {
         let a = checkMeeplePosition(i, j);
