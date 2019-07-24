@@ -23,6 +23,20 @@
 	<script type="text/javascript" src="https://comet-server.ru/doc/html_chat.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://comet-server.ru/doc/html_chat.css"></link>
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+	<!-- подключаем библиотеку Mocha -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+	<!-- настраиваем Mocha: предстоит BDD-тестирование -->
+	<script>
+		mocha.setup('bdd');
+	</script>
+
+	<!-- подключаем chai -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+	<!-- в chai есть много всего, выносим assert в глобальную область -->
+	<script>
+		var assert = chai.assert;
+	</script>
 </head>
 <body>
 		<div>
@@ -54,6 +68,9 @@
 			</button>
 			<button onclick="loadMap()">
 				Load map
+			</button>
+			<button onclick="checkTests()">
+				Tests
 			</button>
 			<textarea id = "textarea">
 
@@ -115,5 +132,21 @@
 			});
 		</script>
 	</div>
+	<script>
+    function pow(x, n) {
+      /* код функции, пока что пусто */
+    }
+  </script>
+
+  <!-- в этом скрипте находятся спеки -->
+  <script src="test.js"></script>
+
+  <!-- в элементе с id="mocha" будут результаты тестов -->
+  <div id="mocha"></div>
+
+  <!-- запустить тесты! -->
+  <script>
+    mocha.run();
+  </script>
 </body>
 </html>

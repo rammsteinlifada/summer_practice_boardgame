@@ -171,7 +171,6 @@ function checkMeeplePosition(i, j){
 }
 
 function fullDfs(i, j, k, player, flag) {
-    console.log(i, j);
     if ((!player.used[i][j][k]) && (game.f.field[i][j])) {
         if (game.f.field[i][j].name[k] != flag)
             return;
@@ -179,7 +178,6 @@ function fullDfs(i, j, k, player, flag) {
         player.used[i][j][k] = true;
         if ((game.f.field[i][j].isMeeple) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
             ((flag == 'r') && (game.f.field[i][j].name[4] != 'e') && (game.f.field[i][j].name[a] == 'r'))))){
-            console.log("sdfg");
             player.occupiedFlag = false;
         }
         if (((game.f.field[i][j].name[4] == 's') && (flag == 's')) || (( flag == 'r') && game.f.field[i][j].name[4] != 'e')) {
@@ -193,6 +191,7 @@ function fullDfs(i, j, k, player, flag) {
         }
     }
 }
+
 function checkConflict(i, j) {
     game.players[game.currentPlayer].occupiedFlag = true;
     for (let i = 1; i < 102 ; i++) {
@@ -228,8 +227,8 @@ function checkConflict(i, j) {
         return game.players[game.currentPlayer].occupiedFlag;
 
     }
-
 }
+
 function dfs(i, j, k, player, occupiedMeeples, flag){
     if (player.used[i][j][k]){
         return;
@@ -311,9 +310,7 @@ function scoreCount() {
             game.players[meeplePlayer].isolation = true;
             game.players[meeplePlayer].localScore = 0;
             position = checkMeeplePosition(i, j);
-            console.log(position);
             if (game.f.field[i][j].name[4] == 'b' && position == 4){
-                console.log(checkBuilding(i, j), " asdfgh");
                 game.players[meeplePlayer].scoreB += checkBuilding(i, j);
                 if (checkBuilding(i, j) == 9){
                     game.f.field[i][j].isMeeple = false;
@@ -617,7 +614,6 @@ function getCoords(elem) {
 
 function saveMap(filename){
     let dataStr = JSON.stringify(game.f.field);
-
     let textarea = document.getElementById("textarea");
     textarea.value = dataStr;
 }
@@ -629,6 +625,55 @@ function loadMap(){
     game.r.redraw();
 }
 
+function checkTests(){
+    let area = document.getElementById("textarea");
+    let k = 0;
+    for (let i = 0; i < 5; i++){
+        var file = document.getElementById("test" + i).files[0];
+        var reader = new FileReader
+                      reader.onload = function () {
+             var FileContent = e.target.result;
+             return parseContent(FileContent);
+        }    
+        area.value = reader.readAsText();
+        loadMap();
+        let score1 = game.players[1].scoreB + game.players[1].scoreS + game.players[1].scoreR;
+        let score2 = game.players[2].scoreB + game.players[2].scoreS + game.players[2].scoreR;
+        let score3 = game.players[3].scoreB + game.players[3].scoreS + game.players[3].scoreR;
+        let score4 = game.players[4].scoreB + game.players[4].scoreS + game.players[4].scoreR;
+        switch (i){
+            case 1:{
+                if (score1 == 50 && score2 == 34 && score3 == 63 && score4 == 30)
+                    k++;
+                break;
+            }
+            case 2:{
+                if (score1 == 34 && score2 == 8 && score3 == 14 && score4 == 53)
+                    k++;
+                break;
+            }
+            case 3:{
+                if (score1 == 4 && score2 == 0 && score3 == 0 && score4 == 0)
+                    k++;
+                break;
+            }
+            case 4:{
+                if (score1 == 4 && score2 == 16 && score3 == 0 && score4 == 0)
+                    k++;
+                break;
+            }
+            case 5:{
+                if (score1 == 9 && score2 == 28 && score3 == 14 && score4 == 8)
+                    k++;
+                break;
+            }
+        }
+    }
+    if (k == 5) 
+        console.log("Все тесты пройдены");
+    else
+        console.log("неверных тестов:", 5 - k)
+}
 
 class Card{
     //name;
