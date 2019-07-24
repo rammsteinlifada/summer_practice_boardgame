@@ -1,4 +1,3 @@
-
 class Renderer {
 	constructor() {
 
@@ -150,7 +149,7 @@ class Game {
 		this.isRemoved = false;
 		this.r = new Renderer();
 		this.players = [[],[],[],[],[]];
-		for (let i = 1; i < 5; ++i)
+		for (let i = 1; i < playerNumber + 1; ++i)
 			this.players[i] = new Player(i);
 		this.d = new Deck;
 		this.currentPlayer = 1;

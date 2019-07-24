@@ -96,7 +96,7 @@ let cardTypes = [
     'srsssy',
     'rssssy'
 ];
-
+let playerNumber = 4;
 function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
         return false;
@@ -241,10 +241,12 @@ function dfs(i, j, k, player, occupiedMeeples, flag){
         if (game.f.field[i][j].name[k] != flag)
             return;
         if (game.f.field[i][j].name[5] == 'y' && flag == 's') {
+            console.log(i, j, "+++")
             player.localScore += 2;
         }
         else{
             player.localScore += 1;
+            console.log(i, j,"++")
         }
         let a = checkMeeplePosition(i, j);
         if ((game.f.field[i][j].isMeeple) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
@@ -353,7 +355,9 @@ function scoreCount() {
                 dfs(a[0], a[1], a[2], a[3], occupiedMeeples, kind);
             }
             else {
-                game.players[meeplePlayer].used[i][j][4] = true;
+                for (let k = 0; k < 4; k++) {
+                    game.players[meeplePlayer].used[i][j][k] = true;
+                }
                 for (let k = 0; k < 4; k++) {
                     if (((game.f.field[i][j].name[k] == 's')&&(game.f.field[i][j].name[4] == 's')&& (kind == 's')) ||
                         ((game.f.field[i][j].name[k] == 'r')&&(game.f.field[i][j].name[4] != 'e')&& (kind == 'r'))) {
@@ -424,7 +428,19 @@ class Deck {
         if (block.childElementCount >= 2)
             return;
         if (this.deck.length <= 0) {
-            alert("GAME OVER");
+            let result = [[1, players[1].scoreB + players[1].scoreR + players[1].scoreS]];
+            for (let j = 2; j < 5; j++){
+                if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) > result[result.length - 1][1]){
+                    result = [[j, players[j].scoreB + players[1].scoreR + players[1].scoreS]];
+                }
+                if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) == result[result.length - 1][1]){
+                    result.push([j, players[j].scoreB + players[1].scoreR + players[1].scoreS]);
+                }
+            }let winners;
+            for (let j = 0; j < result.length; j++){
+                winners += result[j][0]+' ';
+            }
+            alert("GAME OVER WINNER[s] :", winners);
             return 0;
         }
         let len = this.deck.length - 1;
@@ -521,7 +537,6 @@ function initDragObj (im, flag) {
                 game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;
                 console.log(checkMeeplePosition(game.curI,game.curJ));
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name[4] == 'e')) || (checkMeeplePosition(game.curI,game.curJ) == -1) ||
-                    (((pos != 5)&&(game.f.field[game.curI][game.curJ].name[4] != 'b'))) ||
                     (( checkMeeplePosition(game.curI,game.curJ) != -1)&&(!checkConflict(i, j)))){
                     game.f.field[game.curI][game.curJ].meepleCharacteristic = 0;
                     let block = document.getElementById("Meeples" + game.currentPlayer);
@@ -557,7 +572,7 @@ function initDragObj (im, flag) {
 
 function nextTurn() {
     console.log(game.players[2].number,game.players[3].number);
-    for (let k = 1; k < 5; k++) {
+    for (let k = 1; k < playerNumber + 1; k++) {
         game.players[k].scoreS = 0;
         game.players[k].scoreB = 0;
         game.players[k].scoreR = 0;
@@ -578,7 +593,7 @@ function nextTurn() {
     prevPlayer.style.boxShadow = "";
     game.players[game.currentPlayer].meepleFlag = false;
     game.currentPlayer ++;
-    if (game.currentPlayer == 5) {
+    if (game.currentPlayer == playerNumber + 1) {
         game.currentPlayer = 1;
     }
     let player = document.getElementById("player" + game.currentPlayer);
@@ -587,7 +602,7 @@ function nextTurn() {
     game.nextTurnFlag = false;
     scoreCount();
     game.r.redraw  ();
-    for (let k = 1; k < 5; k++) {
+    for (let k = 1; k < playerNumber + 1; k++) {
         game.players[k].showScore(k);
     }
 }
