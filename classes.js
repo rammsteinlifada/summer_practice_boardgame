@@ -313,6 +313,14 @@ function scoreCount() {
             if (game.f.field[i][j].name[4] == 'b' && position == 4){
                 console.log(checkBuilding(i, j), " asdfgh");
                 game.players[meeplePlayer].scoreB += checkBuilding(i, j);
+                if (checkBuilding(i, j) == 9){
+                    game.f.field[i][j].isMeeple = false;
+                    let block = document.getElementById("Meeples" + meeplePlayer);
+                    let image = document.createElement("img");
+                    image.id = game.players[meeplePlayer].usedMeeples.pop() ;
+                    image.src = "player" + meeplePlayer + ".png";
+                    block.appendChild(image);
+                }
                 continue;
             }
             if (game.players[meeplePlayer].used[i][j][position]){
