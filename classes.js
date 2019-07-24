@@ -137,22 +137,27 @@ function checkMeeplePosition(i, j){
     if (meeplePosition == 5 && card.name[4] == 's')
         return 4;
     if (meeplePosition == 5 && card.name[4] == 'b')
+        return 4;
     switch (meeplePosition){
         case 2:
-            if (card[1] == 'r')
+            if (card.name[1] == 'r')
                 return 1;
             break;
         case 8:
-            if (card[3] == 'r')
+            if (card.name[3] == 'r')
                 return 3;
             break;
         case 4:
-            if (card[0] == 'r')
+            if (card.name[0] == 'r')
                 return 0;
             break;
         case 6:
-            if (card[2] == 'r')
+            if (card.name[2] == 'r')
                 return 2;
+            break;
+        case 5:
+            if (card.name[4] == 'r')
+                return 4;
             break;
     }
     if (meeplePosition < 4 && card.name[1] == 'f')
@@ -168,61 +173,67 @@ function checkMeeplePosition(i, j){
     return -1;
 }
 
-function fullDfs(i, j, k, player) {
+function fullDfs(i, j, k, player, flag) {
+    console.log(i, j);
     if ((!player.used[i][j][k]) && (game.f.field[i][j])) {
+        if (game.f.field[i][j].name[k] != flag)
+            return;
         let a = checkMeeplePosition(i, j);
         player.used[i][j][k] = true;
-        if ((game.f.field[i][j].isMeeple) && ((a == k) || (game.f.field[i][j].name[4] == 's'))) {
-            console.log("asdfghjk");
-            return false;
+        if ((game.f.field[i][j].isMeeple) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
+            ((flag == 'r') && (game.f.field[i][j].name[4] != 'e') && (game.f.field[i][j].name[a] == 'r'))))){
+            console.log("sdfg");
+            player.occupiedFlag = false;
         }
-
-        console.log(i, j)
-        console.log(i,j,'22')
-        if (game.f.field[i][j].name[4] == 's') {
-            console.log(i, j, "asdf");
+        if (((game.f.field[i][j].name[4] == 's') && (flag == 's')) || (( flag == 'r') && game.f.field[i][j].name[4] != 'e')) {
             player.used[i][j][4] = true;
             for (let k = 0; k < 4; k++) {
-                if (game.f.field[i][j].name[k] == 's') {
+                if ((game.f.field[i][j].name[k] == 's' && flag == 's') || (game.f.field[i][j].name[k] == 'r' && flag == 'r')) {
                     let a = edjes(i, j, k, game.players[game.currentPlayer]);
-                    console.log(a[0], a[1], "asdf");
-                    fullDfs(a[0], a[1], a[2], a[3]);
+                    fullDfs(a[0], a[1], a[2], a[3], flag);
                 }
             }
         }
     }
 }
 function checkConflict(i, j) {
+    game.players[game.currentPlayer].occupiedFlag = true;
     for (let i = 1; i < 102 ; i++) {
         for (let j = 1; j < 102; j++) {
             game.players[game.currentPlayer].used[i][j] = [false, false, false, false];
         }
     }
     position = checkMeeplePosition(i, j);
+    let kind;
+    if (game.f.field[i][j].name[position] == 's'){
+        kind = 's';
+    }
+    else {
+        if (game.f.field[i][j].name[position] == 'r') {
+            kind = 'r';
+        }
+    }
     game.players[game.currentPlayer].used[i][j][position] = true;
-    if (game.f.field[i][j].name[4] != 's') {
+    if (((kind == 's' && game.f.field[i][j].name[4] != 's') || ((kind == 'r') && (game.f.field[i][j].name[4] == 'e')))) {
         let a = edjes(i, j, position, game.players[game.currentPlayer]);
-        if (fullDfs(a[0], a[1], a[2], a[3]) == false) {
-            return false;
-        }
-        else{
-            return true;
-        }
+        fullDfs(a[0], a[1], a[2], a[3], kind)
+         return game.players[game.currentPlayer].occupiedFlag;
     }
     else {
         game.players[game.currentPlayer].used[i][j][4] = true;
         for (let k = 0; k < 4; k++) {
-            if (game.f.field[i][j].name[k] == 's') {
+            if (((game.f.field[i][j].name[k] == 's')&&(game.f.field[i][j].name[4] == 's')&& (kind == 's')) ||
+                ((game.f.field[i][j].name[k] == 'r')&&(game.f.field[i][j].name[4] != 'e')&& (kind == 'r'))){
                 let a = edjes(i, j, k, game.players[game.currentPlayer]);
-                console.log(fullDfs(a[0], a[1], a[2], a[3]));
-                return fullDfs(a[0], a[1], a[2], a[3]) === undefined;
+                fullDfs(a[0], a[1], a[2], a[3], kind);
             }
         }
+        return game.players[game.currentPlayer].occupiedFlag;
 
     }
 
 }
-function dfs(i, j, k, player, occupiedMeeples){
+function dfs(i, j, k, player, occupiedMeeples, flag){
     if (player.used[i][j][k]){
         return;
     }
@@ -230,27 +241,26 @@ function dfs(i, j, k, player, occupiedMeeples){
         player.isolation = false;
     }
     else{
-        console.log(i,j,'+2');
-        player.localScore += 1;
+        if (game.f.field[i][j].name[k] != flag)
+            return;
+        if (game.f.field[i][j].name[5] == 'y' && flag == 's') {
+            player.localScore += 2;
+        }
+        else{
+            player.localScore += 1;
+        }
         let a = checkMeeplePosition(i, j);
-        if ((game.f.field[i][j].isMeeple) && ((a == k) || (game.f.field[i][j].name[4] == 's')) && (game.players[game.f.field[i][j].meepleCharacteristic % 10] = player)){
-            if (game.f.field[i][j].name[5] == 'y'){
-                game.players[game.f.field[i][j].meepleCharacteristic % 10].meeplesOnStructure += 2;
-            }
-            else {
-                game.players[game.f.field[i][j].meepleCharacteristic % 10].meeplesOnStructure += 1;
-            }
-            console.log("sdvvsdfb");
-            occupiedMeeples.push([i, j]);
+        if ((game.f.field[i][j].isMeeple) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
+            ((flag == 'r') && (game.f.field[i][j].name[4] != 'e') && (game.f.field[i][j].name[a] == 'r'))))){
+                occupiedMeeples.push([i, j]);
         }
         player.used[i][j][k] = true;
-        if (game.f.field[i][j].name[4] == 's'){
+        if (((game.f.field[i][j].name[4] == 's') && (flag == 's')) || (( flag == 'r') && game.f.field[i][j].name[4] != 'e')){
             player.used[i][j][4] = true;
             for (let k = 0; k < 4; k++) {
-                if (game.f.field[i][j].name[k] == 's') {
+                if ((game.f.field[i][j].name[k] == 's' && flag == 's') || (game.f.field[i][j].name[k] == 'r' && flag == 'r')) {
                     let a = edjes(i, j, k, player);
-
-                    dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+                    dfs(a[0], a[1], a[2], a[3], occupiedMeeples, flag);
                 }
             }
         }
@@ -302,8 +312,9 @@ function scoreCount() {
             game.players[meeplePlayer].isolation = true;
             game.players[meeplePlayer].localScore = 0;
             position = checkMeeplePosition(i, j);
-            if (game.f.field[i][j].name[4] == 'b' && position == -1){
-                console.log("dfgh")
+            console.log(position);
+            if (game.f.field[i][j].name[4] == 'b' && position == 4){
+                console.log(checkBuilding(i, j), " asdfgh");
                 game.players[meeplePlayer].scoreB += checkBuilding(i, j);
                 continue;
             }
@@ -313,29 +324,40 @@ function scoreCount() {
             if (game.f.field[i][j].isMeeple)
                 occupiedMeeples.push([i, j]);
             game.players[meeplePlayer].meeplesOnStructure += 1;
-            if (game.f.field[i][j].name[5] == 'y'){
+            let kind;
+            if (game.f.field[i][j].name[position] == 's'){
+                kind = 's';
+            }
+            else{
+                if (game.f.field[i][j].name[position] == 'r') {
+                    kind = 'r';
+                }
+                else{
+                    continue;
+                }
+            }
+            if ((game.f.field[i][j].name[5] == 'y') && (kind == 's')){
                 game.players[meeplePlayer].localScore += 2;
             }
             else {
                 game.players[meeplePlayer].localScore += 1;
             }
             game.players[meeplePlayer].used[i][j][position] = true;
-            if (game.f.field[i][j].name[4] != 's') {
+            if (((kind == 's' && game.f.field[i][j].name[4] != 's') || ((kind == 'r') && (game.f.field[i][j].name[4] == 'e'))))  {
                 let a = edjes(i, j, position, game.players[meeplePlayer]);
-                dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+                dfs(a[0], a[1], a[2], a[3], occupiedMeeples, kind);
             }
             else {
                 game.players[meeplePlayer].used[i][j][4] = true;
                 for (let k = 0; k < 4; k++) {
-                    if (game.f.field[i][j].name[k] == 's') {
+                    if (((game.f.field[i][j].name[k] == 's')&&(game.f.field[i][j].name[4] == 's')&& (kind == 's')) ||
+                        ((game.f.field[i][j].name[k] == 'r')&&(game.f.field[i][j].name[4] != 'e')&& (kind == 'r'))) {
                         let a = edjes(i, j, k, game.players[meeplePlayer]);
-                        dfs(a[0], a[1], a[2], a[3], occupiedMeeples);
+                        dfs(a[0], a[1], a[2], a[3], occupiedMeeples, kind);
                     }
                 }
             }
-            console.log(game.players[meeplePlayer].isolation,'isolation');
             if (game.players[meeplePlayer].isolation) {
-                console.log(i,j,'*2')
                 game.players[meeplePlayer].localScore *= 2;
                 for (let k = 0; k < occupiedMeeples.length; k++) {
                     let i1 = occupiedMeeples[k][0];
@@ -348,7 +370,12 @@ function scoreCount() {
                     block.appendChild(image);
                 }
             }
-            game.players[meeplePlayer].scoreS += game.players[meeplePlayer].localScore;
+            if (kind == 's') {
+                game.players[meeplePlayer].scoreS += game.players[meeplePlayer].localScore;
+            }
+            else {
+                game.players[meeplePlayer].scoreR += game.players[meeplePlayer].localScore;
+            }
         }
     }
 }
@@ -487,10 +514,8 @@ function initDragObj (im, flag) {
                 let pos = 0;
                 pos = (b - 1) * 3 + a;
                 game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;
-                console.log(checkMeeplePosition(game.curI,game.curJ));
-                console.log(game.f.field[game.curI][game.curJ].name[checkMeeplePosition(game.curI,game.curJ)]);
-                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name == 'e')) ||
-                    (( checkMeeplePosition(game.curI,game.curJ) != -1)&&(!checkConflict(i, j) )) ) {
+                if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name[4] == 'e')) ||
+                    (( checkMeeplePosition(game.curI,game.curJ) != -1)&&((pos != 5)&&(game.f.field[game.curI][game.curJ].name[4] != 'b')) &&(!checkConflict(i, j) )) ) {
                     game.f.field[game.curI][game.curJ].meepleCharacteristic = 0;
                     let block = document.getElementById("Meeples" + game.currentPlayer);
                     let imageMeeple = document.getElementById(id);
@@ -524,6 +549,7 @@ function initDragObj (im, flag) {
 }
 
 function nextTurn() {
+    console.log(game.players[2].number,game.players[3].number);
     for (let k = 1; k < 5; k++) {
         game.players[k].scoreS = 0;
         game.players[k].scoreB = 0;
@@ -536,7 +562,6 @@ function nextTurn() {
             }
         }
     }
-
     if (!game.nextTurnFlag)
         return
     if (game.players[game.currentPlayer].cardFlag){
@@ -554,7 +579,6 @@ function nextTurn() {
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
     scoreCount();
-    console.log("123456789")
     game.r.redraw  ();
     for (let k = 1; k < 5; k++) {
         game.players[k].showScore(k);
@@ -599,7 +623,9 @@ class Player {
     //meeplesCount;
     constructor(n) {
         this.meepleFlag = false;
+        this.occupiedFlag = true;
         this.cardFlag = true;
+        this.number = n;
         this.scoreB = 0;
         this.scoreF = 0;
         this.scoreR = 0;
@@ -622,7 +648,7 @@ class Player {
     showScore(n){
         let score = this.scoreB + this.scoreF + this.scoreR + this.scoreS;
         let canvas = document.getElementById("player" + n);
-        let	context = canvas.getContext("2d");
+        let context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.font = "22px Verdana";
         context.strokeText(n +" player", 10, 20);

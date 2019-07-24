@@ -149,7 +149,7 @@ class Game {
 		this.nextTurnFlag = false;
 		this.isRemoved = false;
 		this.r = new Renderer();
-		this.players = [];
+		this.players = [[],[],[],[],[]];
 		for (let i = 1; i < 5; ++i)
 			this.players[i] = new Player(i);
 		this.d = new Deck;
@@ -165,11 +165,3 @@ window.addEventListener("DOMContentLoaded", function() {
 	game.r.drawMeeplesAndLightning();
 	game.nextTurnFlag = false;
 });
-
-
-
-//json parse
-
-
-
-
