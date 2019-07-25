@@ -217,6 +217,9 @@ function fullDfs(i, j, k, player, flag) {
 
 function checkConflict(i, j) {
     game.players[game.currentPlayer].occupiedFlag = true;
+    if ((checkMeeplePosition(i, j) == 4) && (game.f.field[i][j].name[4] == 'b')){
+        return true;
+    }
     for (let i = 1; i < 102 ; i++) {
         for (let j = 1; j < 102; j++) {
             game.players[game.currentPlayer].used[i][j] = [false, false, false, false];
@@ -451,7 +454,7 @@ class Deck {
         let block = document.getElementById("sharpp");
         if (block.childElementCount >= 2)
             return;
-        if (this.deck.length <= 0) {
+        if (this.deck.length == 0) {
             let result = [[1, players[1].scoreB + players[1].scoreR + players[1].scoreS]];
             for (let j = 2; j <= playerNumber; j++){
                 if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) > result[result.length - 1][1]){
@@ -467,17 +470,19 @@ class Deck {
             alert("GAME OVER WINNER[s] :", winners);
             return 0;
         }
-        let len = this.deck.length - 1;
-        game.players[game.currentPlayer].cardFlag = false;
-        let a = this.deck[len];
-        let image = document.createElement("img");
-        image.id = "cards" + len;
-        image.src = "pics/" + a + ".jpg";
-        block.appendChild(image);
-        let im = document.getElementById("cards" + len);
-        this.last_image = a;
-        this.deck.pop();
-        initDragObj(im, "tile");;
+        else {
+            let len = this.deck.length - 1;
+            game.players[game.currentPlayer].cardFlag = false;
+            let a = this.deck[len];
+            let image = document.createElement("img");
+            image.id = "cards" + len;
+            image.src = "pics/" + a + ".jpg";
+            block.appendChild(image);
+            let im = document.getElementById("cards" + len);
+            this.last_image = a;
+            this.deck.pop();
+            initDragObj(im, "tile");
+        }
     }
 }
 
