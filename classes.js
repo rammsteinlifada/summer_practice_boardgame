@@ -109,6 +109,9 @@ function startGame(){
 
     for (let k = 1; k <= playerNumber; k++){
         text = prompt("Write "+ k + "st player nick");
+        if (text == ""){
+            text = k + " player";
+        }
         let canvas = document.getElementById("player" + k);
         let context = canvas.getContext("2d");
         context.font = "22px Blockstepped";
