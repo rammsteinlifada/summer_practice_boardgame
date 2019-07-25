@@ -97,15 +97,24 @@ let cardTypes = [
     'rssssy'
 ];
 let playerNumber;
-
 let game;
+
 function startGame(){
     let text = document.getElementById("playersNumber").value;
     playerNumber = text;
+    document.getElementById('overlay').style.display='none';
     game = new Game();
     game.r.drawMeeplesAndLightning();
     game.nextTurnFlag = false;
-    document.getElementById('overlay').style.display='none';
+
+    for (let k = 1; k <= playerNumber; k++){
+        text = prompt("Write "+ k + "st player nick");
+        let canvas = document.getElementById("player" + k);
+        let context = canvas.getContext("2d");
+        context.font = "22px Blockstepped";
+        context.strokeText(text, 10, 20);
+    }
+
     for (let k = 1; k <= playerNumber; k++) {
         game.players[k].showScore(k);
     }
@@ -732,9 +741,8 @@ class Player {
         let score = this.scoreB + this.scoreF + this.scoreR + this.scoreS;
         let canvas = document.getElementById("player" + n);
         let context = canvas.getContext("2d");
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(10, 30, canvas.width, canvas.height);
         context.font = "22px Blockstepped";
-        context.strokeText(n +" player", 10, 20);
         context.strokeText("score: " + score, 10, 50);
     }
 }
