@@ -255,7 +255,11 @@ function dfs(i, j, k, player, occupiedMeeples, flag){
         }
         player.used[i][j][k] = true;
         if (((game.f.field[i][j].name[4] == 's') && (flag == 's')) || (( flag == 'r') && game.f.field[i][j].name[4] != 'e')){
-            player.used[i][j][4] = true;
+            for (let k = 0; k < 4; k++) {
+                if ((game.f.field[i][j].name[k] == 's' && flag == 's') || (game.f.field[i][j].name[k] == 'r' && flag == 'r')) {
+                    game.players[meeplePlayer].used[i][j][k] = true;
+                }
+            }
             for (let k = 0; k < 4; k++) {
                 if ((game.f.field[i][j].name[k] == 's' && flag == 's') || (game.f.field[i][j].name[k] == 'r' && flag == 'r')) {
                     let a = edjes(i, j, k, player);
@@ -356,7 +360,9 @@ function scoreCount() {
             }
             else {
                 for (let k = 0; k < 4; k++) {
-                    game.players[meeplePlayer].used[i][j][k] = true;
+                    if ((game.f.field[i][j].name[k] == 's' && kind == 's') || (game.f.field[i][j].name[k] == 'r' && kind == 'r')) {
+                        game.players[meeplePlayer].used[i][j][k] = true;
+                    }
                 }
                 for (let k = 0; k < 4; k++) {
                     if (((game.f.field[i][j].name[k] == 's')&&(game.f.field[i][j].name[4] == 's')&& (kind == 's')) ||
