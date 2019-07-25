@@ -5,18 +5,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<style>
-		.window {
-			width: 300px;
-			height: 50px;
-			text-align: center;
-			padding: 15px;
-			border: 3px solid #0000cc;
-			border-radius: 10px;
-			color: #0000cc;
-		}
-	</style>
-
 	<title>FEFUssone</title>
 
 	<!-- Latest compiled and minified CSS -->
@@ -35,37 +23,23 @@
 	<script type="text/javascript" src="https://comet-server.ru/doc/html_chat.js" ></script>
 	<link rel="stylesheet" type="text/css" href="https://comet-server.ru/doc/html_chat.css"></link>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
-	<!-- подключаем библиотеку Mocha -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
-	<!-- настраиваем Mocha: предстоит BDD-тестирование -->
-	<script>
-		mocha.setup('bdd');
-	</script>
-
-	<!-- подключаем chai -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
-	<!-- в chai есть много всего, выносим assert в глобальную область -->
-	<script>
-		var assert = chai.assert;
-	</script>
 </head>
 <body>
 		<!-- Модальное Окно  -->
 		<div id="overlay">
 			<div class="popup">
 				<h2 align = "center" style="margin-top: 300px">Number of players</h2>
-				<div align = "center" style="margin-top: 50px">
-					<input min="2" max="4" type="number" value="2">
+				<div align = "center" style="margin-top: 20px">
+					<input min="2" max="4" type="number" value="2" id="playersNumber">
 				</div>
-				<button id="start" class="close" onclick="document.getElementById('overlay').style.display='none';">
-				Save map
+				<button style="margin-top: 15px; margin-left: 47%" id="start" onclick="startGame()">
+				OK
 				</button>
 			</div>
 		</div>
 		<div>
 			<div class="dropdown open">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"> Меню </button>
+				<button type="button" id="dropdownMenuButton"> Menu </button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<li><a class="dropdown-item" onclick='location.href="main.html"'>Main menu</a></li>
 					<li><a class="dropdown-item" onclick='location.href="rules.html"'>Rules</a></li>
@@ -147,7 +121,6 @@
 	</div>
 
 	<div class1="col-xs-4" style="bottom: 0; right: 0; position: fixed;">
-		<div style="font-size: 50px">CHAT</div>
 		<div id="html-chat"></div>
 		<script>
 			$(document).ready(function()

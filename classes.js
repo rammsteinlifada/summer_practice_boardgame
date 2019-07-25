@@ -96,7 +96,21 @@ let cardTypes = [
     'srsssy',
     'rssssy'
 ];
-let playerNumber = 4;
+let playerNumber;
+
+let game;
+function startGame(){
+    let text = document.getElementById("playersNumber").value;
+    playerNumber = text;
+    game = new Game();
+    game.r.drawMeeplesAndLightning();
+    game.nextTurnFlag = false;
+    document.getElementById('overlay').style.display='none';
+    for (let k = 1; k <= playerNumber; k++) {
+        game.players[k].showScore(k);
+    }
+}
+
 function isPlaced(im, i, j, field, b) {
     if (!checkPlace(i, j, field)) {
         return false;
@@ -240,15 +254,13 @@ function dfs(i, j, k, player, occupiedMeeples, flag){
         if (game.f.field[i][j].name[k] != flag)
             return;
         if (game.f.field[i][j].name[5] == 'y' && flag == 's') {
-            console.log(i, j, "+++")
             player.localScore += 2;
         }
         else{
             player.localScore += 1;
-            console.log(i, j,"++")
         }
         let a = checkMeeplePosition(i, j);
-        if ((game.f.field[i][j].isMeeple) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
+        if ((game.f.field[i][j].isMeeple) && (game.players[game.f.field[i][j].meepleCharacteristic % 10] == player ) && ( (a == k) || (((flag == 's') && (game.f.field[i][j].name[4] == 's') && (game.f.field[i][j].name[a] == 's')) ||
             ((flag == 'r') && (game.f.field[i][j].name[4] != 'e') && (game.f.field[i][j].name[a] == 'r'))))){
                 occupiedMeeples.push([i, j]);
         }
@@ -432,7 +444,7 @@ class Deck {
             return;
         if (this.deck.length <= 0) {
             let result = [[1, players[1].scoreB + players[1].scoreR + players[1].scoreS]];
-            for (let j = 2; j < 5; j++){
+            for (let j = 2; j <= playerNumber; j++){
                 if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) > result[result.length - 1][1]){
                     result = [[j, players[j].scoreB + players[1].scoreR + players[1].scoreS]];
                 }
@@ -538,7 +550,6 @@ function initDragObj (im, flag) {
                 let pos = 0;
                 pos = (b - 1) * 3 + a;
                 game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;
-                console.log(checkMeeplePosition(game.curI,game.curJ));
                 if ((game.curI != i) || (game.curJ != j) || ((pos == 5) && (game.f.field[game.curI][game.curJ].name[4] == 'e')) || (checkMeeplePosition(game.curI,game.curJ) == -1) ||
                     (( checkMeeplePosition(game.curI,game.curJ) != -1)&&(!checkConflict(i, j)))){
                     game.f.field[game.curI][game.curJ].meepleCharacteristic = 0;
@@ -574,8 +585,7 @@ function initDragObj (im, flag) {
 }
 
 function nextTurn() {
-    console.log(game.players[2].number,game.players[3].number);
-    for (let k = 1; k < playerNumber + 1; k++) {
+    for (let k = 1; k <= playerNumber; k++) {
         game.players[k].scoreS = 0;
         game.players[k].scoreB = 0;
         game.players[k].scoreR = 0;
@@ -595,17 +605,18 @@ function nextTurn() {
     let prevPlayer = document.getElementById("player" + game.currentPlayer);
     prevPlayer.style.boxShadow = "";
     game.players[game.currentPlayer].meepleFlag = false;
-    game.currentPlayer ++;
-    if (game.currentPlayer == playerNumber + 1) {
+    game.currentPlayer++;
+    let pl = playerNumber;
+    game.currentPlayer = (game.currentPlayer - 1)% (playerNumber) + 1;
+    if (game.currentPlayer == 0)
         game.currentPlayer = 1;
-    }
     let player = document.getElementById("player" + game.currentPlayer);
     player.style.boxShadow = "0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6)";
     game.players[game.currentPlayer].cardFlag= true;
     game.nextTurnFlag = false;
     scoreCount();
     game.r.redraw  ();
-    for (let k = 1; k < playerNumber + 1; k++) {
+    for (let k = 1; k <= playerNumber; k++) {
         game.players[k].showScore(k);
     }
 }
@@ -707,7 +718,6 @@ class Player {
         this.isolation = true;
         this.usedMeeples = [];
         this.meeplesOnStructure = 0;
-        this.showScore(n);
         this.used = [[]];
         const x = 102;
         for (let i = 1; i < x ; i++) {
@@ -723,7 +733,7 @@ class Player {
         let canvas = document.getElementById("player" + n);
         let context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.font = "22px Verdana";
+        context.font = "22px Blockstepped";
         context.strokeText(n +" player", 10, 20);
         context.strokeText("score: " + score, 10, 50);
     }

@@ -1,5 +1,5 @@
 body {
-    background-color: #ffc375; 
+    background-color: #ffd6c2   ;
 }
 
 .dropdown:hover > .dropdown-menu { 
@@ -10,6 +10,9 @@ h1 { font-family: Blockstepped;
     font-size:200px !important; line-height:20px !important;
     position: relative;
 
+}
+p {
+    font-family: Blockstepped;
 }
 #cards{
     box-shadow: 0 0 20px rgba(0, 47, 255, 0.6), inset 0 0 120px rgba(0, 47, 255, 0.6);
@@ -22,6 +25,21 @@ button{
     border-color: #dc7160;
     background-color: #dc7160;
     font-size: 30px;
+    font-family: Blockstepped;
+}
+
+h2{
+    font-family: Blockstepped;
+}
+
+#start{
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border-color: #dc7160;
+    background-color: #dc7160;
+    font-size: 30px;
+    width: 75px;
 }
 
 .div-canvas {
@@ -31,20 +49,23 @@ button{
 
 .dropdown-open {
     position: relative;
-    
+    font-family: Blockstepped;
 }
+
 .dropdown-menu {
     visibility: hidden;
-
+    font-family: Blockstepped;
 }
+
 #overlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 22%;
+    left: 32%;
     display: none;
-    width: 80%;
-    height: 80%;
-    background: rgba(0, 0, 0, 0.65);
+    width: 45%;
+    height: 60%;
+    background: #ebc2af;
+    opacity: 0.9;
     z-index: 999;
     -webkit-animation: fade .6s;
     -moz-animation: fade .6s;

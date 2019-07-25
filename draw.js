@@ -113,7 +113,7 @@ class Renderer {
 			}
 	}
 	drawMeeplesAndLightning(){
-		for (let i = 1; i < 5; i++){
+		for (let i = 1; i <= playerNumber; i++){
 			let block = document.getElementById("Meeples" + i);
 			for (let j = 0; j < 6; j++) {
 				let image = document.createElement("img");
@@ -158,9 +158,4 @@ class Game {
 	}
 }
 
-let game;
-window.addEventListener("DOMContentLoaded", function() {
-	game = new Game();
-	game.r.drawMeeplesAndLightning();
-	game.nextTurnFlag = false;
-});
+
