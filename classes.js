@@ -458,19 +458,21 @@ class Deck {
         if (block.childElementCount >= 2)
             return;
         if (this.deck.length == 0) {
-            let result = [[1, players[1].scoreB + players[1].scoreR + players[1].scoreS]];
+            let result = [[1, game.players[1].scoreB + game.players[1].scoreR + game.players[1].scoreS]];
             for (let j = 2; j <= playerNumber; j++){
-                if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) > result[result.length - 1][1]){
-                    result = [[j, players[j].scoreB + players[1].scoreR + players[1].scoreS]];
+                if ((game.players[j].scoreB + game.players[j].scoreR + game.players[j].scoreS) > result[result.length - 1][1]){
+                    result = [[j, game.players[j].scoreB + game.players[j].scoreR + game.players[j].scoreS]];
                 }
-                if ((players[1].scoreB + players[1].scoreR + players[1].scoreS) == result[result.length - 1][1]){
-                    result.push([j, players[j].scoreB + players[1].scoreR + players[1].scoreS]);
+                if ((game.players[j].scoreB + game.players[j].scoreR + game.players[j].scoreS) == result[result.length - 1][1]){
+                    result.push([j, game.players[j].scoreB + game.players[j].scoreR + game.players[j].scoreS]);
                 }
-            }let winners;
+                console.log(result)
+            }let winners = "";
             for (let j = 0; j < result.length; j++){
                 winners += result[j][0]+' ';
             }
-            alert("GAME OVER WINNER[s] :", winners);
+            console.log(winners);
+            alert("GAME OVER WINNER[s] :" + winners);
             return 0;
         }
         else {
@@ -543,10 +545,12 @@ function initDragObj (im, flag) {
                     game.nextTurnFlag = true;
                     cnt = 0;
                     for (let j = 0; j < 6; j++) {
+                        let a = 10*game.currentPlayer + j;
+                        if (!(a in game.players[game.currentPlayer].usedMeeples)){
                         let meeple = document.getElementById("meeple" + game.currentPlayer + j);
                         game.players[game.currentPlayer].meepleFlag = true;
                         initDragObj(meeple, "meeple");
-
+                        }
                     }
                 }
                 else {
@@ -560,10 +564,10 @@ function initDragObj (im, flag) {
                 const sz = 100;
                 const sz_3 = Math.floor(sz / 3);
                 let i = Math.floor((e.pageX - game.r.dx) / sz);
-                let j = Math.floor((e.pageY - game.r.dy - 250 ) / sz) ;
+                let j = Math.floor((e.pageY - game.r.dy - 250 ) / sz ) ;
                 let id = im.id;
                 let a = Math.floor(((e.pageX - game.r.dx) % sz) / 33 + 1);
-                let b = Math.floor(((e.pageY - game.r.dy - info.top) % sz) / 33 + 1);
+                let b = Math.floor(((e.clientY- game.r.dy - info.top) % sz) / 33 + 1);
                 let pos = 0;
                 pos = (b - 1) * 3 + a;
                 game.f.field[game.curI][game.curJ].meepleCharacteristic = 10*pos + game.currentPlayer;

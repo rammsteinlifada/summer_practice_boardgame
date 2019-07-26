@@ -113,6 +113,7 @@ class Renderer {
 			}
 	}
 	drawMeeplesAndLightning(){
+		console.log("qwe");
 		for (let i = 1; i <= playerNumber; i++){
 			let block = document.getElementById("Meeples" + i);
 			for (let j = 0; j < 6; j++) {
